@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/meridian21lab/cogito-mill/schemas/reasoning-item.schema.json",
+  "title": "ReasoningDatasetItem",
+  "description": "Placeholder — fields to be grilled in docs/engineering/04-open-questions.md",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "id": { "type": "string" },
+    "story": { "type": "string" },
+    "question": { "type": "string" },
+    "gold_answer": { "type": "string" },
+    "gold_reasoning": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["id", "story", "question", "gold_answer"]
+}

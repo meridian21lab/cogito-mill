@@ -1,0 +1,30 @@
+---
+description: Cogito Mill project goal plus local and cloud agent environment conventions
+alwaysApply: true
+---
+
+# Cogito Mill
+
+Generate and publish long-form agentic reasoning datasets (multi-hop deduction). Stack: Python + uv, LangGraph / Deep Agents, Azure OpenAI + GLM, Hugging Face Hub (`ksopyla/datasets`).
+
+## Local environment (uv)
+
+- Package manager: **uv** only (`pip install` / bare `python -m venv` are out of band).
+- Create / sync: `uv sync` (uses `.python-version` + `uv.lock`).
+- Run tools: `uv run <cmd>` (e.g. `uv run pytest`, `uv run ruff check`).
+- Secrets: copy `.env.example` → `.env` (never commit `.env`).
+- Prefer `uv add` / `uv add --dev` over editing `pyproject.toml` by hand.
+
+## Cloud agents (Cursor)
+
+- Config: `.cursor/environment.json` — install must stay idempotent.
+- Cloud install installs uv if missing, then `uv sync --frozen --all-extras`.
+- Put API keys in Cursor Cloud **Secrets**, not in the repo: `AZURE_OPENAI_*`, `GLM_*` / `ZHIPUAI_*`, `HF_TOKEN`.
+- Project skills live under `.agents/skills/`. Prefer `/grill-me`, `/grill-with-docs`, `/to-spec`, `/tdd`, langgraph, huggingface-datasets over inventing one-off skills.
+- Do not rely on personal `~/.cursor` rules or marketplace HF plugins in cloud VMs.
+
+## Layout
+
+- Code: `src/cogito_mill/`
+- Tests: `tests/unit/`, `tests/integration/`, `tests/e2e/`
+- Specs we refine together: `docs/engineering/`
