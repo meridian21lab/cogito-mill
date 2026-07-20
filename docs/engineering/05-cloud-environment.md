@@ -19,8 +19,9 @@ Resolution order (Cursor): repo `.cursor/environment.json` → personal env → 
 3. Confirm the environment picks up `.cursor/environment.json` from the branch you launch from.
 4. Add **Secrets** (same names as `.env.example`):
 
-   - `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_VERSION`, `AZURE_OPENAI_DEPLOYMENT`
-   - `GLM_API_KEY`, `GLM_BASE_URL`, `GLM_MODEL`
+   - `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_VERSION`
+   - `AZURE_OPENAI_WRITER_DEPLOYMENT`, `AZURE_OPENAI_JUDGE_DEPLOYMENT`
+   - `GLM_API_KEY`, `GLM_BASE_URL`, `GLM_WRITER_DEPLOYMENT`, `GLM_JUDGE_DEPLOYMENT`
    - `HF_TOKEN`, `HF_DATASET_NAMESPACE` (default `ksopyla`)
 
 5. Optional: after a successful boot, save a **snapshot** in the dashboard so later agents start warmer.

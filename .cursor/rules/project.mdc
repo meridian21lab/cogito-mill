@@ -7,6 +7,16 @@ alwaysApply: true
 
 Generate and publish long-form agentic reasoning datasets (multi-hop deduction). Stack: Python + uv, LangGraph / Deep Agents, Azure OpenAI + GLM, Hugging Face Hub (`ksopyla/datasets`).
 
+## Projects repositories and links
+
+https://github.com/meridian21lab/cogito-mill - 
+
+Organization: https://github.com/meridian21lab
+
+Hugging Face Hubs:
+- Krzysztof Sopyla (ksopyla) https://huggingface.co/ksopyla/
+- Meridian21Lab  - do not have HF account yet
+
 ## Local environment (uv)
 
 - Package manager: **uv** only (`pip install` / bare `python -m venv` are out of band).
@@ -14,6 +24,18 @@ Generate and publish long-form agentic reasoning datasets (multi-hop deduction).
 - Run tools: `uv run <cmd>` (e.g. `uv run pytest`, `uv run ruff check`).
 - Secrets: copy `.env.example` → `.env` (never commit `.env`).
 - Prefer `uv add` / `uv add --dev` over editing `pyproject.toml` by hand.
+
+## Local host CLIs (macOS / Homebrew)
+
+On the developer's Mac these are installed system-wide (`/opt/homebrew/bin`); use them directly — do not reinvent with curl/npx when a CLI fits:
+
+| CLI | Binary | Typical use |
+|-----|--------|-------------|
+| Hugging Face | `hf` (also `huggingface-cli`) | Hub login, repo create/upload, datasets |
+| GitHub | `gh` | PRs, issues, checks, releases |
+| Azure | `az` | Azure OpenAI / resource ops, auth |
+
+Auth: `hf auth login` / `HF_TOKEN`, `gh auth login`, `az login`. Prefer env/secrets over interactive login in agents. These are **local-only** — do not assume they exist in Cursor Cloud VMs unless the cloud image installs them.
 
 ## Cloud agents (Cursor)
 
