@@ -1,0 +1,103 @@
+{
+  "id": "world-office-badge-001",
+  "entities": [
+    {"id": "alice", "type": "person", "label": "Alice Chen", "aliases": ["Alice", "Chen"]},
+    {"id": "ben", "type": "person", "label": "Ben Ortiz", "aliases": ["Ben", "Ortiz"]},
+    {"id": "cara", "type": "person", "label": "Cara Nguyen", "aliases": ["Cara", "Nguyen"]},
+    {"id": "drew", "type": "person", "label": "Drew Patel", "aliases": ["Drew", "Patel"]},
+    {"id": "server_room", "type": "place", "label": "Server Room"},
+    {"id": "lobby", "type": "place", "label": "Lobby"},
+    {"id": "master_badge", "type": "object", "label": "Master Badge"}
+  ],
+  "relations": [
+    {"id": "r1", "kind": "has_access", "subject": "alice", "object": "server_room"},
+    {"id": "r2", "kind": "has_access", "subject": "ben", "object": "lobby"},
+    {"id": "r3", "kind": "has_access", "subject": "cara", "object": "server_room"},
+    {"id": "r4", "kind": "has_access", "subject": "drew", "object": "lobby"},
+    {"id": "r5", "kind": "owns", "subject": "cara", "object": "master_badge"},
+    {"id": "r6", "kind": "works_at", "subject": "alice", "object": "server_room"},
+    {"id": "r7", "kind": "works_at", "subject": "cara", "object": "server_room"}
+  ],
+  "time_points": [
+    {"id": "t1", "label": "09:00", "order": 1},
+    {"id": "t2", "label": "09:20", "order": 2},
+    {"id": "t3", "label": "09:40", "order": 3},
+    {"id": "t4", "label": "10:00", "order": 4}
+  ],
+  "events": [
+    {
+      "id": "e_badge_loan",
+      "label": "Cara lends master badge to Alice",
+      "actor": "cara",
+      "time_point": "t1",
+      "effects": ["alice_holds_badge"],
+      "enabled": true
+    },
+    {
+      "id": "e_ben_lobby",
+      "label": "Ben stays in lobby",
+      "actor": "ben",
+      "time_point": "t2",
+      "effects": ["ben_in_lobby"],
+      "enabled": true
+    },
+    {
+      "id": "e_drew_lobby",
+      "label": "Drew stays in lobby",
+      "actor": "drew",
+      "time_point": "t2",
+      "effects": ["drew_in_lobby"],
+      "enabled": true
+    },
+    {
+      "id": "e_reboot",
+      "label": "Unauthorized server reboot",
+      "actor": "alice",
+      "time_point": "t3",
+      "preconditions": ["alice_holds_badge", "has_access_alice_server_room"],
+      "effects": ["servers_rebooted"],
+      "causal_parents": ["e_badge_loan"],
+      "enabled": true
+    },
+    {
+      "id": "e_alarm",
+      "label": "Alarm fires",
+      "actor": null,
+      "time_point": "t4",
+      "preconditions": ["servers_rebooted"],
+      "effects": ["alarm_on"],
+      "causal_parents": ["e_reboot"],
+      "enabled": true
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule_badge",
+      "text": "Only someone holding the master badge can reboot the servers.",
+      "formal": "reboot_requires_badge"
+    },
+    {
+      "id": "rule_access",
+      "text": "Server room entry requires listed access.",
+      "formal": "entry_requires_access"
+    }
+  ],
+  "facts": [
+    "has_access_alice_server_room",
+    "has_access_cara_server_room",
+    "cara_owns_badge"
+  ],
+  "target": {
+    "predicate": "rebooted_by",
+    "arguments": ["servers"],
+    "expected_value": "alice"
+  },
+  "intervention": {
+    "id": "iv1",
+    "description": "If Cara never lends the badge",
+    "disable_event": "e_badge_loan",
+    "expected_target_value": "none"
+  },
+  "answer_entity": "alice",
+  "candidate_answers": ["alice", "ben", "cara", "drew"]
+}
