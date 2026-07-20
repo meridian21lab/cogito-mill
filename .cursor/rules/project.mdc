@@ -9,13 +9,13 @@ Generate and publish long-form agentic reasoning datasets (multi-hop deduction).
 
 ## Projects repositories and links
 
-https://github.com/meridian21lab/cogito-mill - 
+Repository: https://github.com/meridian21lab/cogito-mill
 
 Organization: https://github.com/meridian21lab
 
 Hugging Face Hubs:
 - Krzysztof Sopyla (ksopyla) https://huggingface.co/ksopyla/
-- Meridian21Lab  - do not have HF account yet
+- Meridian21Lab — does not have a Hugging Face account yet
 
 ## Local environment (uv)
 

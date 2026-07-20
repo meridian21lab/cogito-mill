@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any, Literal
 
 from langchain_openai import AzureChatOpenAI, ChatOpenAI
+from pydantic import SecretStr
 
 from cogito_mill.config.settings import Settings, get_settings
 
@@ -21,6 +22,8 @@ def build_azure_chat(
     - ``judge``: stronger deployment (verification / critique)
     """
     cfg = settings or get_settings()
+    api_key = cfg.azure_openai_api_key
+    endpoint = cfg.azure_openai_endpoint
     deployment = (
         cfg.azure_openai_writer_deployment
         if role == "writer"
@@ -31,19 +34,14 @@ def build_azure_chat(
         if role == "writer"
         else "AZURE_OPENAI_JUDGE_DEPLOYMENT"
     )
-    missing = (
-        not cfg.azure_openai_api_key
-        or not cfg.azure_openai_endpoint
-        or not deployment
-    )
-    if missing:
+    if not api_key or not endpoint or not deployment:
         raise ValueError(
             "Azure OpenAI requires AZURE_OPENAI_API_KEY, AZURE_OPENAI_ENDPOINT, "
             f"and {env_name}"
         )
     return AzureChatOpenAI(
-        api_key=cfg.azure_openai_api_key,
-        azure_endpoint=cfg.azure_openai_endpoint,
+        api_key=SecretStr(api_key),
+        azure_endpoint=endpoint,
         api_version=cfg.azure_openai_api_version,
         azure_deployment=deployment,
     )
@@ -55,18 +53,19 @@ def build_glm_chat(
 ) -> ChatOpenAI:
     """GLM via OpenAI-compatible HTTP API (role-specific model ids)."""
     cfg = settings or get_settings()
+    api_key = cfg.glm_api_key
     model = (
         cfg.glm_writer_deployment if role == "writer" else cfg.glm_judge_deployment
     )
     env_name = (
         "GLM_WRITER_DEPLOYMENT" if role == "writer" else "GLM_JUDGE_DEPLOYMENT"
     )
-    if not cfg.glm_api_key:
+    if not api_key:
         raise ValueError("GLM requires GLM_API_KEY")
     if not model:
         raise ValueError(f"GLM requires {env_name}")
     return ChatOpenAI(
-        api_key=cfg.glm_api_key,
+        api_key=SecretStr(api_key),
         base_url=cfg.glm_base_url,
         model=model,
     )
