@@ -43,12 +43,42 @@ PLACES = {
     SettingFamily.SPECULATIVE: ("core chamber", "airlock foyer", "data vault"),
 }
 ACTIONS = {
-    SettingFamily.WORKPLACE: ("reboot the servers", "servers_rebooted", "master badge"),
-    SettingFamily.DETECTIVE: ("remove the sealed file", "artifact_taken", "vault key"),
-    SettingFamily.DOMESTIC: ("disable the furnace lock", "key_action", "spare key"),
-    SettingFamily.EXPEDITION: ("transmit the abort code", "key_action", "command token"),
-    SettingFamily.HISTORICAL: ("open the sealed chest", "artifact_taken", "warden's seal"),
-    SettingFamily.SPECULATIVE: ("trip the containment reset", "servers_rebooted", "override chip"),
+    SettingFamily.WORKPLACE: (
+        "reboot the servers",
+        "rebooted the servers",
+        "servers_rebooted",
+        "master badge",
+    ),
+    SettingFamily.DETECTIVE: (
+        "remove the sealed file",
+        "removed the sealed file",
+        "artifact_taken",
+        "vault key",
+    ),
+    SettingFamily.DOMESTIC: (
+        "disable the furnace lock",
+        "disabled the furnace lock",
+        "key_action",
+        "spare key",
+    ),
+    SettingFamily.EXPEDITION: (
+        "transmit the abort code",
+        "transmitted the abort code",
+        "key_action",
+        "command token",
+    ),
+    SettingFamily.HISTORICAL: (
+        "open the sealed chest",
+        "opened the sealed chest",
+        "artifact_taken",
+        "warden's seal",
+    ),
+    SettingFamily.SPECULATIVE: (
+        "trip the containment reset",
+        "tripped the containment reset",
+        "servers_rebooted",
+        "override chip",
+    ),
 }
 
 
@@ -86,7 +116,7 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         lender_idx = (answer_idx + 2) % recipe.n_suspects
 
     place_secure, place_public, place_other = PLACES[recipe.setting_family]
-    action_phrase, effect_atom, item_name = ACTIONS[recipe.setting_family]
+    action_phrase, action_past, effect_atom, item_name = ACTIONS[recipe.setting_family]
     secure_id, public_id, item_id = "place_secure", "place_public", "item_key"
 
     entities = [
@@ -332,14 +362,15 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         place_other,
         item_name,
         action_phrase,
+        action_past,
         facts,
     )
     label_by_id = {eid: label for eid, _, label in names}
 
-    question = f"Who {action_phrase}?"
+    question = f"Who {action_past}?"
     cf_q = (
-        f"If {lender_label} never lent the {item_name}, who would have been able "
-        f"to {action_phrase}?"
+        f"If {lender_label} never lent the {item_name}, who would have "
+        f"{action_past}?"
     )
     false_h = next(eid for eid, _, _ in names if eid != answer_id)
 
@@ -399,6 +430,7 @@ def render_story(
     place_other: str,
     item_name: str,
     action_phrase: str,
+    action_past: str,
     facts: list[VisibleFact],
 ) -> StoryDocument:
     """Assemble a multi-paragraph sentence-addressable story."""
@@ -446,8 +478,8 @@ def render_story(
         prose = " ".join(lines)
         if scene_id == "sc3":
             prose += (
-                f" Shortly after 10:10 it became clear that someone had managed to "
-                f"{action_phrase}. The {place_secure} showed signs of entry, while "
+                f" Shortly after 10:10 it became clear that someone "
+                f"{action_past}. The {place_secure} showed signs of entry, while "
                 f"idle conversation continued near the {place_public}."
             )
         if scene_id == "sc2":
