@@ -1,19 +1,59 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/meridian21lab/cogito-mill/schemas/reasoning-item.schema.json",
-  "title": "ReasoningDatasetItem",
-  "description": "Placeholder to be replaced in Phase 0 of docs/engineering/02-agent-flow.md",
+  "title": "LongStoryShortPilotItem",
+  "description": "Thin human-facing Hub schema for Long Story Short pilot_v0 (default Dataset Viewer columns).",
   "type": "object",
-  "additionalProperties": true,
+  "additionalProperties": false,
   "properties": {
-    "id": { "type": "string" },
-    "story": { "type": "string" },
-    "question": { "type": "string" },
-    "gold_answer": { "type": "string" },
-    "gold_reasoning": {
-      "type": "array",
-      "items": { "type": "string" }
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable item id, e.g. lss-pilot-000123"
+    },
+    "story": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Self-contained narrative with dispersed evidence"
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Main uniquely answerable mystery question"
+    },
+    "gold_answer": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Canonical final answer string for exact/normalized scoring"
+    },
+    "n_hops": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Structural hop count of the intended successful proof"
+    },
+    "setting_family": {
+      "type": "string",
+      "enum": [
+        "detective",
+        "domestic",
+        "workplace",
+        "expedition",
+        "historical",
+        "speculative"
+      ]
+    },
+    "difficulty_bucket": {
+      "type": "string",
+      "enum": ["medium", "hard", "very_hard"]
     }
   },
-  "required": ["id", "story", "question", "gold_answer"]
+  "required": [
+    "id",
+    "story",
+    "question",
+    "gold_answer",
+    "n_hops",
+    "setting_family",
+    "difficulty_bucket"
+  ]
 }

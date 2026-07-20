@@ -354,16 +354,38 @@ artifact history.
 11. One live cloud run with one selected provider family.
 12. Inspect artifacts and revise schemas/prompts before any batching.
 
+## Phase 8 — Pilot batch, Hub publish, Luna eval (authorized)
+
+### Goals
+
+- Batch-generate 100–200 accepted items with template-backed recipes.
+- Pack a thin Hub projection and publish `ksopyla/long-story-short-pilot`.
+- Blind-evaluate Azure Luna (writer deployment) on story+question only.
+- If accuracy > 30%, tighten structural difficulty and repeat (max 3 rounds).
+
+### CLI
+
+```bash
+uv run cogito-mill generate-batch --provider azure --n 200
+uv run cogito-mill publish --repo ksopyla/long-story-short-pilot --config pilot_v0
+uv run cogito-mill evaluate --dataset ksopyla/long-story-short-pilot --solver-provider azure
+```
+
+### Exit criteria
+
+- ≥100 accepted locally verified items (target 150–200).
+- Local pack always works; Hub publish requires a write-capable `HF_TOKEN`.
+- Eval metrics JSON retained under `data/processed/evals/`.
+- Luna accuracy ≤30%, or a written best-effort report after three refine rounds.
+
 ## Post-MVP roadmap
 
-Only after one accepted item and failure analysis:
+After the pilot slice stabilizes:
 
 1. add same-world rerenders;
 2. add world-transform logic variants;
-3. calibrate structural difficulty metrics;
-4. run a 100–200-world quality pilot;
-5. add spatial and later epistemic reasoning;
-6. define ordinal probability semantics;
-7. design benchmark scoring and gated distribution;
-8. scale toward 10K+ documents and audit representation;
-9. package accepted projections for Hugging Face.
+3. calibrate structural difficulty metrics beyond the Luna gate;
+4. add spatial and later epistemic reasoning;
+5. define ordinal probability semantics;
+6. design benchmark scoring and gated distribution;
+7. scale toward 10K+ documents and audit representation.
