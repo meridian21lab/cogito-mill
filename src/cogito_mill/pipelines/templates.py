@@ -84,15 +84,19 @@ ACTIONS = {
 
 def _rng_names(seed: int, n: int) -> list[tuple[str, str, str]]:
     out: list[tuple[str, str, str]] = []
+    # Force at least one shared surname to block last-name heuristics.
+    shared_last = LAST[hashlib.sha256(f"{seed}:last".encode()).digest()[0] % len(LAST)]
     for i in range(n):
         h = hashlib.sha256(f"{seed}:{i}:name".encode()).digest()
         first = FIRST[h[0] % len(FIRST)]
-        last = LAST[h[1] % len(LAST)]
+        last = shared_last if i < 2 else LAST[h[1] % len(LAST)]
         eid = f"p{i}"
-        # ensure uniqueness of display labels
         label = f"{first} {last}"
-        if any(x[2] == label for x in out):
-            label = f"{first} {last}-{i}"
+        # guarantee unique full labels
+        suffix = 2
+        while any(x[2] == label for x in out):
+            label = f"{first} {last}-{suffix}"
+            suffix += 1
         out.append((eid, first, label))
     return out
 
@@ -105,6 +109,17 @@ class TemplateBundle:
     questions: QuestionBundle
     n_hops: int
 
+
+
+def _decoy_personnel(seed: int, n: int = 24) -> list[str]:
+    lines: list[str] = []
+    for i in range(n):
+        h = hashlib.sha256(f"{seed}:decoy:{i}".encode()).digest()
+        first = FIRST[h[0] % len(FIRST)]
+        last = LAST[h[1] % len(LAST)]
+        code = f"EMP-{(seed + 3 * i) % 97 + 10}"
+        lines.append(f"Personnel index: {code} resolves to {first} {last}.")
+    return lines
 
 def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
     """Instantiate access/timeline mystery with unique visible theory."""
@@ -250,10 +265,21 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
     answer_label = names[answer_idx][2]
     lender_label = names[lender_idx][2]
 
+    # Indirect codes force multi-hop linking in prose while formal atoms stay unique.
+    code_by_id = {
+        eid: f"EMP-{(recipe.seed + i * 17) % 89 + 10}"
+        for i, (eid, _, _) in enumerate(names)
+    }
+    answer_code = code_by_id[answer_id]
+    lender_code = code_by_id[lender_id]
+
     facts: list[VisibleFact] = [
         VisibleFact(
             id="f_rule_access",
-            text=f"Whoever {action_phrase} must have access to the {place_secure}.",
+            text=(
+                f"Posted rule: {action_phrase} is impossible without an authorized "
+                f"{place_secure} credential."
+            ),
             formal=f"requires_access:{secure_id}",
             channel=ClueChannel.RULE_APPLICATION,
             role="required",
@@ -262,7 +288,10 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         ),
         VisibleFact(
             id="f_acc_ans",
-            text=f"Access logs list {answer_label} for the {place_secure}.",
+            text=(
+                f"A faded authorization sheet for the {place_secure} includes "
+                f"code {answer_code}."
+            ),
             formal=f"has_access:{answer_id}:{secure_id}",
             channel=ClueChannel.RECORD,
             role="required",
@@ -271,7 +300,10 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         ),
         VisibleFact(
             id="f_acc_lender",
-            text=f"Access logs also list {lender_label} for the {place_secure}.",
+            text=(
+                f"The same sheet also lists code {lender_code} for the "
+                f"{place_secure}."
+            ),
             formal=f"has_access:{lender_id}:{secure_id}",
             channel=ClueChannel.RECORD,
             role="required",
@@ -279,8 +311,34 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
             reveal_order=3,
         ),
         VisibleFact(
+            id="f_code_map_ans",
+            text=(
+                f"A torn badge legend fragment pairs {answer_code} with the given name "
+                f"{names[answer_idx][1]} only; the surname field is smudged."
+            ),
+            formal=f"code_map:{answer_id}",
+            channel=ClueChannel.RECORD,
+            role="required",
+            scene_id="sc1",
+            reveal_order=12,
+        ),
+        VisibleFact(
+            id="f_code_map_lender",
+            text=(
+                f"Personnel index: {lender_code} resolves to {lender_label}."
+            ),
+            formal=f"code_map:{lender_id}",
+            channel=ClueChannel.RECORD,
+            role="required",
+            scene_id="sc1",
+            reveal_order=13,
+        ),
+        VisibleFact(
             id="f_rule_item",
-            text=f"The {item_name} is required to {action_phrase}.",
+            text=(
+                f"Engineering note: without the {item_name}, nobody can "
+                f"successfully {action_phrase}."
+            ),
             formal=f"requires_item:{item_id}",
             channel=ClueChannel.RULE_APPLICATION,
             role="required",
@@ -289,7 +347,10 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         ),
         VisibleFact(
             id="f_holds",
-            text=f"A camera still at 09:25 shows {answer_label} holding the {item_name}.",
+            text=(
+                f"At 09:25 a reflection on a polished panel shows only a badge "
+                f"glint reading {answer_code} beside the {item_name}."
+            ),
             formal=f"holds:{answer_id}:{item_id}",
             channel=ClueChannel.OBSERVATION,
             role="required",
@@ -299,8 +360,9 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         VisibleFact(
             id="f_elim_lender",
             text=(
-                f"{lender_label} handed over the {item_name} at 09:00 and then left "
-                f"for the {place_other}, without recovering it."
+                f"At 09:00, {lender_code} completed a handoff of the {item_name} "
+                f"and immediately took a shuttle toward the {place_other}, "
+                f"remaining there through the alarm."
             ),
             formal=f"eliminated:{lender_id}",
             channel=ClueChannel.STATEMENT,
@@ -311,15 +373,16 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
     ]
 
     order = 7
-    for eid, _, label in names:
+    for eid, _, _label in names:
         if eid in {answer_id, lender_id}:
             continue
+        code = code_by_id[eid]
         facts.append(
             VisibleFact(
                 id=f"f_elim_{eid}",
                 text=(
-                    f"{label} remained near the {place_public} through 09:50 and never "
-                    f"entered the {place_secure}."
+                    f"Sign-in strips place {code} at the {place_public} from 09:10 "
+                    f"to 10:05 with no door event at the {place_secure}."
                 ),
                 formal=f"eliminated:{eid}",
                 channel=ClueChannel.OBSERVATION,
@@ -328,6 +391,8 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
                 reveal_order=order,
             )
         )
+        # decoy code maps for non-answers (increase search)
+        # Intentionally omit direct code->full-name maps for non-answers.
         order += 1
 
     # distractors
@@ -344,12 +409,17 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
             )
         )
 
-    # difficulty: bury critical hold clue later / add extra red herrings already counted
+    # Hard mode: bury key linking clues and interleave distractors by reveal_order shuffle
     if recipe.difficulty_bucket in {DifficultyBucket.HARD, DifficultyBucket.VERY_HARD}:
         for f in facts:
             if f.id == "f_holds":
-                f.reveal_order = 50
+                f.reveal_order = 55
                 f.scene_id = "sc3"
+            if f.id == "f_code_map_ans":
+                f.reveal_order = 60
+                f.scene_id = "sc3"
+            if f.id.startswith("f_elim_") and f.id != "f_elim_lender":
+                f.reveal_order += 30
 
     visible = VisibleTheory(id=f"vis-{recipe.seed}", world_id=world.id, facts=facts)
     story = render_story(
@@ -460,11 +530,14 @@ def render_story(
         ),
     }[recipe.setting_family]
     paragraphs.append(setting_open)
+    decoys = _decoy_personnel(recipe.seed, n=48)
+    # Keep answer/lender true maps out of this noisy block.
+    paragraphs.append(" ".join(decoys))
 
-    cast = ", ".join(label for _, _, label in names[:-1]) + f", and {names[-1][2]}"
+    cast = ", ".join(first for _, first, _ in names[:-1]) + f", and {names[-1][1]}"
     paragraphs.append(
-        f"Those present included {cast}. Each had a routine reason to be nearby, "
-        f"and none immediately confessed to having {action_phrase}."
+        f"Given names circulating in the first hour included {cast}. Surnames were "
+        f"disputed, and badge codes were cited more often than legal names."
     )
 
     scenes: list[SceneDraft] = []
@@ -483,12 +556,10 @@ def render_story(
                 f"idle conversation continued near the {place_public}."
             )
         if scene_id == "sc2":
-            lender_label = next(label for eid, _, label in names if eid == lender_id)
-            answer_label = next(label for eid, _, label in names if eid == answer_id)
             prose += (
-                f" Witnesses later disagreed about motives, but they agreed the "
-                f"{item_name} had moved from {lender_label} toward {answer_label} "
-                f"before the critical window."
+                f" Witnesses later disagreed about motives. They only agreed the "
+                f"{item_name} changed hands once before the critical window, and "
+                f"that the recipient was not the original signatory."
             )
         scenes.append(
             SceneDraft(

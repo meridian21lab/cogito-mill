@@ -106,6 +106,12 @@ def evaluate_dataset(
         )
 
     accuracy = correct / len(rows)
+    first_only = 0
+    for row, pred_row in zip(rows, predictions, strict=True):
+        gold_parts = normalize_answer(row["gold_answer"]).split()
+        pred_norm = normalize_answer(pred_row["prediction"])
+        if gold_parts and pred_norm == gold_parts[0]:
+            first_only += 1
     eval_id = f"eval-{int(time.time())}"
     out_dir = Path(output_root) / "processed" / "evals" / eval_id
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -114,6 +120,7 @@ def evaluate_dataset(
         "n": len(rows),
         "correct": correct,
         "accuracy": accuracy,
+        "first_name_only_rate": first_only / len(rows),
         "solver_provider": solver_provider,
         "dataset": dataset if local_dir is None else local_dir,
         "config": config,
