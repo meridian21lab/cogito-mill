@@ -1,7 +1,8 @@
 # Long Story Short — pilot_v0 local pack
 
-This directory holds the **pilot slice** release artifacts while Hugging Face Hub
-publish is blocked on a write-capable `HF_TOKEN`.
+Local mirror of the Hub pilot slice. Published at
+[`ksopyla/long-story-short-pilot`](https://huggingface.co/datasets/ksopyla/long-story-short-pilot)
+(`pilot_v0`, private).
 
 | File | Purpose |
 |------|---------|
@@ -55,20 +56,27 @@ uv run cogito-mill evaluate \
 
 Latest recorded exact-answer accuracy on a 50-item sample: **0.0** (hardness gate ≤30% passed).
 
-## Publish to Hub (when token allows)
-
-Requires a token that can **create/write** datasets under `ksopyla` (current cloud
-secret `repositories_read_token` is read-only).
+## Publish / refresh Hub
 
 ```bash
+# from processed run dirs (preferred CLI path)
 uv run cogito-mill publish \
   --input data/processed \
   --repo ksopyla/long-story-short-pilot \
   --config pilot_v0 \
   --private
+
+# or republish from this JSONL when processed runs are absent:
+uv run python -c "
+import json
+from pathlib import Path
+from cogito_mill.datasets.hub import publish_pilot_dataset
+rows=[json.loads(l) for l in Path('data/packed/pilot_v0.jsonl').read_text().splitlines() if l.strip()]
+print(publish_pilot_dataset(rows=rows, private=True))
+"
 ```
 
-If `data/processed/run-*` is absent locally, regenerate first:
+If regenerating locally first:
 
 ```bash
 uv run cogito-mill generate-batch --n 150 --seeds-from 5000 --difficulty very_hard
