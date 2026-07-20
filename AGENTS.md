@@ -13,8 +13,6 @@ Pipeline for generating long-form agentic reasoning datasets, orchestrated with 
 
 Secrets (local `.env` or Cursor Cloud Secrets): see `.env.example`.
 
-Details: `docs/engineering/05-cloud-environment.md`.
-
 ## Cursor Cloud specific instructions
 
 - Boot path: image from `.cursor/Dockerfile` → `bash scripts/cloud-install.sh` (`uv sync --frozen --all-groups`).

@@ -1,16 +1,20 @@
-# Cogito Mill engineering specs
+# Cogito Mill engineering specifications
 
-Living documents. We refine these together (prefer `/grill-with-docs` then `/to-spec`).
+The Long Story Short MVP design was accepted after evidence gathering and a design grill.
+These documents are the implementation source of truth.
 
 | Doc | Status | Purpose |
 |-----|--------|---------|
-| [00-vision.md](00-vision.md) | draft | Product goal and non-goals |
-| [01-architecture.md](01-architecture.md) | draft | Modules, agents, data flow |
-| [02-llm-providers.md](02-llm-providers.md) | draft | Azure OpenAI + GLM wiring |
-| [03-dataset-pipeline.md](03-dataset-pipeline.md) | draft | Generate → verify → HF publish |
-| [04-open-questions.md](04-open-questions.md) | open | Decisions still needed |
-| [05-cloud-environment.md](05-cloud-environment.md) | draft | Cursor Cloud VM / secrets / smoke checks |
+| [../vision.md](../vision.md) | accepted | Product thesis, data contract, MVP boundary |
+| [01-architecture.md](01-architecture.md) | accepted | Domain modules, solver, agents, graph, artifacts |
+| [02-agent-flow.md](02-agent-flow.md) | accepted | Agent stages, implementation phases, gates, and deferred roadmap |
 
-Domain notes / ADRs produced by grilling land under `docs/domain/` once we run `/grill-with-docs`.
+Implement in the sequence defined by `02-agent-flow.md`. Provider policy and settled
+architectural decisions live in `01-architecture.md`; changes to its invariants require an ADR
+under `docs/domain/`.
+
+Cloud setup is operational guidance rather than architecture. It lives in `AGENTS.md`,
+`.cursor/rules/project.mdc`, `.cursor/environment.json`, `.cursor/Dockerfile`, and
+`scripts/cloud-install.sh`.
 
 External literature keepers from `/research-scout` land under [`docs/literature/`](../literature/).

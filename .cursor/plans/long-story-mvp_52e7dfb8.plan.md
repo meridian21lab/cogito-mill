@@ -46,8 +46,8 @@ flowchart LR
 ```
 
 ## 1. Lock the MVP contract in docs and schemas
-- Replace the unresolved MVP sections in [`docs/engineering/01-architecture.md`](docs/engineering/01-architecture.md), [`docs/engineering/03-dataset-pipeline.md`](docs/engineering/03-dataset-pipeline.md), and [`docs/engineering/04-open-questions.md`](docs/engineering/04-open-questions.md) with the confirmed scope and explicitly deferred work.
-- Add a focused design spec under `docs/engineering/` covering stage invariants, hard gates, repair/rejection behavior, provider-per-run selection, and the definition of visible-theory uniqueness.
+- Keep the settled product contract in [`docs/vision.md`](docs/vision.md), the system design in [`docs/engineering/01-architecture.md`](docs/engineering/01-architecture.md), and the executable sequence in [`docs/engineering/02-agent-flow.md`](docs/engineering/02-agent-flow.md).
+- Maintain stage invariants, hard gates, repair/rejection behavior, provider-per-run selection, visible-theory uniqueness, and deferred work in those three source-of-truth documents.
 - Replace the placeholder [`schemas/reasoning-item.schema.json`](schemas/reasoning-item.schema.json) with the accepted-item projection: sentence-addressable story, canonical final answers, typed deduction steps, supporting conclusions, counterfactual, and minimal-falsifier tasks. Keep internal run artifacts as Pydantic schemas rather than forcing them into the release-item schema.
 
 ## 2. Establish typed domain and run-state modules

@@ -25,7 +25,8 @@ See `AGENTS.md` for agent conventions and installed skills.
 |------|------|
 | `src/cogito_mill/` | Application package |
 | `tests/{unit,integration,e2e}/` | Test pyramid |
-| `docs/engineering/` | Specs we refine together |
+| `docs/vision.md` | Long Story Short product and data contract |
+| `docs/engineering/` | Architecture and agent implementation flow |
 | `.agents/skills/` | Installed engineering skills |
 | `.cursor/rules/` | Always-on project rules |
 
