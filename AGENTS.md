@@ -13,8 +13,6 @@ Pipeline for generating long-form agentic reasoning datasets, orchestrated with 
 
 Secrets (local `.env` or Cursor Cloud Secrets): see `.env.example`.
 
-Details: `docs/engineering/05-cloud-environment.md`.
-
 ## Cursor Cloud specific instructions
 
 - Boot path: image from `.cursor/Dockerfile` → `bash scripts/cloud-install.sh` (`uv sync --frozen --all-groups`).
@@ -23,6 +21,12 @@ Details: `docs/engineering/05-cloud-environment.md`.
 - Secrets must come from Cursor Cloud Secrets (never invent keys). If Azure/GLM/HF vars are missing, work offline on code/docs/tests that do not call providers.
 - Do not assume marketplace Hugging Face plugins; use project skill `huggingface-datasets` + `huggingface_hub`.
 - Environment config is commit-scoped: push Dockerfile/`environment.json` changes before launching a cloud agent to test them.
+
+## Subagents (project)
+
+Defined under `.cursor/agents/`:
+
+- `research-scout` — readonly background scout for papers, datasets, Hub cards, and repos (arXiv / OpenReview / ACL / HF / GitHub). Invoke with `/research-scout` or by asking for a literature / SoTA scan. Returns cited notes; does not decide mill design (use grilling / `/to-spec` for that). Substantial keepers → `docs/literature/`.
 
 ## Skills (project)
 

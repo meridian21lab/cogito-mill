@@ -12,17 +12,20 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # Azure OpenAI
+    # Azure OpenAI — shared resource
     azure_openai_api_key: str | None = None
     azure_openai_endpoint: str | None = None
     azure_openai_api_version: str = "2024-12-01-preview"
-    azure_openai_deployment: str | None = None
+    # Role-specific deployments (same resource, different model SKUs)
+    azure_openai_writer_deployment: str | None = None
+    azure_openai_judge_deployment: str | None = None
     azure_openai_embedding_deployment: str | None = None
 
-    # GLM (OpenAI-compatible)
+    # GLM (OpenAI-compatible) — role-specific model ids
     glm_api_key: str | None = None
-    glm_base_url: str = "https://open.bigmodel.cn/api/paas/v4/"
-    glm_model: str = "glm-4.5"
+    glm_base_url: str = "https://api.z.ai/api/coding/paas/v4/"
+    glm_writer_deployment: str | None = None
+    glm_judge_deployment: str | None = None
 
     # Hugging Face
     hf_token: str | None = None
