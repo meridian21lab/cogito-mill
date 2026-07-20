@@ -12,3 +12,5 @@ Living documents. We refine these together (prefer `/grill-with-docs` then `/to-
 | [05-cloud-environment.md](05-cloud-environment.md) | draft | Cursor Cloud VM / secrets / smoke checks |
 
 Domain notes / ADRs produced by grilling land under `docs/domain/` once we run `/grill-with-docs`.
+
+External literature keepers from `/research-scout` land under [`docs/literature/`](../literature/).

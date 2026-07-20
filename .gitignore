@@ -168,6 +168,7 @@ data/processed/*
 !data/processed/.gitkeep
 
 # Editor / agent noise
+.DS_Store
 .mypy_cache/
 .ruff_cache/
 .coverage

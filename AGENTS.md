@@ -24,6 +24,12 @@ Details: `docs/engineering/05-cloud-environment.md`.
 - Do not assume marketplace Hugging Face plugins; use project skill `huggingface-datasets` + `huggingface_hub`.
 - Environment config is commit-scoped: push Dockerfile/`environment.json` changes before launching a cloud agent to test them.
 
+## Subagents (project)
+
+Defined under `.cursor/agents/`:
+
+- `research-scout` — readonly background scout for papers, datasets, Hub cards, and repos (arXiv / OpenReview / ACL / HF / GitHub). Invoke with `/research-scout` or by asking for a literature / SoTA scan. Returns cited notes; does not decide mill design (use grilling / `/to-spec` for that). Substantial keepers → `docs/literature/`.
+
 ## Skills (project)
 
 Installed under `.agents/skills/` (also discovered by Cursor):
