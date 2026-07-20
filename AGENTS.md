@@ -45,3 +45,9 @@ uv run pytest tests/unit
 uv run pytest tests/integration
 uv run pytest tests/e2e
 ```
+
+## Branching
+
+- `main` — stable / release
+- `dev` — shared synchronization point; land integration work here
+- Feature branches — cut from `dev`, open PRs into `dev` (promote `dev` → `main` when ready)
