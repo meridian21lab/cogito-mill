@@ -9,9 +9,14 @@ These documents are the implementation source of truth.
 | [01-architecture.md](01-architecture.md) | accepted | Domain modules, solver, agents, graph, artifacts |
 | [02-agent-flow.md](02-agent-flow.md) | accepted | Agent stages, implementation phases, gates, and deferred roadmap |
 
-Implement in the sequence defined by `02-agent-flow.md`. Provider policy and settled
-architectural decisions live in `01-architecture.md`; changes to its invariants require an ADR
-under `docs/domain/`.
+Implement in the sequence defined by `02-agent-flow.md` (including Phase 8 pilot batch /
+Hub / Luna eval). Provider policy and settled architectural decisions live in
+`01-architecture.md`; changes to its invariants require an ADR under `docs/domain/`.
+
+Hub interchange schemas:
+
+- thin pilot item: `schemas/reasoning-item.schema.json`
+- full accepted projection: `schemas/reasoning-item-full.schema.json`
 
 Cloud setup is operational guidance rather than architecture. It lives in `AGENTS.md`,
 `.cursor/rules/project.mdc`, `.cursor/environment.json`, `.cursor/Dockerfile`, and

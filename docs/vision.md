@@ -143,15 +143,29 @@ The milestone is successful when:
 6. deterministic tests run without provider credentials;
 7. an opt-in cloud run can use either the Azure or GLM model family.
 
+## Pilot milestone (authorized acceleration)
+
+In addition to the single-item MVP, the **pilot slice** is authorized to:
+
+1. generate **100–200 accepted** verified items via template-backed recipes;
+2. publish a thin human-facing projection to Hugging Face
+   (`ksopyla/long-story-short-pilot`, config `pilot_v0`);
+3. run a blind evaluation suite against the Azure **Luna** writer deployment;
+4. iterate recipe difficulty until Luna final-answer accuracy is **≤30%** (or document
+   best effort after at most three refine rounds).
+
+Pilot stories target roughly **1.5k–6k tokens**. Hardness comes from hop count, distractors,
+and disclosure sparsity—not length padding. The default Hub schema stays deliberately thin
+(`id`, `story`, `question`, `gold_answer`, `n_hops`, `setting_family`, `difficulty_bucket`).
+Full proofs and provenance remain in local artifacts / optional Hub configs.
+
 ## Explicitly deferred
 
-- generating 100–200 pilot worlds and later 10K+ documents;
+- later 10K+ documents;
 - training MrCogito or any other model;
-- controlled variant families;
+- controlled variant families at scale;
 - spatial and epistemic/theory-of-mind reasoning;
 - ordinal probability and calibration;
-- empirical difficulty labels and acceptance thresholds;
 - demographic distribution analysis;
-- Hugging Face packaging, licensing, gated access, and publication;
-- benchmark scoring, submission infrastructure, and leaderboards;
+- public leaderboards and submission infrastructure;
 - serving inference APIs.

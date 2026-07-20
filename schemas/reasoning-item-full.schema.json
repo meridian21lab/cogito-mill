@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/meridian21lab/cogito-mill/schemas/reasoning-item-full.schema.json",
+  "title": "LongStoryShortAcceptedItem",
+  "description": "Full accepted-item projection with provenance. Not the default Hub Viewer schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "schema_version": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "story": { "type": "string", "minLength": 1 },
+    "sentences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "text"],
+        "properties": {
+          "id": { "type": "string" },
+          "text": { "type": "string" }
+        }
+      }
+    },
+    "question": { "type": "string", "minLength": 1 },
+    "gold_answer": { "type": "string", "minLength": 1 },
+    "supported_conclusions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "gold_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "inference_type", "conclusion"],
+        "properties": {
+          "id": { "type": "string" },
+          "evidence_sentence_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "prior_step_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "inference_type": { "type": "string" },
+          "conclusion": { "type": "string" },
+          "explanation": { "type": "string" }
+        }
+      }
+    },
+    "counterfactual": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "answer"],
+      "properties": {
+        "question": { "type": "string" },
+        "answer": { "type": "string" },
+        "intervention": { "type": "string" }
+      }
+    },
+    "falsifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hypothesis", "minimal_evidence"],
+      "properties": {
+        "hypothesis": { "type": "string" },
+        "minimal_evidence": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "n_hops": { "type": "integer", "minimum": 1 },
+    "setting_family": { "type": "string" },
+    "difficulty_bucket": { "type": "string" },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "provider_family": { "type": "string" },
+        "seed": { "type": "integer" },
+        "recipe_id": { "type": "string" },
+        "writer_deployment": { "type": "string" },
+        "judge_deployment": { "type": "string" }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "schema_version",
+    "run_id",
+    "story",
+    "question",
+    "gold_answer",
+    "gold_steps",
+    "n_hops",
+    "setting_family",
+    "difficulty_bucket",
+    "provenance"
+  ]
+}
