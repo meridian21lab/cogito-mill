@@ -143,9 +143,10 @@ Cogito Mill is currently an **early MVP under active development**.
 - [x] Z3 relational/temporal compiler and causal simulator (pilot)
 - [x] LangGraph planning and verification flow (template-backed pilot)
 - [x] 150-item pilot pack (`data/packed/pilot_v0.jsonl`)
-- [x] Blind Luna eval harness (local; Hub publish pending write token)
+- [x] Blind Luna eval harness
+- [x] Hugging Face pilot publish (`ksopyla/long-story-short-pilot`, private `pilot_v0`)
 - [ ] Controlled variant families
-- [ ] Hugging Face public/gated release (blocked on write-capable `HF_TOKEN`)
+- [ ] Public/gated Hub release
 - [ ] Full LLM-authored worlds at novel length
 
 ### Pilot CLI
