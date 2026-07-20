@@ -23,6 +23,7 @@ Details: `docs/engineering/05-cloud-environment.md`.
 - Secrets must come from Cursor Cloud Secrets (never invent keys). If Azure/GLM/HF vars are missing, work offline on code/docs/tests that do not call providers.
 - Do not assume marketplace Hugging Face plugins; use project skill `huggingface-datasets` + `huggingface_hub`.
 - Environment config is commit-scoped: push Dockerfile/`environment.json` changes before launching a cloud agent to test them.
+- `uv run mypy` reports `Package 'cogito_mill' cannot be type checked due to missing py.typed marker` and exits 0 — this is a known packaging gap in the scaffold, not a lint/type failure.
 
 ## Skills (project)
 
