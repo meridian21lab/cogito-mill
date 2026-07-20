@@ -9,5 +9,6 @@ Living documents. We refine these together (prefer `/grill-with-docs` then `/to-
 | [02-llm-providers.md](02-llm-providers.md) | draft | Azure OpenAI + GLM wiring |
 | [03-dataset-pipeline.md](03-dataset-pipeline.md) | draft | Generate → verify → HF publish |
 | [04-open-questions.md](04-open-questions.md) | open | Decisions still needed |
+| [05-cloud-environment.md](05-cloud-environment.md) | draft | Cursor Cloud VM / secrets / smoke checks |
 
 Domain notes / ADRs produced by grilling land under `docs/domain/` once we run `/grill-with-docs`.

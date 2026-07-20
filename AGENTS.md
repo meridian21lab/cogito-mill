@@ -9,9 +9,20 @@ Pipeline for generating long-form agentic reasoning datasets, orchestrated with 
 | Context | How |
 |--------|-----|
 | Local | `uv sync` then `uv run …` |
-| Cloud | `.cursor/environment.json` runs uv install + `uv sync --frozen --all-extras` |
+| Cloud | `.cursor/Dockerfile` + `scripts/cloud-install.sh` via `.cursor/environment.json` |
 
 Secrets (local `.env` or Cursor Cloud Secrets): see `.env.example`.
+
+Details: `docs/engineering/05-cloud-environment.md`.
+
+## Cursor Cloud specific instructions
+
+- Boot path: image from `.cursor/Dockerfile` → `bash scripts/cloud-install.sh` (`uv sync --frozen --all-groups`).
+- Always use `uv run …` for Python tools; do not create a separate venv with `python -m venv`.
+- After boot, verify with `uv run pytest tests/unit -q` before larger work.
+- Secrets must come from Cursor Cloud Secrets (never invent keys). If Azure/GLM/HF vars are missing, work offline on code/docs/tests that do not call providers.
+- Do not assume marketplace Hugging Face plugins; use project skill `huggingface-datasets` + `huggingface_hub`.
+- Environment config is commit-scoped: push Dockerfile/`environment.json` changes before launching a cloud agent to test them.
 
 ## Skills (project)
 

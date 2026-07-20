@@ -17,11 +17,12 @@ Generate and publish long-form agentic reasoning datasets (multi-hop deduction).
 
 ## Cloud agents (Cursor)
 
-- Config: `.cursor/environment.json` — install must stay idempotent.
-- Cloud install installs uv if missing, then `uv sync --frozen --all-extras`.
-- Put API keys in Cursor Cloud **Secrets**, not in the repo: `AZURE_OPENAI_*`, `GLM_*` / `ZHIPUAI_*`, `HF_TOKEN`.
+- Image: `.cursor/Dockerfile` (uv + Python 3.12). Install: `scripts/cloud-install.sh` via `.cursor/environment.json` (must stay idempotent).
+- Sync: `uv sync --frozen --all-groups`. Run tools with `uv run …`.
+- Put API keys in Cursor Cloud **Secrets**, not in the repo: `AZURE_OPENAI_*`, `GLM_*`, `HF_TOKEN`.
 - Project skills live under `.agents/skills/`. Prefer `/grill-me`, `/grill-with-docs`, `/to-spec`, `/tdd`, langgraph, huggingface-datasets over inventing one-off skills.
 - Do not rely on personal `~/.cursor` rules or marketplace HF plugins in cloud VMs.
+- See `docs/engineering/05-cloud-environment.md` and the Cloud section in `AGENTS.md`.
 
 ## Layout
 
