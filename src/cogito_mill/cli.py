@@ -18,6 +18,7 @@ def _cmd_generate_one(args: argparse.Namespace) -> int:
         difficulty=args.difficulty,
         n_suspects=args.n_suspects,
         n_distractors=args.n_distractors,
+        agent_mode=args.agent_mode,
     )
     printable = {k: v for k, v in result.items() if k != "accepted"}
     print(json.dumps(printable, indent=2))
@@ -36,6 +37,7 @@ def _cmd_generate_batch(args: argparse.Namespace) -> int:
         n_suspects=args.n_suspects,
         n_distractors=args.n_distractors,
         max_attempts=args.max_attempts,
+        agent_mode=args.agent_mode,
     )
     print(
         json.dumps(
@@ -57,7 +59,7 @@ def _cmd_publish(args: argparse.Namespace) -> int:
     packed = pack_hub_items(Path(args.input))
     print(f"packed {len(packed)} items from {args.input}")
     if args.dry_run:
-        out = Path(args.output_root) / "packed" / "pilot_v0.jsonl"
+        out = Path(args.output_root) / "packed" / f"{args.config}.jsonl"
         out.parent.mkdir(parents=True, exist_ok=True)
         with out.open("w", encoding="utf-8") as handle:
             for row in packed:
@@ -91,6 +93,23 @@ def _cmd_evaluate(args: argparse.Namespace) -> int:
     return 0 if acc <= args.max_accuracy else 2
 
 
+def _cmd_assess(args: argparse.Namespace) -> int:
+    from cogito_mill.eval.quality import assess_dataset
+
+    rows = [
+        json.loads(line)
+        for line in Path(args.local_dir).read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    report = assess_dataset(rows)
+    if args.output:
+        output = Path(args.output)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    print(json.dumps(report, indent=2))
+    return 0 if report["passed"] else 3
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="cogito-mill")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -100,8 +119,9 @@ def build_parser() -> argparse.ArgumentParser:
     one.add_argument("--seed", type=int, default=42)
     one.add_argument("--output-root", default="data")
     one.add_argument("--difficulty", default="hard", choices=["medium", "hard", "very_hard"])
-    one.add_argument("--n-suspects", type=int, default=4)
+    one.add_argument("--n-suspects", type=int, default=6)
     one.add_argument("--n-distractors", type=int, default=4)
+    one.add_argument("--agent-mode", default="offline", choices=["offline", "live"])
     one.set_defaults(func=_cmd_generate_one)
 
     batch = sub.add_parser("generate-batch", help="Generate N accepted pilot items")
@@ -113,12 +133,13 @@ def build_parser() -> argparse.ArgumentParser:
     batch.add_argument("--n-suspects", type=int, default=5)
     batch.add_argument("--n-distractors", type=int, default=6)
     batch.add_argument("--max-attempts", type=int, default=None)
+    batch.add_argument("--agent-mode", default="offline", choices=["offline", "live"])
     batch.set_defaults(func=_cmd_generate_batch)
 
     pub = sub.add_parser("publish", help="Pack and publish pilot dataset to the Hub")
     pub.add_argument("--input", default="data/processed")
     pub.add_argument("--repo", default="ksopyla/long-story-short-pilot")
-    pub.add_argument("--config", default="pilot_v0")
+    pub.add_argument("--config", default="pilot_v2")
     pub.add_argument("--private", action=argparse.BooleanOptionalAction, default=True)
     pub.add_argument("--dry-run", action="store_true")
     pub.add_argument("--output-root", default="data")
@@ -134,6 +155,11 @@ def build_parser() -> argparse.ArgumentParser:
     ev.add_argument("--output-root", default="data")
     ev.add_argument("--max-accuracy", type=float, default=0.30)
     ev.set_defaults(func=_cmd_evaluate)
+
+    assess = sub.add_parser("assess", help="Gate narration and pack-level diversity")
+    assess.add_argument("--local-dir", required=True, help="Packed JSONL to assess")
+    assess.add_argument("--output", default=None, help="Optional metrics JSON path")
+    assess.set_defaults(func=_cmd_assess)
 
     return parser
 

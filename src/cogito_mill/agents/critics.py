@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from typing import Literal
 
 from cogito_mill.domain.concept import CriticFinding, CriticReport
 from cogito_mill.domain.narrative import StoryDocument
@@ -52,10 +53,7 @@ def critique_story_document(
         CriticFinding(
             gate="no_personnel_dump",
             passed=personnel_count <= max_personnel_index_lines,
-            detail=(
-                f"Personnel index lines={personnel_count} "
-                f"(max {max_personnel_index_lines})"
-            ),
+            detail=(f"Personnel index lines={personnel_count} (max {max_personnel_index_lines})"),
         )
     )
     # Reject walls of nearly identical EMP mapping sentences.
@@ -107,9 +105,7 @@ def critique_story_document(
 
     # Opening must read as narration, not an ID table.
     first = paragraphs[0] if paragraphs else ""
-    opening_ok = bool(first) and (
-        "Personnel index:" not in first and first.count("EMP-") < 3
-    )
+    opening_ok = bool(first) and ("Personnel index:" not in first and first.count("EMP-") < 3)
     findings.append(
         CriticFinding(
             gate="human_readable_opening",
@@ -119,6 +115,7 @@ def critique_story_document(
     )
 
     failed = [f for f in findings if not f.passed]
+    decision: Literal["accept", "revise", "reject"]
     if failed:
         decision = "reject"
         feedback = "; ".join(f"{f.gate}: {f.detail}" for f in failed)

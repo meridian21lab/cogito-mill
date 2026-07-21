@@ -84,12 +84,12 @@ class AcceptedItem(BaseModel):
             story=self.story,
             question=self.question,
             gold_answer=self.gold_answer,
-            gold_answer_variants=self.gold_answer_variants
-            or questions[0].gold_answer_variants,
+            gold_answer_variants=self.gold_answer_variants or questions[0].gold_answer_variants,
             questions=questions,
             n_hops=self.n_hops,
             setting_family=self.setting_family,
             difficulty_bucket=self.difficulty_bucket,
+            template_id=self.provenance.template_id,
         )
 
     @classmethod
@@ -140,3 +140,4 @@ class PilotHubItem(BaseModel):
     n_hops: int
     setting_family: SettingFamily
     difficulty_bucket: DifficultyBucket
+    template_id: str | None = None

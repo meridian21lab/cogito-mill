@@ -41,21 +41,14 @@ def test_normalize_azure_endpoint_strips_path_and_query() -> None:
         "https://agents-patterns-lab-oai.openai.azure.com/openai/deployments/x"
         "?api-version=2024-12-01-preview"
     )
-    assert (
-        normalize_azure_endpoint(raw)
-        == "https://agents-patterns-lab-oai.openai.azure.com/"
-    )
+    assert normalize_azure_endpoint(raw) == "https://agents-patterns-lab-oai.openai.azure.com/"
 
 
 def test_settings_strips_whitespace_and_normalizes_endpoint() -> None:
     settings = Settings(
         _env_file=None,
-        azure_openai_endpoint=(
-            "https://agents-patterns-lab-oai.openai.azure.com/openai/v1?x=1"
-        ),
+        azure_openai_endpoint=("https://agents-patterns-lab-oai.openai.azure.com/openai/v1?x=1"),
         azure_openai_writer_deployment=" gpt-5.6-luna-stories \n",
     )
-    assert settings.azure_openai_endpoint == (
-        "https://agents-patterns-lab-oai.openai.azure.com/"
-    )
+    assert settings.azure_openai_endpoint == ("https://agents-patterns-lab-oai.openai.azure.com/")
     assert settings.azure_openai_writer_deployment == "gpt-5.6-luna-stories"

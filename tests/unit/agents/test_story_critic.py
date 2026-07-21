@@ -39,9 +39,7 @@ def test_generated_story_passes_critic() -> None:
     person_labels = [e.label for e in bundle.world.entities if e.type == "person"]
     assert sum(1 for lab in person_labels if lab.split()[0] == first) >= 2
     assert "surname" in bundle.story.full_text.lower()
-    assert not _story_contains_full_name(
-        bundle.story.full_text, bundle.questions.gold_answer
-    )
+    assert not _story_contains_full_name(bundle.story.full_text, bundle.questions.gold_answer)
 
 
 def test_critic_rejects_personnel_dump() -> None:

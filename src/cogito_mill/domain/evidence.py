@@ -6,6 +6,8 @@ from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
+from cogito_mill.domain.logic import LogicTheory
+
 
 class ClueChannel(StrEnum):
     STATEMENT = "statement"
@@ -31,3 +33,4 @@ class VisibleTheory(BaseModel):
     world_id: str
     facts: list[VisibleFact]
     hidden_fact_ids: list[str] = Field(default_factory=list)
+    logic: LogicTheory | None = None
