@@ -87,6 +87,7 @@ def _cmd_evaluate(args: argparse.Namespace) -> int:
         solver_provider=args.solver_provider,
         local_dir=args.local_dir,
         output_root=args.output_root,
+        main_only=args.main_only,
     )
     print(json.dumps(report, indent=2))
     acc = float(report.get("main_accuracy", report.get("accuracy", 1.0)))
@@ -154,6 +155,7 @@ def build_parser() -> argparse.ArgumentParser:
     ev.add_argument("--local-dir", default=None, help="Evaluate from local packed JSONL")
     ev.add_argument("--output-root", default="data")
     ev.add_argument("--max-accuracy", type=float, default=0.30)
+    ev.add_argument("--main-only", action="store_true")
     ev.set_defaults(func=_cmd_evaluate)
 
     assess = sub.add_parser("assess", help="Gate narration and pack-level diversity")

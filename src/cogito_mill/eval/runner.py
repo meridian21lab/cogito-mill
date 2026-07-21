@@ -90,6 +90,7 @@ def evaluate_dataset(
     solver_provider: str = "azure",
     local_dir: str | None = None,
     output_root: str = "data",
+    main_only: bool = False,
 ) -> dict[str, Any]:
     rows = _load_rows(
         dataset=dataset,
@@ -117,7 +118,10 @@ def evaluate_dataset(
         "Respond with a single line in the form FINAL_ANSWER: <answer>.\n\n"
     )
     for row in rows:
-        for qa in _iter_qa(row):
+        qa_units = _iter_qa(row)
+        if main_only:
+            qa_units = [qa for qa in qa_units if qa["question_type"] == "main"]
+        for qa in qa_units:
             total_qa += 1
             prompt = prompt_template + (f"STORY:\n{row['story']}\n\nQUESTION:\n{qa['question']}\n")
             try:

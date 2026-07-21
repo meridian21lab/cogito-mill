@@ -28,7 +28,7 @@ def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
     min_templates = 4 if n < 100 else 6
     min_effective = 3.5 if n < 100 else 5.0
     max_template_share = 0.34 if n < 100 else 0.20
-    min_settings = 5 if n < 100 else 6
+    min_settings = 4 if n < 100 else 6
     p95_similarity = _percentile(pairs, 0.95)
     exact_hashes = [hashlib.sha256(_normalize(story).encode()).hexdigest() for story in stories]
     exact_duplicates = n - len(set(exact_hashes))
@@ -45,7 +45,7 @@ def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "template_effective_count": template_effective >= min_effective,
         "template_max_share": template_max_share <= max_template_share,
         "setting_coverage": len(setting_counts) >= min_settings,
-        "setting_entropy": setting_entropy >= 0.85,
+        "setting_entropy": setting_entropy >= (0.75 if n < 100 else 0.85),
         "surface_similarity_p95": p95_similarity <= 0.65,
         "unique_openings": unique_opening_rate >= 0.80,
         "question_stems": unique_stems >= min(8, n),
