@@ -51,6 +51,7 @@ def test_iterated_checksum_carries_state_across_all_five_cycles() -> None:
         (13, 7, 3, 11, 2, 5),
         start_value=12,
         modulus=97,
+        cycle_count=5,
     )
 
     assert result == 19

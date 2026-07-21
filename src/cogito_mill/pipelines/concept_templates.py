@@ -214,7 +214,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             )
             order += 1
 
-    weights, coefficients, start_value, modulus, checksums = _checksum_plan(
+    weights, coefficients, start_value, modulus, cycle_count, checksums = _checksum_plan(
         recipe.seed,
         status_by_person,
         answer_id=answer_id,
@@ -244,7 +244,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             "stated order, then in reverse order with the coefficients reversed, then once "
             "more in the stated order with the coefficient list rotated one place left. "
             "Without resetting the checksum, it repeated that complete three-pass cycle "
-            "five times."
+            f"{cycle_count} times."
         ),
         formal="rule:checksum_formula",
         channel=ClueChannel.RULE_APPLICATION,
@@ -339,7 +339,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         visible=visible,
         questions=questions,
         offline_draft=draft,
-        n_hops=94,
+        n_hops=18 * cycle_count + 4,
     )
 
 
@@ -384,11 +384,12 @@ def _checksum_plan(
     *,
     answer_id: str,
     runner_id: str,
-) -> tuple[dict[str, int], tuple[int, ...], int, int, dict[str, int]]:
+) -> tuple[dict[str, int], tuple[int, ...], int, int, int, dict[str, int]]:
     status_order = _permutation(seed, "checksum-weights", STATUS_BANK)
     weights = {status: index for index, status in enumerate(status_order)}
     base_coefficients = (2, 3, 5, 7, 11, 13)
     start_value = 2 + seed % 17
+    cycle_count = 17 + seed % 13
     for attempt in range(64):
         coefficients = tuple(
             sorted(
@@ -407,6 +408,7 @@ def _checksum_plan(
                     coefficients,
                     start_value=start_value,
                     modulus=modulus,
+                    cycle_count=cycle_count,
                 )
             checksum_values = list(checksums.values())
             if (
@@ -414,7 +416,14 @@ def _checksum_plan(
                 and checksum_values.count(checksums[runner_id]) == 1
                 and checksums[answer_id] != checksums[runner_id]
             ):
-                return weights, coefficients, start_value, modulus, checksums
+                return (
+                    weights,
+                    coefficients,
+                    start_value,
+                    modulus,
+                    cycle_count,
+                    checksums,
+                )
     raise ValueError("could not construct unique checksum targets")
 
 
@@ -424,6 +433,7 @@ def iterated_checksum(
     *,
     start_value: int,
     modulus: int,
+    cycle_count: int,
 ) -> int:
     """Execute the disclosed forward/reverse/rotated nonlinear recurrence."""
     checksum = start_value
@@ -432,7 +442,7 @@ def iterated_checksum(
         (tuple(reversed(values)), tuple(reversed(coefficients))),
         (values, coefficients[1:] + coefficients[:1]),
     )
-    for _cycle in range(5):
+    for _cycle in range(cycle_count):
         for pass_values, pass_coefficients in passes:
             for value, coefficient in zip(
                 pass_values,
