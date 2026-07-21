@@ -193,9 +193,11 @@ scene openings, and paragraph rhythm. Do not reveal which person satisfies the f
 CRITICAL GROUNDING CONTRACT:
 - Realize every obligation faithfully in its assigned scene exactly once. Natural paraphrase is
   allowed, but preserve every named participant, value, relation, condition, and consequence.
-- Keep each obligation as a distinct sentence so it can be anchored to evidence.
+- Combine related conversion facts into motivated prose where that improves narration. Explain
+  why an auditor, witness, or participant checks each alternative instead of serializing a table.
 - You may add connective narration, reactions, and atmosphere, but no new logical facts.
 - Do not turn the evidence into a table, ledger dump, bullet list, or repeated template.
+- Give the six evidence threads distinct incident functions and scene-level purposes.
 - Keep all local rules explicit. A reader must be able to solve without outside knowledge.
 - Each scene's obligated_fact_ids must remain exactly those in the scaffold.
 

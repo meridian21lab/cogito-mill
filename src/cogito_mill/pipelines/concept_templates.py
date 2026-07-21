@@ -348,7 +348,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
                 _rule_visible(
                     certify_rule,
                     (
-                        f"A matching {noun} mark counted as certified only while the incident "
+                        f"A matching result for {noun} counted as certified only while the incident "
                         "protocol remained active."
                     ),
                     f"sc{1 + branch_idx % 2}",
