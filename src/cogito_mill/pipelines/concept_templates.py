@@ -214,7 +214,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             )
             order += 1
 
-    weights, coefficients, modulus, checksums = _checksum_plan(
+    weights, coefficients, start_value, modulus, checksums = _checksum_plan(
         recipe.seed,
         status_by_person,
         answer_id=answer_id,
@@ -236,11 +236,11 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     formula_fact = VisibleFact(
         id="f_checksum_formula",
         text=(
-            "In order, the checksum used relation, temporal, causal, spatial, sequence, "
-            "and protocol statuses. Its coefficients were "
-            f"{', '.join(str(c) for c in coefficients)}; "
-            "the panel added the six weighted "
-            f"values and kept the remainder modulo {modulus}."
+            f"The checksum began at {start_value}. In order it used relation, temporal, "
+            "causal, spatial, sequence, and protocol statuses with coefficients "
+            f"{', '.join(str(c) for c in coefficients)}. At each stream, the panel squared "
+            "the current checksum, added that stream's coefficient times its status value, "
+            f"and kept the remainder modulo {modulus} before continuing."
         ),
         formal="rule:checksum_formula",
         channel=ClueChannel.RULE_APPLICATION,
@@ -265,7 +265,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
                 predicate="checksum",
                 arguments=[person_id, str(checksums[person_id])],
             ),
-            explanation=(f"Apply the disclosed weighted modulo-{modulus} checksum to {person_id}."),
+            explanation=(f"Apply the disclosed iterated modulo-{modulus} checksum to {person_id}."),
         )
         rules.append(checksum_rule)
 
@@ -380,10 +380,11 @@ def _checksum_plan(
     *,
     answer_id: str,
     runner_id: str,
-) -> tuple[dict[str, int], tuple[int, ...], int, dict[str, int]]:
+) -> tuple[dict[str, int], tuple[int, ...], int, int, dict[str, int]]:
     status_order = _permutation(seed, "checksum-weights", STATUS_BANK)
     weights = {status: index for index, status in enumerate(status_order)}
     base_coefficients = (2, 3, 5, 7, 11, 13)
+    start_value = 2 + seed % 17
     for attempt in range(64):
         coefficients = tuple(
             sorted(
@@ -394,25 +395,25 @@ def _checksum_plan(
             )
         )
         for modulus in (97, 101, 103, 107, 109):
-            checksums = {
-                person_id: sum(
-                    coefficient * weights[statuses[branch]]
-                    for branch, coefficient in zip(
-                        BRANCHES,
-                        coefficients,
-                        strict=True,
-                    )
-                )
-                % modulus
-                for person_id, statuses in status_by_person.items()
-            }
+            checksums: dict[str, int] = {}
+            for person_id, statuses in status_by_person.items():
+                checksum = start_value
+                for branch, coefficient in zip(
+                    BRANCHES,
+                    coefficients,
+                    strict=True,
+                ):
+                    checksum = (
+                        checksum * checksum + coefficient * weights[statuses[branch]]
+                    ) % modulus
+                checksums[person_id] = checksum
             values = list(checksums.values())
             if (
                 values.count(checksums[answer_id]) == 1
                 and values.count(checksums[runner_id]) == 1
                 and checksums[answer_id] != checksums[runner_id]
             ):
-                return weights, coefficients, modulus, checksums
+                return weights, coefficients, start_value, modulus, checksums
     raise ValueError("could not construct unique checksum targets")
 
 

@@ -145,7 +145,7 @@ Create one compact narrative premise for the fixed family {family_id!r}.
 The setting must remain: {setting}
 The locally defined target concept must remain exactly: {concept}
 Define that concept crisply as the one participant whose six evidence statuses produce the
-incident's accepted weighted checksum under the local rules. The statuses are relational,
+incident's accepted iterated modular checksum under the local rules. The statuses are relational,
 temporal, causal, spatial, sequence, and protocol evidence. Do not choose or hint at the
 answer. The formalizer and deterministic code will choose
 the answer. Make the premise natural, self-contained, and unlike a generic murder mystery.
@@ -166,7 +166,7 @@ Gate the proposal for: compatibility with family {family_id}; self-containment; 
 narrative premise; no answer hint; explicit need to combine relational, temporal, causal,
 spatial, sequence, and local-protocol evidence; and low resemblance to a stock locked-room
 mystery. The benchmark intentionally defines its target concept locally as the person whose
-six-stream weighted checksum equals the accepted checksum. Treat that as a crisp success
+six-stream iterated modular checksum equals the accepted checksum. Treat that as a crisp success
 condition; do not demand an external job title or add another condition. Recommend revision
 only when a listed gate actually fails.
 Do not judge formal truth—the deterministic solver does that.
