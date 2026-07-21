@@ -8,7 +8,12 @@ from typing import Any
 from pydantic import BaseModel, Field
 
 from cogito_mill.domain.narrative import Sentence
-from cogito_mill.domain.questions import CounterfactualTask, FalsifierTask, QuestionBundle
+from cogito_mill.domain.questions import (
+    CounterfactualTask,
+    FalsifierTask,
+    QuestionBundle,
+    ScoredQuestion,
+)
 from cogito_mill.domain.reasoning import DeductionStep
 from cogito_mill.domain.recipe import DifficultyBucket, SettingFamily
 
@@ -35,7 +40,7 @@ class RunManifest(BaseModel):
     seed: int
     provider_family: str
     recipe_id: str
-    schema_version: str = "pilot.v0"
+    schema_version: str = "pilot.v1"
     terminal_reason: str | None = None
     artifact_dir: str | None = None
     content_hashes: dict[str, str] = Field(default_factory=dict)
@@ -45,12 +50,14 @@ class RunManifest(BaseModel):
 
 class AcceptedItem(BaseModel):
     id: str
-    schema_version: str = "pilot.v0"
+    schema_version: str = "pilot.v1"
     run_id: str
     story: str
     sentences: list[Sentence] = Field(default_factory=list)
     question: str
     gold_answer: str
+    gold_answer_variants: list[str] = Field(default_factory=list)
+    questions: list[ScoredQuestion] = Field(default_factory=list)
     supported_conclusions: list[str] = Field(default_factory=list)
     gold_steps: list[DeductionStep] = Field(default_factory=list)
     counterfactual: CounterfactualTask | None = None
@@ -61,11 +68,25 @@ class AcceptedItem(BaseModel):
     provenance: ThinProvenance
 
     def to_hub_item(self) -> PilotHubItem:
+        questions = self.questions
+        if not questions:
+            questions = [
+                ScoredQuestion(
+                    id="q_main",
+                    question=self.question,
+                    gold_answer=self.gold_answer,
+                    gold_answer_variants=self.gold_answer_variants or [self.gold_answer],
+                    question_type="main",
+                )
+            ]
         return PilotHubItem(
             id=self.id,
             story=self.story,
             question=self.question,
             gold_answer=self.gold_answer,
+            gold_answer_variants=self.gold_answer_variants
+            or questions[0].gold_answer_variants,
+            questions=questions,
             n_hops=self.n_hops,
             setting_family=self.setting_family,
             difficulty_bucket=self.difficulty_bucket,
@@ -85,6 +106,10 @@ class AcceptedItem(BaseModel):
         difficulty_bucket: DifficultyBucket,
         provenance: ThinProvenance,
     ) -> AcceptedItem:
+        main = next(
+            (q for q in bundle.questions if q.question_type == "main"),
+            bundle.questions[0],
+        )
         return cls(
             id=item_id,
             run_id=run_id,
@@ -92,6 +117,8 @@ class AcceptedItem(BaseModel):
             sentences=sentences,
             question=bundle.main_question,
             gold_answer=bundle.gold_answer,
+            gold_answer_variants=main.gold_answer_variants,
+            questions=bundle.questions,
             supported_conclusions=bundle.supported_conclusions,
             gold_steps=bundle.steps,
             counterfactual=bundle.counterfactual,
@@ -108,6 +135,8 @@ class PilotHubItem(BaseModel):
     story: str
     question: str
     gold_answer: str
+    gold_answer_variants: list[str] = Field(default_factory=list)
+    questions: list[ScoredQuestion] = Field(default_factory=list)
     n_hops: int
     setting_family: SettingFamily
     difficulty_bucket: DifficultyBucket

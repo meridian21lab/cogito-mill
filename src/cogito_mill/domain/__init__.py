@@ -5,7 +5,12 @@ from __future__ import annotations
 from cogito_mill.domain.concept import ConceptBrief, CriticReport
 from cogito_mill.domain.evidence import ClueChannel, VisibleFact, VisibleTheory
 from cogito_mill.domain.narrative import SceneDraft, Sentence, StoryDocument
-from cogito_mill.domain.questions import CounterfactualTask, FalsifierTask, QuestionBundle
+from cogito_mill.domain.questions import (
+    CounterfactualTask,
+    FalsifierTask,
+    QuestionBundle,
+    ScoredQuestion,
+)
 from cogito_mill.domain.reasoning import DeductionStep, InferenceType
 from cogito_mill.domain.recipe import DifficultyBucket, GenerationRecipe, SettingFamily
 from cogito_mill.domain.run import (
@@ -49,6 +54,7 @@ __all__ = [
     "RunManifest",
     "RunStatus",
     "SceneDraft",
+    "ScoredQuestion",
     "Sentence",
     "SettingFamily",
     "StoryDocument",

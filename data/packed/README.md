@@ -1,22 +1,24 @@
-# Long Story Short — pilot_v0 local pack
-
-This directory holds the **pilot slice** release artifacts while Hugging Face Hub
-publish is blocked on a write-capable `HF_TOKEN`.
+# Long Story Short — packed pilots
 
 | File | Purpose |
 |------|---------|
-| `pilot_v0.jsonl` | 150 thin Hub-schema items |
-| `luna_eval_metrics.json` | Blind Azure Luna eval summary |
-| `luna_eval_predictions_sample.jsonl` | Per-item predictions for the scored sample |
+| `pilot_v0.jsonl` | Original 150-item pack (low readability; EMP-wall style) |
+| `pilot_v1.jsonl` | Improved 150-item pack (coherent narration, 2–4 QAs, answer variants) |
+| `luna_eval_metrics.json` | Luna eval on `pilot_v0` |
+| `luna_eval_metrics_v1.json` | Luna eval sample on `pilot_v1` |
+| `luna_eval_predictions_sample.jsonl` | `pilot_v0` prediction sample |
+| `luna_eval_predictions_v1_sample.jsonl` | `pilot_v1` prediction sample |
 
-## Schema (simple)
+## Schema (`pilot_v1`)
 
 Each JSONL row:
 
 - `id`
 - `story`
-- `question`
+- `question` — main mystery (also first of `questions`)
 - `gold_answer`
+- `gold_answer_variants` — 1–3 accepted exact-match forms
+- `questions` — 2–4 scored QAs (`id`, `question`, `gold_answer`, `gold_answer_variants`, `question_type`)
 - `n_hops`
 - `setting_family`
 - `difficulty_bucket`
@@ -29,47 +31,28 @@ from pathlib import Path
 
 rows = [
     json.loads(line)
-    for line in Path("data/packed/pilot_v0.jsonl").read_text().splitlines()
+    for line in Path("data/packed/pilot_v1.jsonl").read_text().splitlines()
     if line.strip()
 ]
 print(rows[0]["question"], "->", rows[0]["gold_answer"])
-```
-
-Or via Hugging Face `datasets` from JSONL:
-
-```python
-from datasets import load_dataset
-
-ds = load_dataset("json", data_files="data/packed/pilot_v0.jsonl", split="train")
-print(ds[0]["story"][:200])
+print(len(rows[0]["questions"]), "scored questions")
 ```
 
 ## Evaluate (Luna)
 
 ```bash
 uv run cogito-mill evaluate \
-  --local-dir data/packed/pilot_v0.jsonl \
+  --local-dir data/packed/pilot_v1.jsonl \
   --solver-provider azure \
-  --limit 50
+  --limit 12
 ```
 
-Latest recorded exact-answer accuracy on a 50-item sample: **0.0** (hardness gate ≤30% passed).
+Hardness gate uses **main-question** exact-match accuracy (≤30%).  
+`pilot_v0` passed via illegibility; `pilot_v1` prioritizes readable multi-hop narration and currently exceeds the gate on Azure writer/Luna — see `docs/engineering/assessments/pilot-quality-iterations.md`.
 
-## Publish to Hub (when token allows)
-
-Requires a token that can **create/write** datasets under `ksopyla` (current cloud
-secret `repositories_read_token` is read-only).
+## Regenerate
 
 ```bash
-uv run cogito-mill publish \
-  --input data/processed \
-  --repo ksopyla/long-story-short-pilot \
-  --config pilot_v0 \
-  --private
-```
-
-If `data/processed/run-*` is absent locally, regenerate first:
-
-```bash
-uv run cogito-mill generate-batch --n 150 --seeds-from 5000 --difficulty very_hard
+uv run cogito-mill generate-batch --n 150 --seeds-from 10000 --difficulty very_hard
+uv run cogito-mill publish --input data/processed --dry-run
 ```
