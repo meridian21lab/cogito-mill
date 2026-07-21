@@ -76,8 +76,8 @@ class OfflineAgentSuite:
             target_question=f"Who satisfies the locally defined concept {concept}?",
             intended_answer="selected only by the deterministic formal theory",
             composition_notes=(
-                "Disperse four independent relational, temporal, causal, and protocol "
-                "branches. Keep every rule explicit and every candidate plausible."
+                "Disperse six independent relational, temporal, causal, spatial, sequence, "
+                "and protocol branches. Keep every rule explicit and every candidate plausible."
             ),
         )
 
@@ -143,10 +143,10 @@ class LiveAgentSuite:
 Create one compact narrative premise for the fixed family {family_id!r}.
 The setting must remain: {setting}
 The locally defined target concept must remain exactly: {concept}
-Define that concept crisply as the one participant whose record earns all four independently
-certified marks (relational, temporal, causal, and protocol) under the incident's local rules.
-Do not choose or hint at the answer. The formalizer will build four independent
-relational, temporal, causal, and protocol branches, and deterministic code will choose
+Define that concept crisply as the one participant whose record earns all six independently
+certified marks (relational, temporal, causal, spatial, sequence, and protocol) under the
+incident's local rules. Do not choose or hint at the answer. The formalizer will build six
+independent branches, and deterministic code will choose
 the answer. Make the premise natural, self-contained, and unlike a generic murder mystery.
 Prior critic feedback: {feedback or "none"}
 Recipe: {recipe.model_dump_json()}
@@ -163,10 +163,10 @@ Recipe: {recipe.model_dump_json()}
         prompt = f"""You are an independent concept critic. Return accept, revise, or reject.
 Gate the proposal for: compatibility with family {family_id}; self-containment; a natural
 narrative premise; no answer hint; explicit need to combine relational, temporal, causal,
-and local-protocol evidence; and low resemblance to a stock locked-room mystery.
-The benchmark intentionally defines its target concept locally as the person earning all four
-certified marks. Treat that as a crisp success condition; do not demand an external job title
-or add a fifth condition. Recommend revision only when a listed gate actually fails.
+spatial, sequence, and local-protocol evidence; and low resemblance to a stock locked-room
+mystery. The benchmark intentionally defines its target concept locally as the person earning
+all six certified marks. Treat that as a crisp success condition; do not demand an external
+job title or add a seventh condition. Recommend revision only when a listed gate actually fails.
 Do not judge formal truth—the deterministic solver does that.
 Recipe: {recipe.model_dump_json()}
 Proposal: {concept.model_dump_json()}
@@ -215,7 +215,7 @@ Repair feedback: {feedback or "none"}
     ) -> CriticReport:
         prompt = f"""You are a blind narrative-quality critic for a reasoning benchmark.
 Return accept only if the story is coherent narration, each clue is naturally integrated,
-the four reasoning branches remain trackable but nontrivial, local rules are clear, prose is
+the six reasoning branches remain trackable but nontrivial, local rules are clear, prose is
 not a disguised table, the answer is not asserted, and every question is unambiguous.
 Return revise with actionable sentence-level feedback for repairable prose; reject only for
 an irreparable premise. Deterministic grounding has priority and reports:

@@ -26,11 +26,13 @@ from cogito_mill.domain.world import (
 from cogito_mill.eval.score import name_answer_variants
 from cogito_mill.pipelines.templates import FIRST, LAST
 
-BRANCHES = ("relation", "temporal", "causal", "protocol")
+BRANCHES = ("relation", "temporal", "causal", "spatial", "sequence", "protocol")
 VALUE_BANK = {
     "relation": ("amber", "cobalt", "ivory", "saffron", "violet", "silver"),
     "temporal": ("first", "second", "third", "fourth", "fifth", "sixth"),
     "causal": ("echo", "flare", "hush", "ripple", "spark", "wake"),
+    "spatial": ("bridge", "court", "gallery", "harbor", "ridge", "vault"),
+    "sequence": ("birch", "cedar", "elm", "larch", "pine", "yew"),
     "protocol": ("circle", "fork", "knot", "reed", "spire", "wave"),
 }
 CHANNEL_BANK = ("arch", "beacon", "cairn", "delta", "ember", "ford")
@@ -43,7 +45,7 @@ class FamilySpec:
     concept: str
     setting: str
     incident: str
-    branch_nouns: tuple[str, str, str, str]
+    branch_nouns: tuple[str, ...]
 
 
 FAMILIES = (
@@ -52,49 +54,91 @@ FAMILIES = (
         "concordant watchkeeper",
         "an icebound research vessel changing watches during a storm",
         "the emergency ballast release",
-        ("mentor pennant", "watch interval", "alarm consequence", "seal notch"),
+        (
+            "mentor pennant",
+            "watch interval",
+            "alarm consequence",
+            "assigned station",
+            "handover order",
+            "seal notch",
+        ),
     ),
     FamilySpec(
         "archive_provenance",
         "true chain custodian",
         "a monastic archive moving manuscripts before a flood",
         "the protected folio's final transfer",
-        ("copying lineage", "bell interval", "wax reaction", "cord pattern"),
+        (
+            "copying lineage",
+            "bell interval",
+            "wax reaction",
+            "archive room",
+            "transfer order",
+            "cord pattern",
+        ),
     ),
     FamilySpec(
         "fault_network",
         "convergent responder",
         "an orbital habitat tracing a cascading cooling fault",
         "the isolation command that restored the habitat",
-        ("relay affiliation", "diagnostic interval", "downstream symptom", "breaker mark"),
+        (
+            "relay affiliation",
+            "diagnostic interval",
+            "downstream symptom",
+            "service sector",
+            "response order",
+            "breaker mark",
+        ),
     ),
     FamilySpec(
         "delegated_authority",
         "valid emergency delegate",
         "a city museum evacuating its collection during a power failure",
         "the lawful release of the sealed collection",
-        ("deputy chain", "authority window", "release consequence", "witness token"),
+        (
+            "deputy chain",
+            "authority window",
+            "release consequence",
+            "collection zone",
+            "signature order",
+            "witness token",
+        ),
     ),
     FamilySpec(
         "expedition_signal",
         "coherent signal bearer",
         "a desert expedition decoding a chain of emergency beacons",
         "the transmission that redirected the rescue convoy",
-        ("team pairing", "signal interval", "repeater response", "cipher glyph"),
+        (
+            "team pairing",
+            "signal interval",
+            "repeater response",
+            "beacon sector",
+            "relay order",
+            "cipher glyph",
+        ),
     ),
     FamilySpec(
         "workshop_provenance",
         "certified restoration lead",
         "a conservation workshop tracing a damaged artifact through several rooms",
         "the treatment that stabilized the artifact",
-        ("apprentice lineage", "work interval", "chemical response", "tool stamp"),
+        (
+            "apprentice lineage",
+            "work interval",
+            "chemical response",
+            "workshop room",
+            "treatment order",
+            "tool stamp",
+        ),
     ),
 )
 
 MAIN_STEMS = (
     "Under the local rules, who alone became the {concept}? Give the full name.",
     "Which participant satisfies every condition for {concept}? Answer with the full name.",
-    "Reconstruct the four rule chains. Who qualifies as {concept}? Provide the full name.",
+    "Reconstruct the six rule chains. Who qualifies as {concept}? Provide the full name.",
     "Whose combined record makes that person the {concept}? Give the full name.",
     "After applying all stated rules, identify the {concept} by full name.",
     "Who is forced to be the {concept}, rather than merely matching part of the pattern? "
@@ -320,9 +364,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             LogicAtom(predicate=f"{branch}_ok", arguments=["?person"]) for branch in BRANCHES
         ],
         conclusion=LogicAtom(predicate="qualifies", arguments=["?person"]),
-        explanation=(
-            f"The title {family.concept} requires all four independently certified marks."
-        ),
+        explanation=(f"The title {family.concept} requires all six independently certified marks."),
     )
     rules.append(final_rule)
     visible_facts.append(
@@ -330,7 +372,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             final_rule,
             (
                 f"The final definition was strict: the {family.concept} was one person who "
-                "held all four certified marks—no three-mark near match qualified."
+                "held all six certified marks—no five-mark near match qualified."
             ),
             "sc5",
             order,
@@ -360,7 +402,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         visible=visible,
         questions=questions,
         offline_draft=draft,
-        n_hops=34,
+        n_hops=50,
     )
 
 
@@ -387,7 +429,8 @@ def _assignments(
     for branch_idx, branch in enumerate(BRANCHES):
         values = VALUE_BANK[branch]
         accepted = values[_pick(seed, f"{branch}:accepted", len(values))]
-        alternate = values[(values.index(accepted) + 1 + branch_idx) % len(values)]
+        shift = 1 + branch_idx % (len(values) - 1)
+        alternate = values[(values.index(accepted) + shift) % len(values)]
         branch_values: dict[str, str] = {}
         for idx, (person_id, _label) in enumerate(names):
             passes = idx == answer_idx or (
@@ -456,7 +499,7 @@ def _questions(
     runner_id: str,
 ) -> QuestionBundle:
     main = MAIN_STEMS[recipe.seed % len(MAIN_STEMS)].format(concept=family.concept)
-    relation_noun, temporal_noun, causal_noun, protocol_noun = family.branch_nouns
+    protocol_noun = family.branch_nouns[-1]
     questions = [
         ScoredQuestion(
             id="q_main",
@@ -468,8 +511,7 @@ def _questions(
         ScoredQuestion(
             id="q_near_match",
             question=(
-                f"Who matched the {relation_noun}, {temporal_noun}, and {causal_noun} "
-                f"branches but failed only the {protocol_noun} branch? Give the full name."
+                f"Who matched every branch except the {protocol_noun} branch? Give the full name."
             ),
             gold_answer=runner,
             gold_answer_variants=name_answer_variants(runner),
@@ -499,8 +541,8 @@ def _questions(
         gold_answer=answer,
         questions=questions,
         supported_conclusions=[
-            f"{answer} satisfies all four certified branches.",
-            f"{runner} is the three-branch near match.",
+            f"{answer} satisfies all six certified branches.",
+            f"{runner} is the five-branch near match.",
         ],
         counterfactual=CounterfactualTask(
             question=questions[2].question,
@@ -547,6 +589,22 @@ def _assignment_sentence(
             "The causal review attributes the {value} {noun} to {label}'s action.",
             "Only the {value} {noun} followed from the step performed by {label}.",
         ),
+        "spatial": (
+            "{label}'s verified route ended in the {value} {noun}.",
+            "A door record places {label} at the {value} {noun}.",
+            "The route sketch assigns the {value} {noun} to {label}.",
+            "{label}'s location check resolved to the {value} {noun}.",
+            "A witness last saw {label} beside the {value} {noun}.",
+            "The movement ledger ties {label} to the {value} {noun}.",
+        ),
+        "sequence": (
+            "{label}'s action occupied the {value} {noun}.",
+            "The ordered log gives {label} the {value} {noun}.",
+            "A signed sequence note places the {value} {noun} beside {label}.",
+            "{label}'s confirmed step carried the {value} {noun}.",
+            "The reconstruction assigns the {value} {noun} to {label}.",
+            "At sequence review, {label} retained the {value} {noun}.",
+        ),
         "protocol": (
             "{label}'s sealed kit carried the {value} {noun}.",
             "The token checked out to {label} displayed the {value} {noun}.",
@@ -561,13 +619,7 @@ def _assignment_sentence(
 
 
 def _key_sentence(_family: FamilySpec, branch: str, noun: str, value: str) -> str:
-    forms = {
-        "relation": f"The relation notice accepted {value} as the final {noun} status.",
-        "temporal": f"The timing notice accepted {value} as the final {noun} status.",
-        "causal": f"The causal notice accepted {value} as the final {noun} status.",
-        "protocol": f"The protocol notice accepted {value} as the final {noun} status.",
-    }
-    return forms[branch]
+    return f"The {branch} notice accepted {value} as the final {noun} status."
 
 
 def _visible(
