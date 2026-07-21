@@ -27,15 +27,6 @@ from cogito_mill.eval.score import name_answer_variants
 from cogito_mill.pipelines.templates import FIRST, LAST
 
 BRANCHES = ("relation", "temporal", "causal", "spatial", "sequence", "protocol")
-VALUE_BANK = {
-    "relation": ("amber", "cobalt", "ivory", "saffron", "violet", "silver"),
-    "temporal": ("first", "second", "third", "fourth", "fifth", "sixth"),
-    "causal": ("echo", "flare", "hush", "ripple", "spark", "wake"),
-    "spatial": ("bridge", "court", "gallery", "harbor", "ridge", "vault"),
-    "sequence": ("birch", "cedar", "elm", "larch", "pine", "yew"),
-    "protocol": ("circle", "fork", "knot", "reed", "spire", "wave"),
-}
-CHANNEL_BANK = ("arch", "beacon", "cairn", "delta", "ember", "ford")
 STATUS_BANK = ("clear", "dormant", "latent", "open", "stable", "waking")
 
 
@@ -172,44 +163,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     assignments = _assignments(recipe.seed, names, answer_idx, runner_idx)
     status_by_person: dict[str, dict[str, str]] = {person_id: {} for person_id, _label in names}
     logic_facts: list[LogicAtom] = [LogicAtom(predicate="protocol_active")]
-    rules: list[LogicRule] = [
-        LogicRule(
-            id="trace_channel",
-            premises=[
-                LogicAtom(
-                    predicate="link",
-                    arguments=["?branch", "?person", "?raw"],
-                ),
-                LogicAtom(
-                    predicate="channel_map",
-                    arguments=["?branch", "?raw", "?channel"],
-                ),
-            ],
-            conclusion=LogicAtom(
-                predicate="derived_channel",
-                arguments=["?branch", "?person", "?channel"],
-            ),
-            explanation="Trace a raw record through its branch conversion to a channel.",
-        ),
-        LogicRule(
-            id="resolve_status",
-            premises=[
-                LogicAtom(
-                    predicate="derived_channel",
-                    arguments=["?branch", "?person", "?channel"],
-                ),
-                LogicAtom(
-                    predicate="status_map",
-                    arguments=["?branch", "?channel", "?status"],
-                ),
-            ],
-            conclusion=LogicAtom(
-                predicate="derived_status",
-                arguments=["?branch", "?person", "?status"],
-            ),
-            explanation="Resolve that channel through the same branch's status note.",
-        ),
-    ]
+    rules: list[LogicRule] = []
     visible_facts: list[VisibleFact] = [
         _visible(
             "f_protocol_active",
@@ -222,78 +176,32 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             1,
         )
     ]
-    common_rules = (
-        "For every evidence stream, the panel first translated a person's raw entry through "
-        "that stream's conversion note to a channel.",
-        "It then resolved the channel through the status note belonging to the same stream.",
-    )
-    for index, (rule, text) in enumerate(zip(rules, common_rules, strict=True), start=1):
-        visible_facts.append(_rule_visible(rule, text, "sc1", index + 1))
-
-    order = 4
+    order = 2
     for branch_idx, branch in enumerate(BRANCHES):
         noun = family.branch_nouns[branch_idx]
-        raw_values = VALUE_BANK[branch]
-        channel_values = _permutation(recipe.seed, f"{branch}:channels", CHANNEL_BANK)
-        status_values = _permutation(recipe.seed, f"{branch}:statuses", STATUS_BANK)
-        raw_to_channel = dict(zip(raw_values, channel_values, strict=True))
-        channel_to_status = dict(zip(channel_values, status_values, strict=True))
-        used_raw_values = tuple(sorted(set(assignments[branch].values())))
-        used_channels = tuple(raw_to_channel[value] for value in used_raw_values)
         for person_id, _label in names:
-            status_by_person[person_id][branch] = channel_to_status[
-                raw_to_channel[assignments[branch][person_id]]
-            ]
+            status_by_person[person_id][branch] = assignments[branch][person_id]
 
         for person_idx, (person_id, label) in enumerate(names):
-            value = assignments[branch][person_id]
+            status = assignments[branch][person_id]
             atom = LogicAtom(
-                predicate="link",
-                arguments=[branch, person_id, value],
+                predicate="derived_status",
+                arguments=[branch, person_id, status],
             )
             logic_facts.append(atom)
             visible_facts.append(
                 _visible(
                     f"f_{branch}_{person_id}",
-                    _assignment_sentence(family, branch, noun, label, value, person_idx),
+                    _assignment_sentence(
+                        family,
+                        branch,
+                        noun,
+                        label,
+                        status,
+                        person_idx,
+                    ),
                     atom,
                     f"sc{2 + (branch_idx + person_idx) % 3}",
-                    order,
-                )
-            )
-            order += 1
-
-        for map_idx, raw_value in enumerate(used_raw_values):
-            channel = raw_to_channel[raw_value]
-            atom = LogicAtom(
-                predicate="channel_map",
-                arguments=[branch, raw_value, channel],
-            )
-            logic_facts.append(atom)
-            visible_facts.append(
-                _visible(
-                    f"f_{branch}_channel_{raw_value}",
-                    (f"In the {noun} conversion legend, {raw_value} led to the {channel} channel."),
-                    atom,
-                    f"sc{1 + (map_idx + branch_idx) % 4}",
-                    order,
-                )
-            )
-            order += 1
-
-        for map_idx, channel in enumerate(used_channels):
-            status = channel_to_status[channel]
-            atom = LogicAtom(
-                predicate="status_map",
-                arguments=[branch, channel, status],
-            )
-            logic_facts.append(atom)
-            visible_facts.append(
-                _visible(
-                    f"f_{branch}_status_{channel}",
-                    (f"For {noun}, the {channel} channel resolved to {status} status."),
-                    atom,
-                    f"sc{1 + (map_idx + branch_idx + 2) % 4}",
                     order,
                 )
             )
@@ -441,31 +349,19 @@ def _assignments(
     answer_idx: int,
     runner_idx: int,
 ) -> dict[str, dict[str, str]]:
+    del answer_idx, runner_idx
     result: dict[str, dict[str, str]] = {}
-    missing_branch: dict[int, str] = {runner_idx: "protocol"}
-    alternatives = [branch for branch in BRANCHES if branch != "protocol"]
-    rotation = seed % len(alternatives)
-    alternatives = alternatives[rotation:] + alternatives[:rotation]
-    other_indices = [idx for idx in range(len(names)) if idx not in {answer_idx, runner_idx}]
-    for position, idx in enumerate(other_indices):
-        missing_branch[idx] = alternatives[position % len(alternatives)]
-
     for branch_idx, branch in enumerate(BRANCHES):
-        values = VALUE_BANK[branch]
-        accepted = values[_pick(seed, f"{branch}:accepted", len(values))]
-        shift = 1 + branch_idx % (len(values) - 1)
-        alternate = values[(values.index(accepted) + shift) % len(values)]
-        branch_values: dict[str, str] = {}
-        for idx, (person_id, _label) in enumerate(names):
-            passes = idx == answer_idx or missing_branch[idx] != branch
-            branch_values[person_id] = (
-                accepted
-                if passes
-                else values[(values.index(alternate) + idx + branch_idx) % len(values)]
-            )
-            if not passes and branch_values[person_id] == accepted:
-                branch_values[person_id] = alternate
-        result[branch] = branch_values
+        statuses = _permutation(seed, f"{branch}:assignments", STATUS_BANK)
+        step = (1, 5, 1, 5, 1, 5)[branch_idx]
+        offset = _pick(seed, f"{branch}:offset", len(statuses))
+        result[branch] = {
+            person_id: statuses[
+                (offset + step * person_idx + branch_idx * (person_idx // len(statuses)))
+                % len(statuses)
+            ]
+            for person_idx, (person_id, _label) in enumerate(names)
+        }
     return result
 
 
@@ -479,28 +375,35 @@ def _checksum_plan(
     status_order = _permutation(seed, "checksum-weights", STATUS_BANK)
     weights = {status: index for index, status in enumerate(status_order)}
     base_coefficients = (2, 3, 5, 7, 11, 13)
-    rotation = seed % len(base_coefficients)
-    coefficients = base_coefficients[rotation:] + base_coefficients[:rotation]
-    for modulus in (97, 101, 103, 107, 109):
-        checksums = {
-            person_id: sum(
-                coefficient * weights[statuses[branch]]
-                for branch, coefficient in zip(
-                    BRANCHES,
-                    coefficients,
-                    strict=True,
-                )
+    for attempt in range(64):
+        coefficients = tuple(
+            sorted(
+                base_coefficients,
+                key=lambda coefficient: hashlib.sha256(
+                    f"{seed}:coefficient:{attempt}:{coefficient}".encode()
+                ).digest(),
             )
-            % modulus
-            for person_id, statuses in status_by_person.items()
-        }
-        values = list(checksums.values())
-        if (
-            values.count(checksums[answer_id]) == 1
-            and values.count(checksums[runner_id]) == 1
-            and checksums[answer_id] != checksums[runner_id]
-        ):
-            return weights, coefficients, modulus, checksums
+        )
+        for modulus in (97, 101, 103, 107, 109):
+            checksums = {
+                person_id: sum(
+                    coefficient * weights[statuses[branch]]
+                    for branch, coefficient in zip(
+                        BRANCHES,
+                        coefficients,
+                        strict=True,
+                    )
+                )
+                % modulus
+                for person_id, statuses in status_by_person.items()
+            }
+            values = list(checksums.values())
+            if (
+                values.count(checksums[answer_id]) == 1
+                and values.count(checksums[runner_id]) == 1
+                and checksums[answer_id] != checksums[runner_id]
+            ):
+                return weights, coefficients, modulus, checksums
     raise ValueError("could not construct unique checksum targets")
 
 
@@ -618,52 +521,52 @@ def _assignment_sentence(
 ) -> str:
     templates = {
         "relation": (
-            "{label}'s signed handover bears the {value} {noun}.",
-            "A witness remembers the {value} {noun} beside {label}'s name.",
-            "The earlier pairing note gives {label} the {value} {noun}.",
-            "A damaged roster still links the {value} {noun} to {label}.",
-            "On the sealed worksheet, {label} is paired with the {value} {noun}.",
-            "The review panel confirms that {label}'s {noun} was {value}.",
+            "{label}'s signed {noun} review resolved to {value} status.",
+            "A witness check left {label}'s {noun} at {value} status.",
+            "The earlier pairing note gave {label} a {value} {noun} status.",
+            "A damaged roster still assigned {value} status to {label}'s {noun}.",
+            "On the sealed worksheet, {label}'s {noun} status was {value}.",
+            "The review panel confirmed {value} status for {label}'s {noun}.",
         ),
         "temporal": (
-            "{label} completed the logged duty in the {value} {noun}.",
-            "The {value} {noun} was the period in which {label} signed the handover.",
-            "A clock-backed entry puts {label}'s work in the {value} {noun}.",
-            "{label}'s only verified activity falls inside the {value} {noun}.",
-            "The sequence sheet assigns the {value} {noun} to {label}.",
-            "After the timings were reconciled, {label} remained in the {value} {noun}.",
+            "{label}'s logged {noun} resolved to {value} status.",
+            "The clock review gave {label}'s {noun} a {value} status.",
+            "A clock-backed entry put {label}'s {noun} at {value} status.",
+            "{label}'s verified {noun} carried {value} status.",
+            "The sequence sheet assigned {value} status to {label}'s {noun}.",
+            "After reconciliation, {label}'s {noun} status remained {value}.",
         ),
         "causal": (
-            "{label}'s intervention produced the {value} {noun} downstream.",
-            "When {label} acted, instruments registered the {value} {noun}.",
-            "The consequence traced to {label} was the {value} {noun}.",
-            "{label}'s action propagated until it caused the {value} {noun}.",
-            "The causal review attributes the {value} {noun} to {label}'s action.",
-            "Only the {value} {noun} followed from the step performed by {label}.",
+            "{label}'s downstream {noun} resolved to {value} status.",
+            "When {label} acted, instruments gave the {noun} {value} status.",
+            "The {noun} traced to {label} carried {value} status.",
+            "{label}'s action left the {noun} at {value} status.",
+            "The causal review assigned {value} status to {label}'s {noun}.",
+            "The {noun} following {label}'s step registered {value} status.",
         ),
         "spatial": (
-            "{label}'s verified route ended in the {value} {noun}.",
-            "A door record places {label} at the {value} {noun}.",
-            "The route sketch assigns the {value} {noun} to {label}.",
-            "{label}'s location check resolved to the {value} {noun}.",
-            "A witness last saw {label} beside the {value} {noun}.",
-            "The movement ledger ties {label} to the {value} {noun}.",
+            "{label}'s verified {noun} route resolved to {value} status.",
+            "A door review gave {label}'s {noun} {value} status.",
+            "The route sketch assigned {value} status to {label}'s {noun}.",
+            "{label}'s {noun} location check resolved to {value} status.",
+            "A witness check left {label}'s {noun} at {value} status.",
+            "The movement ledger tied {label}'s {noun} to {value} status.",
         ),
         "sequence": (
-            "{label}'s action occupied the {value} {noun}.",
-            "The ordered log gives {label} the {value} {noun}.",
-            "A signed sequence note places the {value} {noun} beside {label}.",
-            "{label}'s confirmed step carried the {value} {noun}.",
-            "The reconstruction assigns the {value} {noun} to {label}.",
-            "At sequence review, {label} retained the {value} {noun}.",
+            "{label}'s {noun} resolved to {value} status.",
+            "The ordered log gave {label}'s {noun} {value} status.",
+            "A sequence note placed {value} status beside {label}'s {noun}.",
+            "{label}'s confirmed {noun} carried {value} status.",
+            "The reconstruction assigned {value} status to {label}'s {noun}.",
+            "At sequence review, {label}'s {noun} remained {value}.",
         ),
         "protocol": (
-            "{label}'s sealed kit carried the {value} {noun}.",
-            "The token checked out to {label} displayed the {value} {noun}.",
-            "A close photograph shows the {value} {noun} on {label}'s tag.",
-            "{label} acknowledged receiving the {value} {noun}.",
-            "The inventory records the {value} {noun} against {label}.",
-            "At final count, {label} still held the {value} {noun}.",
+            "{label}'s sealed {noun} check resolved to {value} status.",
+            "The token checked out to {label} gave the {noun} {value} status.",
+            "A close photograph set {label}'s {noun} at {value} status.",
+            "{label}'s acknowledged {noun} carried {value} status.",
+            "The inventory recorded {value} status for {label}'s {noun}.",
+            "At final count, {label}'s {noun} status remained {value}.",
         ),
     }
     template = templates[branch][variant % len(templates[branch])]
