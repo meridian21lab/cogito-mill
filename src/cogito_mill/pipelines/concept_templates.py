@@ -534,7 +534,7 @@ def _questions(
             question="What exact integer checksum did the board accept?",
             gold_answer=checksum_key,
             gold_answer_variants=[checksum_key],
-            question_type="code",
+            question_type="scalar",
         ),
     ]
     return QuestionBundle(

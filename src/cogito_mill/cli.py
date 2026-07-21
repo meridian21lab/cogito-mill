@@ -148,7 +148,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     ev = sub.add_parser("evaluate", help="Blind-evaluate a solver model on the pilot set")
     ev.add_argument("--dataset", default="ksopyla/long-story-short-pilot")
-    ev.add_argument("--config", default="pilot_v0")
+    ev.add_argument("--config", default="pilot_v2")
     ev.add_argument("--split", default="train")
     ev.add_argument("--limit", type=int, default=50)
     ev.add_argument("--solver-provider", default="azure", choices=["azure", "glm"])

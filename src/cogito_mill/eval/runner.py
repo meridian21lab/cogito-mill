@@ -84,7 +84,7 @@ def _iter_qa(row: dict[str, Any]) -> list[dict[str, Any]]:
 def evaluate_dataset(
     *,
     dataset: str = "ksopyla/long-story-short-pilot",
-    config: str = "pilot_v0",
+    config: str = "pilot_v2",
     split: str = "train",
     limit: int | None = 50,
     solver_provider: str = "azure",

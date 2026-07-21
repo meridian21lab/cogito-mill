@@ -27,7 +27,13 @@ class ScoredQuestion(BaseModel):
     question: str
     gold_answer: str
     gold_answer_variants: list[str] = Field(default_factory=list)
-    question_type: Literal["main", "intermediate", "counterfactual", "code"] = "main"
+    question_type: Literal[
+        "main",
+        "intermediate",
+        "counterfactual",
+        "code",
+        "scalar",
+    ] = "main"
 
     @model_validator(mode="after")
     def _normalize_variants(self) -> ScoredQuestion:

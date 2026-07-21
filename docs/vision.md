@@ -151,13 +151,18 @@ In addition to the single-item MVP, the **pilot slice** is authorized to:
 2. publish a thin human-facing projection to Hugging Face
    (`ksopyla/long-story-short-pilot`, config `pilot_v0`);
 3. run a blind evaluation suite against the Azure **Luna** writer deployment;
-4. iterate recipe difficulty until Luna final-answer accuracy is **≤30%** (or document
-   best effort after at most three refine rounds).
+4. iterate measured structural difficulty until Luna final-answer accuracy is **≤30%**;
+   narration and diversity remain independent acceptance gates.
 
 Pilot stories target roughly **1.5k–6k tokens**. Hardness comes from hop count, distractors,
 and disclosure sparsity—not length padding. The default Hub schema stays deliberately thin
 (`id`, `story`, `question`, `gold_answer`, `n_hops`, `setting_family`, `difficulty_bucket`).
 Full proofs and provenance remain in local artifacts / optional Hub configs.
+
+The `pilot_v2` calibration slice additionally tests execution of a story-defined concept:
+six independently grounded evidence statuses feed a seed-specific iterated modular rule. This
+is a synthetic local protocol, not a claim that generalized spatial or epistemic reasoning has
+landed. Its cycle count creates real state-transition depth without adding narrative padding.
 
 ## Explicitly deferred
 

@@ -40,7 +40,7 @@ class RunManifest(BaseModel):
     seed: int
     provider_family: str
     recipe_id: str
-    schema_version: str = "pilot.v1"
+    schema_version: str = "pilot.v2"
     terminal_reason: str | None = None
     artifact_dir: str | None = None
     content_hashes: dict[str, str] = Field(default_factory=dict)
@@ -50,7 +50,7 @@ class RunManifest(BaseModel):
 
 class AcceptedItem(BaseModel):
     id: str
-    schema_version: str = "pilot.v1"
+    schema_version: str = "pilot.v2"
     run_id: str
     story: str
     sentences: list[Sentence] = Field(default_factory=list)

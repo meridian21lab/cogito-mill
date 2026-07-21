@@ -361,7 +361,8 @@ artifact history.
 - Batch-generate 100–200 accepted items with template-backed recipes.
 - Pack a thin Hub projection and publish `ksopyla/long-story-short-pilot`.
 - Blind-evaluate Azure Luna (writer deployment) on story+question only.
-- If accuracy > 30%, tighten structural difficulty and repeat (max 3 rounds).
+- If accuracy > 30%, identify the measured failure mode, tighten structural difficulty, and
+  repeat. Narration and diversity must pass before each Luna run.
 
 ### CLI
 
@@ -376,7 +377,10 @@ uv run cogito-mill evaluate --dataset ksopyla/long-story-short-pilot --solver-pr
 - ≥100 accepted locally verified items (target 150–200).
 - Local pack always works; Hub publish requires a write-capable `HF_TOKEN`.
 - Eval metrics JSON retained under `data/processed/evals/`.
-- Luna accuracy ≤30%, or a written best-effort report after three refine rounds.
+- Development gate: observed Luna main-question accuracy ≤30% with full prediction coverage.
+- Release gate: one-sided 95% Wilson upper bound ≤30% on a larger balanced pack.
+- Narration and pack-level diversity gates pass independently; hardness never compensates for
+  unreadable or repeated stories.
 
 ## Post-MVP roadmap
 
