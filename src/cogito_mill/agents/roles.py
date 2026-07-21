@@ -76,9 +76,9 @@ class OfflineAgentSuite:
             target_question=f"Who satisfies the locally defined concept {concept}?",
             intended_answer="selected only by the deterministic formal theory",
             composition_notes=(
-                "Disperse six independent relational, temporal, causal, spatial, sequence, "
-                "and protocol streams. Keep the checksum rule explicit and every candidate "
-                "plausible."
+                "Disperse early and late checks for six independent relational, temporal, "
+                "causal, spatial, sequence, and protocol streams. Keep the checksum rule "
+                "explicit and every candidate plausible."
             ),
         )
 
@@ -144,10 +144,10 @@ class LiveAgentSuite:
 Create one compact narrative premise for the fixed family {family_id!r}.
 The setting must remain: {setting}
 The locally defined target concept must remain exactly: {concept}
-Define that concept crisply as the one participant whose six transformed evidence streams
-produce the incident's accepted weighted checksum under the local rules. The streams are
-relational, temporal, causal, spatial, sequence, and protocol. Do not choose or hint at the
-answer. The formalizer and deterministic code will choose
+Define that concept crisply as the one participant whose twelve evidence statuses produce
+the incident's accepted weighted checksum under the local rules. The statuses are early and
+late checks of relational, temporal, causal, spatial, sequence, and protocol evidence. Do not
+choose or hint at the answer. The formalizer and deterministic code will choose
 the answer. Make the premise natural, self-contained, and unlike a generic murder mystery.
 Prior critic feedback: {feedback or "none"}
 Recipe: {recipe.model_dump_json()}
@@ -166,7 +166,7 @@ Gate the proposal for: compatibility with family {family_id}; self-containment; 
 narrative premise; no answer hint; explicit need to combine relational, temporal, causal,
 spatial, sequence, and local-protocol evidence; and low resemblance to a stock locked-room
 mystery. The benchmark intentionally defines its target concept locally as the person whose
-six-stream weighted checksum equals the accepted checksum. Treat that as a crisp success
+twelve-stream weighted checksum equals the accepted checksum. Treat that as a crisp success
 condition; do not demand an external job title or add another condition. Recommend revision
 only when a listed gate actually fails.
 Do not judge formal truth—the deterministic solver does that.
@@ -199,7 +199,7 @@ CRITICAL GROUNDING CONTRACT:
   why an auditor, witness, or participant checks each alternative instead of serializing a table.
 - You may add connective narration, reactions, and atmosphere, but no new logical facts.
 - Do not turn the evidence into a table, ledger dump, bullet list, or repeated template.
-- Give the six evidence threads distinct incident functions and scene-level purposes.
+- Give the twelve early/late evidence checks distinct incident functions and scene purposes.
 - Keep all local rules explicit. A reader must be able to solve without outside knowledge.
 - Each scene's obligated_fact_ids must remain exactly those in the scaffold.
 
@@ -219,7 +219,7 @@ Repair feedback: {feedback or "none"}
     ) -> CriticReport:
         prompt = f"""You are a blind narrative-quality critic for a reasoning benchmark.
 Return accept only if the story is coherent narration, each clue is naturally integrated,
-the six reasoning branches remain trackable but nontrivial, local rules are clear, prose is
+the twelve evidence streams remain trackable but nontrivial, local rules are clear, prose is
 not a disguised table, the answer is not asserted, and every question is unambiguous.
 Return revise with actionable sentence-level feedback for repairable prose; reject only for
 an irreparable premise. Deterministic grounding has priority and reports:
