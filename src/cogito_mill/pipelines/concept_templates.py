@@ -33,6 +33,8 @@ VALUE_BANK = {
     "causal": ("echo", "flare", "hush", "ripple", "spark", "wake"),
     "protocol": ("circle", "fork", "knot", "reed", "spire", "wave"),
 }
+CHANNEL_BANK = ("arch", "beacon", "cairn", "delta", "ember", "ford")
+STATUS_BANK = ("clear", "dormant", "latent", "open", "stable", "waking")
 
 
 @dataclass(frozen=True)
@@ -124,7 +126,8 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     runner_id, runner_label = names[runner_idx]
 
     assignments = _assignments(recipe.seed, names, answer_idx, runner_idx)
-    accepted = {branch: assignments[branch][answer_id] for branch in BRANCHES}
+    accepted_outputs: dict[str, str] = {}
+    runner_outputs: dict[str, str] = {}
     logic_facts: list[LogicAtom] = [LogicAtom(predicate="protocol_active")]
     rules: list[LogicRule] = []
     visible_facts: list[VisibleFact] = [
@@ -143,6 +146,16 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     order = 2
     for branch_idx, branch in enumerate(BRANCHES):
         noun = family.branch_nouns[branch_idx]
+        raw_values = VALUE_BANK[branch]
+        channel_values = _permutation(recipe.seed, f"{branch}:channels", CHANNEL_BANK)
+        status_values = _permutation(recipe.seed, f"{branch}:statuses", STATUS_BANK)
+        raw_to_channel = dict(zip(raw_values, channel_values, strict=True))
+        channel_to_status = dict(zip(channel_values, status_values, strict=True))
+        accepted_output = channel_to_status[raw_to_channel[assignments[branch][answer_id]]]
+        runner_output = channel_to_status[raw_to_channel[assignments[branch][runner_id]]]
+        accepted_outputs[branch] = accepted_output
+        runner_outputs[branch] = runner_output
+
         for person_idx, (person_id, label) in enumerate(names):
             value = assignments[branch][person_id]
             atom = LogicAtom(predicate=f"{branch}_link", arguments=[person_id, value])
@@ -158,12 +171,48 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             )
             order += 1
 
-        key_atom = LogicAtom(predicate=f"{branch}_key", arguments=[accepted[branch]])
+        for map_idx, raw_value in enumerate(raw_values):
+            channel = raw_to_channel[raw_value]
+            atom = LogicAtom(
+                predicate=f"{branch}_channel_map",
+                arguments=[raw_value, channel],
+            )
+            logic_facts.append(atom)
+            visible_facts.append(
+                _visible(
+                    f"f_{branch}_channel_{raw_value}",
+                    (f"In the {noun} conversion legend, {raw_value} led to the {channel} channel."),
+                    atom,
+                    f"sc{1 + (map_idx + branch_idx) % 4}",
+                    order,
+                )
+            )
+            order += 1
+
+        for map_idx, channel in enumerate(channel_values):
+            status = channel_to_status[channel]
+            atom = LogicAtom(
+                predicate=f"{branch}_status_map",
+                arguments=[channel, status],
+            )
+            logic_facts.append(atom)
+            visible_facts.append(
+                _visible(
+                    f"f_{branch}_status_{channel}",
+                    (f"For {noun}, the {channel} channel resolved to {status} status."),
+                    atom,
+                    f"sc{1 + (map_idx + branch_idx + 2) % 4}",
+                    order,
+                )
+            )
+            order += 1
+
+        key_atom = LogicAtom(predicate=f"{branch}_key", arguments=[accepted_output])
         logic_facts.append(key_atom)
         visible_facts.append(
             _visible(
                 f"f_{branch}_key",
-                _key_sentence(family, branch, noun, accepted[branch]),
+                _key_sentence(family, branch, noun, accepted_output),
                 key_atom,
                 f"sc{2 + branch_idx % 3}",
                 order,
@@ -171,49 +220,99 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         )
         order += 1
 
-        mark_rule = LogicRule(
-            id=f"{branch}_match",
+        channel_rule = LogicRule(
+            id=f"{branch}_trace_channel",
             premises=[
-                LogicAtom(predicate=f"{branch}_link", arguments=["?person", "?value"]),
-                LogicAtom(predicate=f"{branch}_key", arguments=["?value"]),
+                LogicAtom(predicate=f"{branch}_link", arguments=["?person", "?raw"]),
+                LogicAtom(
+                    predicate=f"{branch}_channel_map",
+                    arguments=["?raw", "?channel"],
+                ),
+            ],
+            conclusion=LogicAtom(
+                predicate=f"{branch}_channel",
+                arguments=["?person", "?channel"],
+            ),
+            explanation=f"Translate a person's raw {noun} through the conversion legend.",
+        )
+        status_rule = LogicRule(
+            id=f"{branch}_resolve_status",
+            premises=[
+                LogicAtom(
+                    predicate=f"{branch}_channel",
+                    arguments=["?person", "?channel"],
+                ),
+                LogicAtom(
+                    predicate=f"{branch}_status_map",
+                    arguments=["?channel", "?status"],
+                ),
+            ],
+            conclusion=LogicAtom(
+                predicate=f"{branch}_status",
+                arguments=["?person", "?status"],
+            ),
+            explanation=f"Resolve the resulting {noun} channel to its status.",
+        )
+        match_rule = LogicRule(
+            id=f"{branch}_match_key",
+            premises=[
+                LogicAtom(
+                    predicate=f"{branch}_status",
+                    arguments=["?person", "?status"],
+                ),
+                LogicAtom(predicate=f"{branch}_key", arguments=["?status"]),
             ],
             conclusion=LogicAtom(predicate=f"{branch}_mark", arguments=["?person"]),
-            explanation=f"Match a person's {noun} value to the incident's accepted value.",
+            explanation=f"Compare the derived {noun} status with the accepted status.",
         )
-        ok_rule = LogicRule(
+        certify_rule = LogicRule(
             id=f"{branch}_certify",
             premises=[
                 LogicAtom(predicate=f"{branch}_mark", arguments=["?person"]),
                 LogicAtom(predicate="protocol_active"),
             ],
             conclusion=LogicAtom(predicate=f"{branch}_ok", arguments=["?person"]),
-            explanation=f"An active protocol turns the matching {noun} into a certified mark.",
+            explanation=f"Certify the matching {noun} mark under the active protocol.",
         )
-        rules.extend([mark_rule, ok_rule])
+        rules.extend([channel_rule, status_rule, match_rule, certify_rule])
         visible_facts.extend(
             [
                 _rule_visible(
-                    mark_rule,
+                    channel_rule,
                     (
-                        f"The board's {noun} rule said that a person's recorded value had to "
-                        "equal the accepted value for this incident; only then did that branch "
-                        "receive a mark."
+                        f"The first {noun} rule required tracing each person's raw value "
+                        "through the conversion legend to a channel."
                     ),
                     f"sc{1 + branch_idx % 2}",
                     order,
                 ),
                 _rule_visible(
-                    ok_rule,
-                    (
-                        f"A matching {noun} counted as certified only while the incident "
-                        "protocol remained active."
-                    ),
+                    status_rule,
+                    (f"The second {noun} rule converted that channel into its listed status."),
                     f"sc{1 + branch_idx % 2}",
                     order + 1,
                 ),
+                _rule_visible(
+                    match_rule,
+                    (
+                        f"The {noun} branch awarded a mark only when the derived status "
+                        "equaled the accepted status."
+                    ),
+                    f"sc{1 + branch_idx % 2}",
+                    order + 2,
+                ),
+                _rule_visible(
+                    certify_rule,
+                    (
+                        f"A matching {noun} mark counted as certified only while the incident "
+                        "protocol remained active."
+                    ),
+                    f"sc{1 + branch_idx % 2}",
+                    order + 3,
+                ),
             ]
         )
-        order += 2
+        order += 4
 
     final_rule = LogicRule(
         id=f"final_{family.id}",
@@ -250,8 +349,8 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         family,
         answer_label,
         runner_label,
-        accepted["protocol"],
-        assignments["protocol"][runner_id],
+        accepted_outputs["protocol"],
+        runner_outputs["protocol"],
         runner_id,
     )
     draft = _offline_draft(recipe, family, visible_facts)
@@ -261,7 +360,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         visible=visible,
         questions=questions,
         offline_draft=draft,
-        n_hops=13,
+        n_hops=34,
     )
 
 
@@ -379,7 +478,7 @@ def _questions(
         ScoredQuestion(
             id="q_counterfactual",
             question=(
-                f"If the accepted {protocol_noun} value had been {runner_protocol!r} instead of "
+                f"If the accepted {protocol_noun} status had been {runner_protocol!r} instead of "
                 f"{protocol_key!r}, while every other record stayed fixed, who would become "
                 f"the {family.concept}? Give the full name."
             ),
@@ -389,7 +488,7 @@ def _questions(
         ),
         ScoredQuestion(
             id="q_protocol_key",
-            question=f"What exact one-word {protocol_noun} value did the board accept?",
+            question=f"What exact one-word {protocol_noun} status did the board accept?",
             gold_answer=protocol_key,
             gold_answer_variants=[protocol_key],
             question_type="code",
@@ -461,14 +560,12 @@ def _assignment_sentence(
     return template.format(label=label, value=value, noun=noun)
 
 
-def _key_sentence(family: FamilySpec, branch: str, noun: str, value: str) -> str:
+def _key_sentence(_family: FamilySpec, branch: str, noun: str, value: str) -> str:
     forms = {
-        "relation": (
-            f"The relation notice recognized the {value} {noun} and no other affiliation."
-        ),
-        "temporal": f"The timing rule selected the {value} {noun} as the valid window.",
-        "causal": f"The causal test required the {value} {noun} as its downstream result.",
-        "protocol": f"The protocol sheet accepted the {value} {noun} as its exact token.",
+        "relation": f"The relation notice accepted {value} as the final {noun} status.",
+        "temporal": f"The timing notice accepted {value} as the final {noun} status.",
+        "causal": f"The causal notice accepted {value} as the final {noun} status.",
+        "protocol": f"The protocol notice accepted {value} as the final {noun} status.",
     }
     return forms[branch]
 
@@ -546,6 +643,15 @@ def _offline_draft(
 
 def _pick(seed: int, salt: str, modulo: int) -> int:
     return hashlib.sha256(f"{seed}:{salt}".encode()).digest()[0] % modulo
+
+
+def _permutation(seed: int, salt: str, values: tuple[str, ...]) -> tuple[str, ...]:
+    return tuple(
+        sorted(
+            values,
+            key=lambda value: hashlib.sha256(f"{seed}:{salt}:{value}".encode()).digest(),
+        )
+    )
 
 
 __all__ = ["ConceptPuzzle", "FAMILIES", "build_concept_puzzle"]
