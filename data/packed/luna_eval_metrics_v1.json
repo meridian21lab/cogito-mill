@@ -1,0 +1,16 @@
+{
+  "eval_id": "eval-1784630516",
+  "n_stories": 12,
+  "n": 48,
+  "correct": 45,
+  "accuracy": 0.9375,
+  "main_n": 12,
+  "main_correct": 12,
+  "main_accuracy": 1.0,
+  "first_name_only_rate": 0.0,
+  "solver_provider": "azure",
+  "dataset": "/workspace/data/packed/pilot_v1.jsonl",
+  "config": "pilot_v0",
+  "max_accuracy_gate": 0.3,
+  "passed_hardness_gate": false
+}
