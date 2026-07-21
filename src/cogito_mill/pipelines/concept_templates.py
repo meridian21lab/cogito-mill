@@ -399,30 +399,45 @@ def _checksum_plan(
         for modulus in (97, 101, 103, 107, 109):
             checksums: dict[str, int] = {}
             for person_id, statuses in status_by_person.items():
-                checksum = start_value
-                passes = (
-                    (BRANCHES, coefficients),
-                    (tuple(reversed(BRANCHES)), tuple(reversed(coefficients))),
-                    (BRANCHES, coefficients[1:] + coefficients[:1]),
+                status_values = tuple(weights[statuses[branch]] for branch in BRANCHES)
+                checksums[person_id] = iterated_checksum(
+                    status_values,
+                    coefficients,
+                    start_value=start_value,
+                    modulus=modulus,
                 )
-                for branch_order, pass_coefficients in passes:
-                    for branch, coefficient in zip(
-                        branch_order,
-                        pass_coefficients,
-                        strict=True,
-                    ):
-                        checksum = (
-                            checksum * checksum + coefficient * weights[statuses[branch]]
-                        ) % modulus
-                checksums[person_id] = checksum
-            values = list(checksums.values())
+            checksum_values = list(checksums.values())
             if (
-                values.count(checksums[answer_id]) == 1
-                and values.count(checksums[runner_id]) == 1
+                checksum_values.count(checksums[answer_id]) == 1
+                and checksum_values.count(checksums[runner_id]) == 1
                 and checksums[answer_id] != checksums[runner_id]
             ):
                 return weights, coefficients, start_value, modulus, checksums
     raise ValueError("could not construct unique checksum targets")
+
+
+def iterated_checksum(
+    values: tuple[int, ...],
+    coefficients: tuple[int, ...],
+    *,
+    start_value: int,
+    modulus: int,
+) -> int:
+    """Execute the disclosed forward/reverse/rotated nonlinear recurrence."""
+    checksum = start_value
+    passes = (
+        (values, coefficients),
+        (tuple(reversed(values)), tuple(reversed(coefficients))),
+        (values, coefficients[1:] + coefficients[:1]),
+    )
+    for pass_values, pass_coefficients in passes:
+        for value, coefficient in zip(
+            pass_values,
+            pass_coefficients,
+            strict=True,
+        ):
+            checksum = (checksum * checksum + coefficient * value) % modulus
+    return checksum
 
 
 def _world(
@@ -675,4 +690,9 @@ def _permutation(seed: int, salt: str, values: tuple[str, ...]) -> tuple[str, ..
     )
 
 
-__all__ = ["ConceptPuzzle", "FAMILIES", "build_concept_puzzle"]
+__all__ = [
+    "ConceptPuzzle",
+    "FAMILIES",
+    "build_concept_puzzle",
+    "iterated_checksum",
+]

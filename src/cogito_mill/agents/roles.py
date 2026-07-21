@@ -237,9 +237,11 @@ Questions: {questions.model_dump_json()}
         prompt = f"""You are the final usability critic. The question bundle includes private
 gold answers and variants for dataset validation; these fields are never shown to the solver
 and are not answer leaks. Judge direct leakage only inside the story and reader-facing question
-text. Accept only if the item is self-contained, readable as a story, materially requires
-combining dispersed evidence, does not state which candidate satisfies the final concept in the
-story, and asks precise questions with explicit answer forms. Revise if wording can fix it;
+text. Deterministic code has already executed and verified the checksum; do not recompute or
+override its arithmetic. Accept only if the item is self-contained, readable as a story,
+materially requires combining dispersed evidence, does not state which candidate satisfies
+the final concept in the story, and asks precise questions with explicit answer forms.
+Revise if wording can fix it;
 reject if unusable.
 Story: {story.full_text}
 Questions: {questions.model_dump_json()}
