@@ -195,6 +195,8 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         status_values = _permutation(recipe.seed, f"{branch}:statuses", STATUS_BANK)
         raw_to_channel = dict(zip(raw_values, channel_values, strict=True))
         channel_to_status = dict(zip(channel_values, status_values, strict=True))
+        used_raw_values = tuple(sorted(set(assignments[branch].values())))
+        used_channels = tuple(raw_to_channel[value] for value in used_raw_values)
         accepted_output = channel_to_status[raw_to_channel[assignments[branch][answer_id]]]
         runner_output = channel_to_status[raw_to_channel[assignments[branch][runner_id]]]
         accepted_outputs[branch] = accepted_output
@@ -215,7 +217,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             )
             order += 1
 
-        for map_idx, raw_value in enumerate(raw_values):
+        for map_idx, raw_value in enumerate(used_raw_values):
             channel = raw_to_channel[raw_value]
             atom = LogicAtom(
                 predicate=f"{branch}_channel_map",
@@ -233,7 +235,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             )
             order += 1
 
-        for map_idx, channel in enumerate(channel_values):
+        for map_idx, channel in enumerate(used_channels):
             status = channel_to_status[channel]
             atom = LogicAtom(
                 predicate=f"{branch}_status_map",
