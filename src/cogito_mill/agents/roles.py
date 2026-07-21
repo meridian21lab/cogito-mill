@@ -143,6 +143,8 @@ class LiveAgentSuite:
 Create one compact narrative premise for the fixed family {family_id!r}.
 The setting must remain: {setting}
 The locally defined target concept must remain exactly: {concept}
+Define that concept crisply as the one participant whose record earns all four independently
+certified marks (relational, temporal, causal, and protocol) under the incident's local rules.
 Do not choose or hint at the answer. The formalizer will build four independent
 relational, temporal, causal, and protocol branches, and deterministic code will choose
 the answer. Make the premise natural, self-contained, and unlike a generic murder mystery.
@@ -162,6 +164,9 @@ Recipe: {recipe.model_dump_json()}
 Gate the proposal for: compatibility with family {family_id}; self-containment; a natural
 narrative premise; no answer hint; explicit need to combine relational, temporal, causal,
 and local-protocol evidence; and low resemblance to a stock locked-room mystery.
+The benchmark intentionally defines its target concept locally as the person earning all four
+certified marks. Treat that as a crisp success condition; do not demand an external job title
+or add a fifth condition. Recommend revision only when a listed gate actually fails.
 Do not judge formal truth—the deterministic solver does that.
 Recipe: {recipe.model_dump_json()}
 Proposal: {concept.model_dump_json()}
@@ -186,7 +191,9 @@ Use the supplied scaffold only as structural guidance; vary voice, pacing, trans
 scene openings, and paragraph rhythm. Do not reveal which person satisfies the final concept.
 
 CRITICAL GROUNDING CONTRACT:
-- Include every obligation sentence in its assigned scene EXACTLY ONCE, character for character.
+- Realize every obligation faithfully in its assigned scene exactly once. Natural paraphrase is
+  allowed, but preserve every named participant, value, relation, condition, and consequence.
+- Keep each obligation as a distinct sentence so it can be anchored to evidence.
 - You may add connective narration, reactions, and atmosphere, but no new logical facts.
 - Do not turn the evidence into a table, ledger dump, bullet list, or repeated template.
 - Keep all local rules explicit. A reader must be able to solve without outside knowledge.
@@ -223,10 +230,13 @@ Questions: {questions.model_dump_json()}
         story: StoryDocument,
         questions: QuestionBundle,
     ) -> CriticReport:
-        prompt = f"""You are the final usability critic. Inspect the complete item without
-inventing a solution. Accept only if it is self-contained, readable as a story, materially
-requires combining dispersed evidence, has no direct answer leak, and asks precise questions
-with explicit answer forms. Revise if wording can fix it; reject if unusable.
+        prompt = f"""You are the final usability critic. The question bundle includes private
+gold answers and variants for dataset validation; these fields are never shown to the solver
+and are not answer leaks. Judge direct leakage only inside the story and reader-facing question
+text. Accept only if the item is self-contained, readable as a story, materially requires
+combining dispersed evidence, does not state which candidate satisfies the final concept in the
+story, and asks precise questions with explicit answer forms. Revise if wording can fix it;
+reject if unusable.
 Story: {story.full_text}
 Questions: {questions.model_dump_json()}
 """

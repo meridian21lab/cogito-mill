@@ -205,8 +205,8 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
                 _rule_visible(
                     ok_rule,
                     (
-                        f"A {noun} mark counted as certified only while the incident protocol "
-                        "remained active."
+                        f"A matching {noun} counted as certified only while the incident "
+                        "protocol remained active."
                     ),
                     f"sc{1 + branch_idx % 2}",
                     order + 1,
@@ -357,6 +357,7 @@ def _questions(
     runner_id: str,
 ) -> QuestionBundle:
     main = MAIN_STEMS[recipe.seed % len(MAIN_STEMS)].format(concept=family.concept)
+    relation_noun, temporal_noun, causal_noun, protocol_noun = family.branch_nouns
     questions = [
         ScoredQuestion(
             id="q_main",
@@ -368,8 +369,8 @@ def _questions(
         ScoredQuestion(
             id="q_near_match",
             question=(
-                "Who matched the relation, temporal, and causal branches but failed only the "
-                "protocol branch? Give the full name."
+                f"Who matched the {relation_noun}, {temporal_noun}, and {causal_noun} "
+                f"branches but failed only the {protocol_noun} branch? Give the full name."
             ),
             gold_answer=runner,
             gold_answer_variants=name_answer_variants(runner),
@@ -378,7 +379,7 @@ def _questions(
         ScoredQuestion(
             id="q_counterfactual",
             question=(
-                f"If the accepted protocol value had been {runner_protocol!r} instead of "
+                f"If the accepted {protocol_noun} value had been {runner_protocol!r} instead of "
                 f"{protocol_key!r}, while every other record stayed fixed, who would become "
                 f"the {family.concept}? Give the full name."
             ),
@@ -388,7 +389,7 @@ def _questions(
         ),
         ScoredQuestion(
             id="q_protocol_key",
-            question="What exact one-word protocol value did the board accept?",
+            question=f"What exact one-word {protocol_noun} value did the board accept?",
             gold_answer=protocol_key,
             gold_answer_variants=[protocol_key],
             question_type="code",
