@@ -242,7 +242,9 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             "the current checksum, added that stream's coefficient times its status value, "
             f"and kept the remainder modulo {modulus}. It made three passes: first in the "
             "stated order, then in reverse order with the coefficients reversed, then once "
-            "more in the stated order with the coefficient list rotated one place left."
+            "more in the stated order with the coefficient list rotated one place left. "
+            "Without resetting the checksum, it repeated that complete three-pass cycle "
+            "five times."
         ),
         formal="rule:checksum_formula",
         channel=ClueChannel.RULE_APPLICATION,
@@ -337,7 +339,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         visible=visible,
         questions=questions,
         offline_draft=draft,
-        n_hops=22,
+        n_hops=94,
     )
 
 
@@ -430,13 +432,14 @@ def iterated_checksum(
         (tuple(reversed(values)), tuple(reversed(coefficients))),
         (values, coefficients[1:] + coefficients[:1]),
     )
-    for pass_values, pass_coefficients in passes:
-        for value, coefficient in zip(
-            pass_values,
-            pass_coefficients,
-            strict=True,
-        ):
-            checksum = (checksum * checksum + coefficient * value) % modulus
+    for _cycle in range(5):
+        for pass_values, pass_coefficients in passes:
+            for value, coefficient in zip(
+                pass_values,
+                pass_coefficients,
+                strict=True,
+            ):
+                checksum = (checksum * checksum + coefficient * value) % modulus
     return checksum
 
 

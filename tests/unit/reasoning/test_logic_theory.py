@@ -45,7 +45,7 @@ def test_variable_rules_derive_one_candidate() -> None:
     ]
 
 
-def test_iterated_checksum_carries_state_across_all_three_passes() -> None:
+def test_iterated_checksum_carries_state_across_all_five_cycles() -> None:
     result = iterated_checksum(
         (3, 5, 5, 2, 2, 1),
         (13, 7, 3, 11, 2, 5),
@@ -53,4 +53,4 @@ def test_iterated_checksum_carries_state_across_all_three_passes() -> None:
         modulus=97,
     )
 
-    assert result == 45
+    assert result == 19
