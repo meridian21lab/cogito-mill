@@ -150,6 +150,9 @@ def evaluate_dataset(
             )
 
     accuracy = correct / total_qa if total_qa else 0.0
+    main_preds = [p for p in predictions if p.get("question_type") == "main"]
+    main_correct = sum(1 for p in main_preds if p["correct"])
+    main_accuracy = main_correct / len(main_preds) if main_preds else 0.0
     eval_id = f"eval-{int(time.time())}"
     out_dir = Path(output_root) / "processed" / "evals" / eval_id
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -159,12 +162,15 @@ def evaluate_dataset(
         "n": total_qa,
         "correct": correct,
         "accuracy": accuracy,
+        "main_n": len(main_preds),
+        "main_correct": main_correct,
+        "main_accuracy": main_accuracy,
         "first_name_only_rate": first_only / total_qa if total_qa else 0.0,
         "solver_provider": solver_provider,
         "dataset": dataset if local_dir is None else local_dir,
         "config": config,
         "max_accuracy_gate": 0.30,
-        "passed_hardness_gate": accuracy <= 0.30,
+        "passed_hardness_gate": main_accuracy <= 0.30,
     }
     (out_dir / "metrics.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     (out_dir / "predictions.jsonl").write_text(

@@ -87,7 +87,7 @@ def _cmd_evaluate(args: argparse.Namespace) -> int:
         output_root=args.output_root,
     )
     print(json.dumps(report, indent=2))
-    acc = float(report.get("accuracy", 1.0))
+    acc = float(report.get("main_accuracy", report.get("accuracy", 1.0)))
     return 0 if acc <= args.max_accuracy else 2
 
 

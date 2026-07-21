@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 from dataclasses import dataclass
 
 from cogito_mill.domain.evidence import ClueChannel, VisibleFact, VisibleTheory
@@ -117,6 +118,36 @@ def _rng_names(seed: int, n: int) -> list[tuple[str, str, str]]:
     return out
 
 
+def _force_shared_answer_firstname(
+    names: list[tuple[str, str, str]],
+    answer_idx: int,
+    seed: int,
+) -> list[tuple[str, str, str]]:
+    """Ensure another suspect shares the answer's given name (blocks first-name shortcuts)."""
+    if len(names) < 2:
+        return names
+    answer_id, answer_first, answer_label = names[answer_idx]
+    other_idx = (answer_idx + 2) % len(names)
+    if other_idx == answer_idx:
+        other_idx = (answer_idx + 1) % len(names)
+    eid, _old_first, _old_label = names[other_idx]
+    # Keep a distinct surname from the answer.
+    answer_last = answer_label.split()[-1]
+    h = hashlib.sha256(f"{seed}:sharefirst".encode()).digest()
+    last = LAST[h[0] % len(LAST)]
+    if last == answer_last:
+        last = LAST[(h[0] + 1) % len(LAST)]
+    label = f"{answer_first} {last}"
+    suffix = 2
+    existing = {x[2] for i, x in enumerate(names) if i != other_idx}
+    while label in existing:
+        label = f"{answer_first} {last}-{suffix}"
+        suffix += 1
+    names = list(names)
+    names[other_idx] = (eid, answer_first, label)
+    return names
+
+
 @dataclass
 class TemplateBundle:
     world: WorldSpec
@@ -130,6 +161,7 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
     """Instantiate access/timeline mystery with unique visible theory."""
     names = _rng_names(recipe.seed, recipe.n_suspects)
     answer_idx = hashlib.sha256(f"{recipe.seed}:ans".encode()).digest()[0] % recipe.n_suspects
+    names = _force_shared_answer_firstname(names, answer_idx, recipe.seed)
     lender_idx = (answer_idx + 1) % recipe.n_suspects
     if lender_idx == answer_idx:
         lender_idx = (answer_idx + 2) % recipe.n_suspects
@@ -272,6 +304,14 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
     answer_label = names[answer_idx][2]
     lender_label = names[lender_idx][2]
     answer_first = names[answer_idx][1]
+    answer_last = answer_label.split()[-1]
+    twin_idx = next(
+        i
+        for i, (eid, first, _label) in enumerate(names)
+        if i != answer_idx and first == answer_first
+    )
+    twin_id, _twin_first, twin_label = names[twin_idx]
+    twin_last = twin_label.split()[-1]
 
     code_by_id = {
         eid: f"EMP-{(recipe.seed + i * 17) % 89 + 10}"
@@ -279,6 +319,11 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
     }
     answer_code = code_by_id[answer_id]
     lender_code = code_by_id[lender_id]
+    twin_code = code_by_id[twin_id]
+    locker_ans = f"L-{(recipe.seed % 40) + 10}"
+    locker_twin = f"L-{((recipe.seed * 3) % 40) + 10}"
+    if locker_twin == locker_ans:
+        locker_twin = f"L-{(recipe.seed % 40) + 11}"
 
     facts: list[VisibleFact] = [
         VisibleFact(
@@ -328,6 +373,54 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
             role="required",
             scene_id="sc1",
             reveal_order=12,
+        ),
+        VisibleFact(
+            id="f_locker_assign",
+            text=(
+                f"Facilities roster: locker {locker_ans} is assigned to badge "
+                f"{answer_code}."
+            ),
+            formal=f"locker_assign:{answer_id}",
+            channel=ClueChannel.RECORD,
+            role="required",
+            scene_id="sc2",
+            reveal_order=14,
+        ),
+        VisibleFact(
+            id="f_surname_ans",
+            text=(
+                f"Inside locker {locker_ans}, a mail-stop strip shows the surname "
+                f"{answer_last} with no given name printed."
+            ),
+            formal=f"surname_map:{answer_id}",
+            channel=ClueChannel.RECORD,
+            role="required",
+            scene_id="sc3",
+            reveal_order=61,
+        ),
+        VisibleFact(
+            id="f_locker_twin",
+            text=(
+                f"Facilities roster: locker {locker_twin} is assigned to badge "
+                f"{twin_code}."
+            ),
+            formal=f"locker_assign:{twin_id}",
+            channel=ClueChannel.RECORD,
+            role="distractor",
+            scene_id="sc2",
+            reveal_order=15,
+        ),
+        VisibleFact(
+            id="f_surname_twin",
+            text=(
+                f"Inside locker {locker_twin}, another strip shows the surname "
+                f"{twin_last} with no given name printed."
+            ),
+            formal=f"surname_map:{twin_id}",
+            channel=ClueChannel.RECORD,
+            role="distractor",
+            scene_id="sc1",
+            reveal_order=16,
         ),
         VisibleFact(
             id="f_code_map_lender",
@@ -445,8 +538,20 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
                 f.reveal_order = 55
                 f.scene_id = "sc3"
             if f.id == "f_code_map_ans":
-                f.reveal_order = 60
+                f.reveal_order = 8
+                f.scene_id = "sc1"
+            if f.id == "f_locker_assign":
+                f.reveal_order = 40
+                f.scene_id = "sc2"
+            if f.id == "f_surname_ans":
+                f.reveal_order = 70
                 f.scene_id = "sc3"
+            if f.id == "f_surname_twin":
+                f.reveal_order = 9
+                f.scene_id = "sc1"
+            if f.id == "f_locker_twin":
+                f.reveal_order = 41
+                f.scene_id = "sc2"
             if f.id.startswith("f_elim_") and f.id != "f_elim_lender":
                 f.reveal_order += 30
 
@@ -641,8 +746,10 @@ def render_story(
     }[recipe.setting_family]
 
     cast_bits = []
-    for eid, _first, label in names:
-        cast_bits.append(f"{label} ({role_by_eid[eid]})")
+    firsts = []
+    for eid, first, label in names:
+        cast_bits.append(f"{first} ({role_by_eid[eid]})")
+        firsts.append(first)
     if len(cast_bits) == 1:
         cast_line = cast_bits[0]
     elif len(cast_bits) == 2:
@@ -650,9 +757,10 @@ def render_story(
     else:
         cast_line = ", ".join(cast_bits[:-1]) + f", and {cast_bits[-1]}"
     cast_para = (
-        f"The people on duty that morning were {cast_line}. "
-        "Colleagues often used badge codes in logs and radio traffic, but legal "
-        "names still appeared on duty boards and personnel indexes."
+        f"Duty board first names for the shift were {cast_line}. "
+        "Surnames were not printed on that board. Colleagues leaned on badge codes "
+        "in radio traffic, and at least two people shared a given name, so incomplete "
+        "badge legends were easy to misread."
     )
 
     # Scene 1 — rules and access records (narrative, not a dump)
@@ -666,21 +774,22 @@ def render_story(
             f"to the {place_public}."
         ),
     ]
-    # One personnel-index line only for the lender (load-bearing hop).
     sc1_lines.append(by_id["f_code_map_lender"].text)
-    # One light distractor as an aside, not a wall.
-    distractors = [f for f in facts if f.role == "distractor"]
+    sc1_lines.append(by_id["f_code_map_ans"].text)
+    sc1_lines.append(by_id["f_surname_twin"].text)
+    distractors = [f for f in facts if f.role == "distractor" and f.id.startswith("d")]
     if distractors:
         sc1_lines.append(
-            f"Elsewhere, ordinary noise continued: {distractors[0].text.rstrip('.')}"
-            "."
+            f"Elsewhere, ordinary noise continued: {distractors[0].text.rstrip('.')}."
         )
     sc1 = " ".join(sc1_lines)
 
-    # Scene 2 — transfer
+    # Scene 2 — transfer + locker assignments (split from surnames)
     sc2_lines = [
         by_id["f_rule_item"].text,
         by_id["f_elim_lender"].text,
+        by_id["f_locker_assign"].text,
+        by_id["f_locker_twin"].text,
         (
             f"Witnesses later disagreed about motives. They only agreed the "
             f"{item_name} changed hands once before the critical window, and "
@@ -689,7 +798,7 @@ def render_story(
     ]
     sc2 = " ".join(sc2_lines)
 
-    # Scene 3 — movements, buried holds/code map, discovery
+    # Scene 3 — movements, holds, answer surname, discovery
     elim_facts = [
         f
         for f in sorted(facts, key=lambda x: x.reveal_order)
@@ -702,18 +811,15 @@ def render_story(
         )
         for f in elim_facts:
             sc3_lines.append(f.text)
-    # Hard-mode buried clues still appear, but inside narrative flow.
     sc3_lines.append(by_id["f_holds"].text)
-    sc3_lines.append(by_id["f_code_map_ans"].text)
-    # Remaining distractors as brief asides (cap 2)
     for d in distractors[1:3]:
         sc3_lines.append(d.text)
+    sc3_lines.append(by_id["f_surname_ans"].text)
     sc3_lines.append(
         f"Shortly after 10:10 it became clear that someone {action_past}. "
         f"The {place_secure} showed signs of entry, while idle conversation "
         f"continued near the {place_public}."
     )
-    # Tiny connective tissue — atmosphere, not EMP spam
     sc3_lines.append(
         _padding_sentence(recipe.seed, 0, place_other, recipe.setting_family)
     )
@@ -760,6 +866,10 @@ def render_story(
     lender_code = code_by_id[lender_id]
     if answer_code not in full or lender_code not in full:
         raise ValueError("story missing load-bearing badge codes")
+    # Do not leak the contiguous full-name gold string into the prose.
+    answer_label = next(label for eid, _, label in names if eid == answer_id)
+    if _story_contains_full_name(full, answer_label):
+        raise ValueError("story leaks contiguous gold full name")
 
     return StoryDocument(
         id=f"story-{recipe.seed}",
@@ -768,6 +878,12 @@ def render_story(
         sentences=sentences,
         full_text=full,
     )
+
+
+def _story_contains_full_name(text: str, full_name: str) -> bool:
+    """True when the exact full name appears as its own token sequence (not a hyphen suffix)."""
+    pattern = rf"(?<![\w-]){re.escape(full_name)}(?!-\d)(?![\w-])"
+    return re.search(pattern, text) is not None
 
 
 def _padding_sentence(seed: int, i: int, place_other: str, setting: SettingFamily) -> str:

@@ -53,3 +53,36 @@ Source: `data/packed/pilot_v0.jsonl` (150 items) + `luna_eval_metrics.json`.
 - Luna eval still useful as hardness signal, but **readability is not traded for hardness**.
 
 ---
+
+## Iteration 1 — pilot_v1 (2026-07-21)
+
+Source: regenerated `data/packed/pilot_v1.jsonl` (150) + Luna sample eval (`luna_eval_metrics_v1.json`).
+
+### What changed
+
+1. **Narration** — Multi-paragraph mysteries with cast, scenes, and connective tissue. EMP budget ~9–14 load-bearing codes; ≤1 personnel-index line (no 48-line dumps).
+2. **Questions** — Always 4 scored QAs: main, lender intermediate, counterfactual (`none`), badge-code probe. Name questions demand **full name (given + surname)**.
+3. **Variants** — 1–3 `gold_answer_variants` (e.g. `Morgan Okada` / `Okada, Morgan`); eval uses `score_exact_any`.
+4. **Critic** — Deterministic blind story critic in LangGraph (`critique_story` node) + versioned prompts under `agents/prompts/`.
+5. **Anti-shortcut** — Shared given names, no contiguous gold full name in prose, locker-mediated surname hop + twin-name red herring.
+
+### Luna sample (12 stories / 48 QAs)
+
+- Overall accuracy: **0.94**
+- Main accuracy: **1.00** (hardness gate ≤0.30 **failed**)
+- First-name-only rate: **0.00** (was 0.38 on v0)
+
+### Honest verdict
+
+- **Readable + answer-form fix: success.** Humans can follow the plot; exact-match no longer loses on first-name-only when the model solves it.
+- **Hardness gate: not met.** Clean template logic is now easy for Azure writer/Luna. v0 “hardness” was mostly illegibility, which we correctly removed per product vision.
+- **Agent graph: still template-backed.** Critic + prompts land; full concept/formalizer/scene-writer LLM roles remain future work per `01-architecture.md`.
+
+### Next improvement targets
+
+1. Deeper worlds (more events, branching distractor graphs) so unique entailment stays hard without EMP walls.
+2. Optional LLM scene writer behind the same critic gates.
+3. Keep main-accuracy as the hardness metric; do not reintroduce identifier dumps.
+4. Consider separate “readable pilot” vs “hard benchmark” configs once worlds are rich enough.
+
+---

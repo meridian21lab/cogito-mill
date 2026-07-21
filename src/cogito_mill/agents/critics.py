@@ -23,7 +23,7 @@ def critique_story_document(
     story: StoryDocument,
     questions: QuestionBundle,
     *,
-    max_emp_tokens: int = 12,
+    max_emp_tokens: int = 14,
     max_personnel_index_lines: int = 2,
     min_paragraphs: int = 4,
 ) -> CriticReport:

@@ -6,7 +6,10 @@ from cogito_mill.agents.critics import critique_story_document, load_prompt
 from cogito_mill.domain.narrative import SceneDraft, Sentence, StoryDocument
 from cogito_mill.domain.questions import QuestionBundle, ScoredQuestion
 from cogito_mill.domain.recipe import DifficultyBucket, GenerationRecipe, SettingFamily
-from cogito_mill.pipelines.templates import build_access_timeline
+from cogito_mill.pipelines.templates import (
+    _story_contains_full_name,
+    build_access_timeline,
+)
 
 
 def _bundle(seed: int = 42):
@@ -30,6 +33,15 @@ def test_generated_story_passes_critic() -> None:
     assert "Personnel index:" not in bundle.story.full_text.split("\n\n")[0]
     assert bundle.story.full_text.count("Personnel index:") <= 2
     assert "full name" in bundle.questions.main_question.lower()
+    # Answer given name is shared with another cast member (blocks first-name shortcuts).
+    answer = bundle.questions.gold_answer
+    first = answer.split()[0]
+    person_labels = [e.label for e in bundle.world.entities if e.type == "person"]
+    assert sum(1 for lab in person_labels if lab.split()[0] == first) >= 2
+    assert "surname" in bundle.story.full_text.lower()
+    assert not _story_contains_full_name(
+        bundle.story.full_text, bundle.questions.gold_answer
+    )
 
 
 def test_critic_rejects_personnel_dump() -> None:
