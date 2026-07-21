@@ -77,7 +77,8 @@ class OfflineAgentSuite:
             intended_answer="selected only by the deterministic formal theory",
             composition_notes=(
                 "Disperse six independent relational, temporal, causal, spatial, sequence, "
-                "and protocol branches. Keep every rule explicit and every candidate plausible."
+                "and protocol streams. Keep the checksum rule explicit and every candidate "
+                "plausible."
             ),
         )
 
@@ -143,10 +144,10 @@ class LiveAgentSuite:
 Create one compact narrative premise for the fixed family {family_id!r}.
 The setting must remain: {setting}
 The locally defined target concept must remain exactly: {concept}
-Define that concept crisply as the one participant whose record earns all six independently
-certified marks (relational, temporal, causal, spatial, sequence, and protocol) under the
-incident's local rules. Do not choose or hint at the answer. The formalizer will build six
-independent branches, and deterministic code will choose
+Define that concept crisply as the one participant whose six transformed evidence streams
+produce the incident's accepted weighted checksum under the local rules. The streams are
+relational, temporal, causal, spatial, sequence, and protocol. Do not choose or hint at the
+answer. The formalizer and deterministic code will choose
 the answer. Make the premise natural, self-contained, and unlike a generic murder mystery.
 Prior critic feedback: {feedback or "none"}
 Recipe: {recipe.model_dump_json()}
@@ -164,9 +165,10 @@ Recipe: {recipe.model_dump_json()}
 Gate the proposal for: compatibility with family {family_id}; self-containment; a natural
 narrative premise; no answer hint; explicit need to combine relational, temporal, causal,
 spatial, sequence, and local-protocol evidence; and low resemblance to a stock locked-room
-mystery. The benchmark intentionally defines its target concept locally as the person earning
-all six certified marks. Treat that as a crisp success condition; do not demand an external
-job title or add a seventh condition. Recommend revision only when a listed gate actually fails.
+mystery. The benchmark intentionally defines its target concept locally as the person whose
+six-stream weighted checksum equals the accepted checksum. Treat that as a crisp success
+condition; do not demand an external job title or add another condition. Recommend revision
+only when a listed gate actually fails.
 Do not judge formal truth—the deterministic solver does that.
 Recipe: {recipe.model_dump_json()}
 Proposal: {concept.model_dump_json()}

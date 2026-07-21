@@ -170,8 +170,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     runner_id, runner_label = names[runner_idx]
 
     assignments = _assignments(recipe.seed, names, answer_idx, runner_idx)
-    accepted_outputs: dict[str, str] = {}
-    runner_outputs: dict[str, str] = {}
+    status_by_person: dict[str, dict[str, str]] = {person_id: {} for person_id, _label in names}
     logic_facts: list[LogicAtom] = [LogicAtom(predicate="protocol_active")]
     rules: list[LogicRule] = [
         LogicRule(
@@ -210,39 +209,6 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             ),
             explanation="Resolve that channel through the same branch's status note.",
         ),
-        LogicRule(
-            id="match_key",
-            premises=[
-                LogicAtom(
-                    predicate="derived_status",
-                    arguments=["?branch", "?person", "?status"],
-                ),
-                LogicAtom(
-                    predicate="key",
-                    arguments=["?branch", "?status"],
-                ),
-            ],
-            conclusion=LogicAtom(
-                predicate="mark",
-                arguments=["?branch", "?person"],
-            ),
-            explanation="Award a mark when the derived and accepted statuses match.",
-        ),
-        LogicRule(
-            id="certify_mark",
-            premises=[
-                LogicAtom(
-                    predicate="mark",
-                    arguments=["?branch", "?person"],
-                ),
-                LogicAtom(predicate="protocol_active"),
-            ],
-            conclusion=LogicAtom(
-                predicate="ok",
-                arguments=["?branch", "?person"],
-            ),
-            explanation="Certify each matching mark while the protocol is active.",
-        ),
     ]
     visible_facts: list[VisibleFact] = [
         _visible(
@@ -260,14 +226,11 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         "For every evidence stream, the panel first translated a person's raw entry through "
         "that stream's conversion note to a channel.",
         "It then resolved the channel through the status note belonging to the same stream.",
-        "A stream awarded its mark only when the derived status matched that stream's accepted "
-        "status.",
-        "The mark became certified only while the convergent-responder protocol remained active.",
     )
     for index, (rule, text) in enumerate(zip(rules, common_rules, strict=True), start=1):
         visible_facts.append(_rule_visible(rule, text, "sc1", index + 1))
 
-    order = 6
+    order = 4
     for branch_idx, branch in enumerate(BRANCHES):
         noun = family.branch_nouns[branch_idx]
         raw_values = VALUE_BANK[branch]
@@ -277,10 +240,10 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         channel_to_status = dict(zip(channel_values, status_values, strict=True))
         used_raw_values = tuple(sorted(set(assignments[branch].values())))
         used_channels = tuple(raw_to_channel[value] for value in used_raw_values)
-        accepted_output = channel_to_status[raw_to_channel[assignments[branch][answer_id]]]
-        runner_output = channel_to_status[raw_to_channel[assignments[branch][runner_id]]]
-        accepted_outputs[branch] = accepted_output
-        runner_outputs[branch] = runner_output
+        for person_id, _label in names:
+            status_by_person[person_id][branch] = channel_to_status[
+                raw_to_channel[assignments[branch][person_id]]
+            ]
 
         for person_idx, (person_id, label) in enumerate(names):
             value = assignments[branch][person_id]
@@ -336,35 +299,96 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             )
             order += 1
 
-        key_atom = LogicAtom(
-            predicate="key",
-            arguments=[branch, accepted_output],
-        )
-        logic_facts.append(key_atom)
+    weights, coefficients, modulus, checksums = _checksum_plan(
+        recipe.seed,
+        status_by_person,
+        answer_id=answer_id,
+        runner_id=runner_id,
+    )
+    for status, weight in weights.items():
+        atom = LogicAtom(predicate="status_weight", arguments=[status, str(weight)])
+        logic_facts.append(atom)
         visible_facts.append(
             _visible(
-                f"f_{branch}_key",
-                _key_sentence(family, branch, noun, accepted_output),
-                key_atom,
-                f"sc{2 + branch_idx % 3}",
+                f"f_weight_{status}",
+                f"The checksum ledger assigned {status} status a value of {weight}.",
+                atom,
+                "sc1",
                 order,
             )
         )
         order += 1
+    formula_fact = VisibleFact(
+        id="f_checksum_formula",
+        text=(
+            "In branch order relation, temporal, causal, spatial, sequence, protocol, "
+            f"the checksum used coefficients {', '.join(str(c) for c in coefficients)}; "
+            f"the panel added the six weighted values and kept the remainder modulo {modulus}."
+        ),
+        formal="rule:checksum_formula",
+        channel=ClueChannel.RULE_APPLICATION,
+        role="required",
+        scene_id="sc1",
+        reveal_order=order,
+    )
+    visible_facts.append(formula_fact)
+    order += 1
 
+    for person_id, _label in names:
+        checksum_rule = LogicRule(
+            id=f"checksum_{person_id}",
+            premises=[
+                LogicAtom(
+                    predicate="derived_status",
+                    arguments=[branch, person_id, status_by_person[person_id][branch]],
+                )
+                for branch in BRANCHES
+            ],
+            conclusion=LogicAtom(
+                predicate="checksum",
+                arguments=[person_id, str(checksums[person_id])],
+            ),
+            explanation=(f"Apply the disclosed weighted modulo-{modulus} checksum to {person_id}."),
+        )
+        rules.append(checksum_rule)
+
+    checksum_key = LogicAtom(
+        predicate="checksum_key",
+        arguments=[str(checksums[answer_id])],
+    )
+    logic_facts.append(checksum_key)
+    visible_facts.append(
+        _visible(
+            "f_checksum_key",
+            (f"For this incident, the accepted checksum was {checksums[answer_id]}."),
+            checksum_key,
+            "sc5",
+            order,
+        )
+    )
+    order += 1
     final_rule = LogicRule(
         id=f"final_{family.id}",
-        premises=[LogicAtom(predicate="ok", arguments=[branch, "?person"]) for branch in BRANCHES],
+        premises=[
+            LogicAtom(
+                predicate="checksum",
+                arguments=["?person", "?value"],
+            ),
+            LogicAtom(predicate="checksum_key", arguments=["?value"]),
+            LogicAtom(predicate="protocol_active"),
+        ],
         conclusion=LogicAtom(predicate="qualifies", arguments=["?person"]),
-        explanation=(f"The title {family.concept} requires all six independently certified marks."),
+        explanation=(
+            f"The title {family.concept} belongs to the person whose checksum matches the key."
+        ),
     )
     rules.append(final_rule)
     visible_facts.append(
         _rule_visible(
             final_rule,
             (
-                f"The final definition was strict: the {family.concept} was one person who "
-                "held all six certified marks—no five-mark near match qualified."
+                f"The final definition was strict: the {family.concept} was the one person "
+                "whose six-stream checksum equaled the accepted checksum."
             ),
             "sc5",
             order,
@@ -383,8 +407,8 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         family,
         answer_label,
         runner_label,
-        accepted_outputs["protocol"],
-        runner_outputs["protocol"],
+        str(checksums[answer_id]),
+        str(checksums[runner_id]),
         runner_id,
     )
     draft = _offline_draft(recipe, family, visible_facts)
@@ -394,7 +418,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         visible=visible,
         questions=questions,
         offline_draft=draft,
-        n_hops=50,
+        n_hops=34,
     )
 
 
@@ -418,6 +442,14 @@ def _assignments(
     runner_idx: int,
 ) -> dict[str, dict[str, str]]:
     result: dict[str, dict[str, str]] = {}
+    missing_branch: dict[int, str] = {runner_idx: "protocol"}
+    alternatives = [branch for branch in BRANCHES if branch != "protocol"]
+    rotation = seed % len(alternatives)
+    alternatives = alternatives[rotation:] + alternatives[:rotation]
+    other_indices = [idx for idx in range(len(names)) if idx not in {answer_idx, runner_idx}]
+    for position, idx in enumerate(other_indices):
+        missing_branch[idx] = alternatives[position % len(alternatives)]
+
     for branch_idx, branch in enumerate(BRANCHES):
         values = VALUE_BANK[branch]
         accepted = values[_pick(seed, f"{branch}:accepted", len(values))]
@@ -425,11 +457,7 @@ def _assignments(
         alternate = values[(values.index(accepted) + shift) % len(values)]
         branch_values: dict[str, str] = {}
         for idx, (person_id, _label) in enumerate(names):
-            passes = idx == answer_idx or (
-                idx != runner_idx and (idx + branch_idx) % len(BRANCHES) != 0
-            )
-            if idx == runner_idx:
-                passes = branch != "protocol"
+            passes = idx == answer_idx or missing_branch[idx] != branch
             branch_values[person_id] = (
                 accepted
                 if passes
@@ -439,6 +467,41 @@ def _assignments(
                 branch_values[person_id] = alternate
         result[branch] = branch_values
     return result
+
+
+def _checksum_plan(
+    seed: int,
+    status_by_person: dict[str, dict[str, str]],
+    *,
+    answer_id: str,
+    runner_id: str,
+) -> tuple[dict[str, int], tuple[int, ...], int, dict[str, int]]:
+    status_order = _permutation(seed, "checksum-weights", STATUS_BANK)
+    weights = {status: index for index, status in enumerate(status_order)}
+    base_coefficients = (2, 3, 5, 7, 11, 13)
+    rotation = seed % len(base_coefficients)
+    coefficients = base_coefficients[rotation:] + base_coefficients[:rotation]
+    for modulus in (97, 101, 103, 107, 109):
+        checksums = {
+            person_id: sum(
+                coefficient * weights[statuses[branch]]
+                for branch, coefficient in zip(
+                    BRANCHES,
+                    coefficients,
+                    strict=True,
+                )
+            )
+            % modulus
+            for person_id, statuses in status_by_person.items()
+        }
+        values = list(checksums.values())
+        if (
+            values.count(checksums[answer_id]) == 1
+            and values.count(checksums[runner_id]) == 1
+            and checksums[answer_id] != checksums[runner_id]
+        ):
+            return weights, coefficients, modulus, checksums
+    raise ValueError("could not construct unique checksum targets")
 
 
 def _world(
@@ -471,8 +534,8 @@ def _world(
             expected_value=answer_id,
         ),
         intervention=Intervention(
-            id="iv_protocol_key",
-            description="replace the accepted protocol value with the runner-up's value",
+            id="iv_checksum_key",
+            description="replace the accepted checksum with the runner-up's checksum",
             disable_event="e_resolution",
             expected_target_value="none",
         ),
@@ -486,12 +549,11 @@ def _questions(
     family: FamilySpec,
     answer: str,
     runner: str,
-    protocol_key: str,
-    runner_protocol: str,
+    checksum_key: str,
+    runner_checksum: str,
     runner_id: str,
 ) -> QuestionBundle:
     main = MAIN_STEMS[recipe.seed % len(MAIN_STEMS)].format(concept=family.concept)
-    protocol_noun = family.branch_nouns[-1]
     questions = [
         ScoredQuestion(
             id="q_main",
@@ -502,9 +564,7 @@ def _questions(
         ),
         ScoredQuestion(
             id="q_near_match",
-            question=(
-                f"Who matched every branch except the {protocol_noun} branch? Give the full name."
-            ),
+            question=(f"Whose six-stream checksum was {runner_checksum}? Give the full name."),
             gold_answer=runner,
             gold_answer_variants=name_answer_variants(runner),
             question_type="intermediate",
@@ -512,8 +572,8 @@ def _questions(
         ScoredQuestion(
             id="q_counterfactual",
             question=(
-                f"If the accepted {protocol_noun} status had been {runner_protocol!r} instead of "
-                f"{protocol_key!r}, while every other record stayed fixed, who would become "
+                f"If the accepted checksum had been {runner_checksum} instead of "
+                f"{checksum_key}, while every other record stayed fixed, who would become "
                 f"the {family.concept}? Give the full name."
             ),
             gold_answer=runner,
@@ -522,9 +582,9 @@ def _questions(
         ),
         ScoredQuestion(
             id="q_protocol_key",
-            question=f"What exact one-word {protocol_noun} status did the board accept?",
-            gold_answer=protocol_key,
-            gold_answer_variants=[protocol_key],
+            question="What exact integer checksum did the board accept?",
+            gold_answer=checksum_key,
+            gold_answer_variants=[checksum_key],
             question_type="code",
         ),
     ]
@@ -533,17 +593,17 @@ def _questions(
         gold_answer=answer,
         questions=questions,
         supported_conclusions=[
-            f"{answer} satisfies all six certified branches.",
-            f"{runner} is the five-branch near match.",
+            f"{answer}'s six-stream checksum equals the accepted checksum.",
+            f"{runner}'s six-stream checksum is {runner_checksum}.",
         ],
         counterfactual=CounterfactualTask(
             question=questions[2].question,
             answer=runner,
-            intervention=f"replace protocol key with value assigned to {runner_id}",
+            intervention=f"replace checksum key with checksum assigned to {runner_id}",
         ),
         falsifier=FalsifierTask(
-            hypothesis=f"{runner} satisfies the original protocol",
-            minimal_evidence=[f"f_protocol_{runner_id}", "f_protocol_key"],
+            hypothesis=f"{runner} matches the original checksum key",
+            minimal_evidence=["f_checksum_formula", "f_checksum_key"],
         ),
     )
 
@@ -608,10 +668,6 @@ def _assignment_sentence(
     }
     template = templates[branch][variant % len(templates[branch])]
     return template.format(label=label, value=value, noun=noun)
-
-
-def _key_sentence(_family: FamilySpec, branch: str, noun: str, value: str) -> str:
-    return f"The {branch} notice accepted {value} as the final {noun} status."
 
 
 def _visible(
