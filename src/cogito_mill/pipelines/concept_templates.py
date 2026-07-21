@@ -173,7 +173,77 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     accepted_outputs: dict[str, str] = {}
     runner_outputs: dict[str, str] = {}
     logic_facts: list[LogicAtom] = [LogicAtom(predicate="protocol_active")]
-    rules: list[LogicRule] = []
+    rules: list[LogicRule] = [
+        LogicRule(
+            id="trace_channel",
+            premises=[
+                LogicAtom(
+                    predicate="link",
+                    arguments=["?branch", "?person", "?raw"],
+                ),
+                LogicAtom(
+                    predicate="channel_map",
+                    arguments=["?branch", "?raw", "?channel"],
+                ),
+            ],
+            conclusion=LogicAtom(
+                predicate="derived_channel",
+                arguments=["?branch", "?person", "?channel"],
+            ),
+            explanation="Trace a raw record through its branch conversion to a channel.",
+        ),
+        LogicRule(
+            id="resolve_status",
+            premises=[
+                LogicAtom(
+                    predicate="derived_channel",
+                    arguments=["?branch", "?person", "?channel"],
+                ),
+                LogicAtom(
+                    predicate="status_map",
+                    arguments=["?branch", "?channel", "?status"],
+                ),
+            ],
+            conclusion=LogicAtom(
+                predicate="derived_status",
+                arguments=["?branch", "?person", "?status"],
+            ),
+            explanation="Resolve that channel through the same branch's status note.",
+        ),
+        LogicRule(
+            id="match_key",
+            premises=[
+                LogicAtom(
+                    predicate="derived_status",
+                    arguments=["?branch", "?person", "?status"],
+                ),
+                LogicAtom(
+                    predicate="key",
+                    arguments=["?branch", "?status"],
+                ),
+            ],
+            conclusion=LogicAtom(
+                predicate="mark",
+                arguments=["?branch", "?person"],
+            ),
+            explanation="Award a mark when the derived and accepted statuses match.",
+        ),
+        LogicRule(
+            id="certify_mark",
+            premises=[
+                LogicAtom(
+                    predicate="mark",
+                    arguments=["?branch", "?person"],
+                ),
+                LogicAtom(predicate="protocol_active"),
+            ],
+            conclusion=LogicAtom(
+                predicate="ok",
+                arguments=["?branch", "?person"],
+            ),
+            explanation="Certify each matching mark while the protocol is active.",
+        ),
+    ]
     visible_facts: list[VisibleFact] = [
         _visible(
             "f_protocol_active",
@@ -186,8 +256,18 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             1,
         )
     ]
+    common_rules = (
+        "For every evidence stream, the panel first translated a person's raw entry through "
+        "that stream's conversion note to a channel.",
+        "It then resolved the channel through the status note belonging to the same stream.",
+        "A stream awarded its mark only when the derived status matched that stream's accepted "
+        "status.",
+        "The mark became certified only while the convergent-responder protocol remained active.",
+    )
+    for index, (rule, text) in enumerate(zip(rules, common_rules, strict=True), start=1):
+        visible_facts.append(_rule_visible(rule, text, "sc1", index + 1))
 
-    order = 2
+    order = 6
     for branch_idx, branch in enumerate(BRANCHES):
         noun = family.branch_nouns[branch_idx]
         raw_values = VALUE_BANK[branch]
@@ -204,7 +284,10 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
 
         for person_idx, (person_id, label) in enumerate(names):
             value = assignments[branch][person_id]
-            atom = LogicAtom(predicate=f"{branch}_link", arguments=[person_id, value])
+            atom = LogicAtom(
+                predicate="link",
+                arguments=[branch, person_id, value],
+            )
             logic_facts.append(atom)
             visible_facts.append(
                 _visible(
@@ -220,8 +303,8 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         for map_idx, raw_value in enumerate(used_raw_values):
             channel = raw_to_channel[raw_value]
             atom = LogicAtom(
-                predicate=f"{branch}_channel_map",
-                arguments=[raw_value, channel],
+                predicate="channel_map",
+                arguments=[branch, raw_value, channel],
             )
             logic_facts.append(atom)
             visible_facts.append(
@@ -238,8 +321,8 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         for map_idx, channel in enumerate(used_channels):
             status = channel_to_status[channel]
             atom = LogicAtom(
-                predicate=f"{branch}_status_map",
-                arguments=[channel, status],
+                predicate="status_map",
+                arguments=[branch, channel, status],
             )
             logic_facts.append(atom)
             visible_facts.append(
@@ -253,7 +336,10 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             )
             order += 1
 
-        key_atom = LogicAtom(predicate=f"{branch}_key", arguments=[accepted_output])
+        key_atom = LogicAtom(
+            predicate="key",
+            arguments=[branch, accepted_output],
+        )
         logic_facts.append(key_atom)
         visible_facts.append(
             _visible(
@@ -266,105 +352,9 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         )
         order += 1
 
-        channel_rule = LogicRule(
-            id=f"{branch}_trace_channel",
-            premises=[
-                LogicAtom(predicate=f"{branch}_link", arguments=["?person", "?raw"]),
-                LogicAtom(
-                    predicate=f"{branch}_channel_map",
-                    arguments=["?raw", "?channel"],
-                ),
-            ],
-            conclusion=LogicAtom(
-                predicate=f"{branch}_channel",
-                arguments=["?person", "?channel"],
-            ),
-            explanation=f"Translate a person's raw {noun} through the conversion legend.",
-        )
-        status_rule = LogicRule(
-            id=f"{branch}_resolve_status",
-            premises=[
-                LogicAtom(
-                    predicate=f"{branch}_channel",
-                    arguments=["?person", "?channel"],
-                ),
-                LogicAtom(
-                    predicate=f"{branch}_status_map",
-                    arguments=["?channel", "?status"],
-                ),
-            ],
-            conclusion=LogicAtom(
-                predicate=f"{branch}_status",
-                arguments=["?person", "?status"],
-            ),
-            explanation=f"Resolve the resulting {noun} channel to its status.",
-        )
-        match_rule = LogicRule(
-            id=f"{branch}_match_key",
-            premises=[
-                LogicAtom(
-                    predicate=f"{branch}_status",
-                    arguments=["?person", "?status"],
-                ),
-                LogicAtom(predicate=f"{branch}_key", arguments=["?status"]),
-            ],
-            conclusion=LogicAtom(predicate=f"{branch}_mark", arguments=["?person"]),
-            explanation=f"Compare the derived {noun} status with the accepted status.",
-        )
-        certify_rule = LogicRule(
-            id=f"{branch}_certify",
-            premises=[
-                LogicAtom(predicate=f"{branch}_mark", arguments=["?person"]),
-                LogicAtom(predicate="protocol_active"),
-            ],
-            conclusion=LogicAtom(predicate=f"{branch}_ok", arguments=["?person"]),
-            explanation=f"Certify the matching {noun} mark under the active protocol.",
-        )
-        rules.extend([channel_rule, status_rule, match_rule, certify_rule])
-        visible_facts.extend(
-            [
-                _rule_visible(
-                    channel_rule,
-                    (
-                        f"The first {noun} rule required tracing each person's raw value "
-                        "through the conversion legend to a channel."
-                    ),
-                    f"sc{1 + branch_idx % 2}",
-                    order,
-                ),
-                _rule_visible(
-                    status_rule,
-                    (f"The second {noun} rule converted that channel into its listed status."),
-                    f"sc{1 + branch_idx % 2}",
-                    order + 1,
-                ),
-                _rule_visible(
-                    match_rule,
-                    (
-                        f"The {noun} branch awarded a mark only when the derived status "
-                        "equaled the accepted status."
-                    ),
-                    f"sc{1 + branch_idx % 2}",
-                    order + 2,
-                ),
-                _rule_visible(
-                    certify_rule,
-                    (
-                        f"A matching result for {noun} counted as certified only while "
-                        "the incident protocol remained active."
-                    ),
-                    f"sc{1 + branch_idx % 2}",
-                    order + 3,
-                ),
-            ]
-        )
-        order += 4
-
     final_rule = LogicRule(
         id=f"final_{family.id}",
-        premises=[
-            LogicAtom(predicate=f"{branch}_ok", arguments=["?person"]) for branch in BRANCHES
-        ],
+        premises=[LogicAtom(predicate="ok", arguments=[branch, "?person"]) for branch in BRANCHES],
         conclusion=LogicAtom(predicate="qualifies", arguments=["?person"]),
         explanation=(f"The title {family.concept} requires all six independently certified marks."),
     )
