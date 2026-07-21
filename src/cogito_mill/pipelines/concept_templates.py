@@ -27,20 +27,13 @@ from cogito_mill.eval.score import name_answer_variants
 from cogito_mill.pipelines.templates import FIRST, LAST
 
 BRANCHES = (
-    "relation_early",
-    "temporal_early",
-    "causal_early",
-    "spatial_early",
-    "sequence_early",
-    "protocol_early",
-    "relation_late",
-    "temporal_late",
-    "causal_late",
-    "spatial_late",
-    "sequence_late",
-    "protocol_late",
+    "relation",
+    "temporal",
+    "causal",
+    "spatial",
+    "sequence",
+    "protocol",
 )
-BRANCH_KIND = {branch: branch.split("_", 1)[0] for branch in BRANCHES}
 STATUS_BANK = ("clear", "dormant", "latent", "open", "stable", "waking")
 
 
@@ -143,7 +136,7 @@ FAMILIES = (
 MAIN_STEMS = (
     "Under the local rules, who alone became the {concept}? Give the full name.",
     "Which participant satisfies every condition for {concept}? Answer with the full name.",
-    "Reconstruct the twelve evidence streams. Who qualifies as {concept}? Provide the full name.",
+    "Reconstruct the six evidence streams. Who qualifies as {concept}? Provide the full name.",
     "Whose combined record makes that person the {concept}? Give the full name.",
     "After applying all stated rules, identify the {concept} by full name.",
     "Who is forced to be the {concept}, rather than merely matching part of the pattern? "
@@ -192,9 +185,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     ]
     order = 2
     for branch_idx, branch in enumerate(BRANCHES):
-        noun = family.branch_nouns[branch_idx % len(family.branch_nouns)]
-        if branch.endswith("_late"):
-            noun = f"rechecked {noun}"
+        noun = family.branch_nouns[branch_idx]
         for person_id, _label in names:
             status_by_person[person_id][branch] = assignments[branch][person_id]
 
@@ -210,7 +201,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
                     f"f_{branch}_{person_id}",
                     _assignment_sentence(
                         family,
-                        BRANCH_KIND[branch],
+                        branch,
                         noun,
                         label,
                         status,
@@ -245,9 +236,10 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     formula_fact = VisibleFact(
         id="f_checksum_formula",
         text=(
-            "In order, the checksum used early relation, temporal, causal, spatial, sequence, "
-            "and protocol statuses, followed by their six late rechecks. Its coefficients were "
-            f"{', '.join(str(c) for c in coefficients)}; the panel added the twelve weighted "
+            "In order, the checksum used relation, temporal, causal, spatial, sequence, "
+            "and protocol statuses. Its coefficients were "
+            f"{', '.join(str(c) for c in coefficients)}; "
+            "the panel added the six weighted "
             f"values and kept the remainder modulo {modulus}."
         ),
         formal="rule:checksum_formula",
@@ -313,7 +305,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             final_rule,
             (
                 f"The final definition was strict: the {family.concept} was the one person "
-                "whose twelve-stream checksum equaled the accepted checksum."
+                "whose six-stream checksum equaled the accepted checksum."
             ),
             "sc5",
             order,
@@ -343,7 +335,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         visible=visible,
         questions=questions,
         offline_draft=draft,
-        n_hops=16,
+        n_hops=10,
     )
 
 
@@ -391,7 +383,7 @@ def _checksum_plan(
 ) -> tuple[dict[str, int], tuple[int, ...], int, dict[str, int]]:
     status_order = _permutation(seed, "checksum-weights", STATUS_BANK)
     weights = {status: index for index, status in enumerate(status_order)}
-    base_coefficients = (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37)
+    base_coefficients = (2, 3, 5, 7, 11, 13)
     for attempt in range(64):
         coefficients = tuple(
             sorted(
@@ -484,7 +476,7 @@ def _questions(
         ),
         ScoredQuestion(
             id="q_near_match",
-            question=(f"Whose twelve-stream checksum was {runner_checksum}? Give the full name."),
+            question=(f"Whose six-stream checksum was {runner_checksum}? Give the full name."),
             gold_answer=runner,
             gold_answer_variants=name_answer_variants(runner),
             question_type="intermediate",
@@ -513,8 +505,8 @@ def _questions(
         gold_answer=answer,
         questions=questions,
         supported_conclusions=[
-            f"{answer}'s twelve-stream checksum equals the accepted checksum.",
-            f"{runner}'s twelve-stream checksum is {runner_checksum}.",
+            f"{answer}'s six-stream checksum equals the accepted checksum.",
+            f"{runner}'s six-stream checksum is {runner_checksum}.",
         ],
         counterfactual=CounterfactualTask(
             question=questions[2].question,
