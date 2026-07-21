@@ -240,7 +240,9 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             "causal, spatial, sequence, and protocol statuses with coefficients "
             f"{', '.join(str(c) for c in coefficients)}. At each stream, the panel squared "
             "the current checksum, added that stream's coefficient times its status value, "
-            f"and kept the remainder modulo {modulus} before continuing."
+            f"and kept the remainder modulo {modulus}. It made three passes: first in the "
+            "stated order, then in reverse order with the coefficients reversed, then once "
+            "more in the stated order with the coefficient list rotated one place left."
         ),
         formal="rule:checksum_formula",
         channel=ClueChannel.RULE_APPLICATION,
@@ -335,7 +337,7 @@ def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         visible=visible,
         questions=questions,
         offline_draft=draft,
-        n_hops=10,
+        n_hops=22,
     )
 
 
@@ -398,14 +400,20 @@ def _checksum_plan(
             checksums: dict[str, int] = {}
             for person_id, statuses in status_by_person.items():
                 checksum = start_value
-                for branch, coefficient in zip(
-                    BRANCHES,
-                    coefficients,
-                    strict=True,
-                ):
-                    checksum = (
-                        checksum * checksum + coefficient * weights[statuses[branch]]
-                    ) % modulus
+                passes = (
+                    (BRANCHES, coefficients),
+                    (tuple(reversed(BRANCHES)), tuple(reversed(coefficients))),
+                    (BRANCHES, coefficients[1:] + coefficients[:1]),
+                )
+                for branch_order, pass_coefficients in passes:
+                    for branch, coefficient in zip(
+                        branch_order,
+                        pass_coefficients,
+                        strict=True,
+                    ):
+                        checksum = (
+                            checksum * checksum + coefficient * weights[statuses[branch]]
+                        ) % modulus
                 checksums[person_id] = checksum
             values = list(checksums.values())
             if (
