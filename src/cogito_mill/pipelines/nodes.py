@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from cogito_mill.agents.critics import critique_story_document
+from cogito_mill.domain.concept import CriticFinding, CriticReport
 from cogito_mill.domain.reasoning import DeductionStep
 from cogito_mill.domain.recipe import (
     DifficultyBucket,
@@ -9,6 +11,7 @@ from cogito_mill.domain.recipe import (
     SettingFamily,
 )
 from cogito_mill.domain.run import AcceptedItem, RunStatus, ThinProvenance
+from cogito_mill.eval.score import name_answer_variants
 from cogito_mill.pipelines.artifacts import ArtifactStore, initial_manifest, new_run_id
 from cogito_mill.pipelines.state import MillState
 from cogito_mill.pipelines.templates import build_access_timeline
@@ -64,7 +67,6 @@ def formalize_and_disclose(state: MillState) -> MillState:
         errors.append("world unsatisfiable")
     if not disclosure.unique:
         errors.append("disclosure not unique")
-    # attach solver proof into questions
     questions = bundle.questions
     if disclosure.canonical_proof:
         questions = questions.model_copy(update={"steps": disclosure.canonical_proof})
@@ -93,18 +95,54 @@ def formalize_and_disclose(state: MillState) -> MillState:
     }
 
 
+def critique_story(state: MillState) -> MillState:
+    story = state.get("story")
+    questions = state.get("questions")
+    errors = list(state.get("errors", []))
+    if story is None or questions is None:
+        report = CriticReport(
+            decision="reject",
+            findings=[
+                CriticFinding(
+                    gate="artifacts_present",
+                    passed=False,
+                    detail="story or questions missing",
+                )
+            ],
+            feedback="story or questions missing",
+        )
+        errors.append("story critic: missing story or questions")
+    else:
+        report = critique_story_document(story, questions)
+        if report.decision != "accept":
+            errors.append(f"story critic: {report.feedback}")
+
+    store = ArtifactStore(state.get("output_root", "data"))
+    store.write_stage(state["run_id"], "story-critic", report)
+    return {
+        **state,
+        "story_critic": report,
+        "errors": errors,
+    }
+
+
 def final_validate(state: MillState) -> MillState:
     errors = list(state.get("errors", []))
     disclosure = state.get("disclosure_analysis")
     story = state.get("story")
     questions = state.get("questions")
     recipe = state["recipe"]
+    critic = state.get("story_critic")
     if disclosure is None or not disclosure.unique or disclosure.answer is None:
         errors.append("final: missing unique disclosure")
     if story is None or not story.full_text.strip():
         errors.append("final: empty story")
     if questions is None or not questions.gold_answer:
         errors.append("final: missing gold answer")
+    if questions is not None and not (2 <= len(questions.questions) <= 4):
+        errors.append("final: need 2–4 scored questions")
+    if critic is not None and critic.decision != "accept":
+        errors.append("final: story critic rejected")
 
     store = ArtifactStore(state.get("output_root", "data"))
     run_id = state["run_id"]
@@ -127,11 +165,25 @@ def final_validate(state: MillState) -> MillState:
         }
 
     assert disclosure is not None and questions is not None and story is not None
-    # Ensure gold answer label matches entity
     answer_entity = disclosure.answer
     label = next(e.label for e in state["world"].entities if e.id == answer_entity)
     if questions.gold_answer != label:
-        questions = questions.model_copy(update={"gold_answer": label})
+        updated = []
+        for q in questions.questions:
+            if q.question_type == "main":
+                updated.append(
+                    q.model_copy(
+                        update={
+                            "gold_answer": label,
+                            "gold_answer_variants": name_answer_variants(label),
+                        }
+                    )
+                )
+            else:
+                updated.append(q)
+        questions = questions.model_copy(
+            update={"gold_answer": label, "questions": updated}
+        )
 
     item_id = f"lss-pilot-{recipe.seed:06d}"
     provenance = ThinProvenance(
@@ -141,6 +193,10 @@ def final_validate(state: MillState) -> MillState:
         template_id=recipe.template_id,
     )
     steps: list[DeductionStep] = list(questions.steps)
+    main_q = next(
+        (q for q in questions.questions if q.question_type == "main"),
+        questions.questions[0],
+    )
     item = AcceptedItem(
         id=item_id,
         run_id=run_id,
@@ -148,6 +204,8 @@ def final_validate(state: MillState) -> MillState:
         sentences=story.sentences,
         question=questions.main_question,
         gold_answer=questions.gold_answer,
+        gold_answer_variants=main_q.gold_answer_variants,
+        questions=questions.questions,
         supported_conclusions=questions.supported_conclusions,
         gold_steps=steps,
         counterfactual=questions.counterfactual,
@@ -162,6 +220,8 @@ def final_validate(state: MillState) -> MillState:
         "disclosure_answer": disclosure.answer,
         "n_sentences": len(story.sentences),
         "n_steps": len(steps),
+        "n_questions": len(questions.questions),
+        "story_critic": critic.model_dump(mode="json") if critic else None,
     }
     out = store.promote_accepted(item, report)
     manifest = manifest.model_copy(

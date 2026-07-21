@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any, TypedDict
 
+from cogito_mill.domain.concept import CriticReport
 from cogito_mill.domain.evidence import VisibleTheory
 from cogito_mill.domain.narrative import StoryDocument
 from cogito_mill.domain.questions import QuestionBundle
@@ -21,6 +22,7 @@ class MillState(TypedDict, total=False):
     questions: QuestionBundle
     world_analysis: WorldAnalysis
     disclosure_analysis: DisclosureAnalysis
+    story_critic: CriticReport
     accepted: AcceptedItem
     manifest: RunManifest
     status: RunStatus

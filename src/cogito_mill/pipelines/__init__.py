@@ -10,6 +10,7 @@ def pipeline_stages() -> tuple[str, ...]:
     return (
         "sample_recipe",
         "formalize_and_disclose",
+        "critique_story",
         "final_validate",
         "pack",
         "publish",
