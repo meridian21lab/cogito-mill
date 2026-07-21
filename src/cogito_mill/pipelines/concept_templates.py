@@ -389,7 +389,7 @@ def _checksum_plan(
     weights = {status: index for index, status in enumerate(status_order)}
     base_coefficients = (2, 3, 5, 7, 11, 13)
     start_value = 2 + seed % 17
-    cycle_count = 17 + seed % 13
+    cycle_count = 97 + seed % 31
     for attempt in range(64):
         coefficients = tuple(
             sorted(
