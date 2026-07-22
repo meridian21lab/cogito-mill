@@ -19,6 +19,7 @@ You render a validated world + visible theory into English narrative.
 - Ordinary activity (festivals, errands, work tasks) may carry the critical sightings.
 - Light atmosphere is fine; padding that adds no evidence or misdirection budget is not.
 - Prefer names and roles over numeric labels. Never invent twin-name suffixes like `Name-2`.
+- Never write a participant's contiguous full name; keep surnames in separate clauses.
 
 ## After writing
 

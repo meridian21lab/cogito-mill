@@ -157,6 +157,15 @@ def family_for_seed(seed: int) -> FamilySpec:
     return FAMILIES[seed % len(FAMILIES)]
 
 
+def _first_name(label: str) -> str:
+    return label.split()[0]
+
+
+def _surname(label: str) -> str:
+    parts = label.split()
+    return parts[-1] if len(parts) > 1 else parts[0]
+
+
 def minutes_to_clock(minute: int) -> str:
     hour, mins = divmod(minute, 60)
     hour12 = hour % 12 or 12
@@ -405,6 +414,7 @@ def _build_timelines(
     timelines: dict[str, PersonTimeline] = {}
 
     for idx, (person_id, label) in enumerate(names):
+        first = _first_name(label)
         if idx == answer_idx:
             # Free during crime; nearby earlier and elsewhere later with enough travel slack.
             pre_end = crime_start - travel[place_a][crime] - 5
@@ -415,7 +425,7 @@ def _build_timelines(
                     pre_end - 40,
                     pre_end,
                     (
-                        f"{label} spent time at the {place_a} until "
+                        f"{first} spent time at the {place_a} until "
                         f"{minutes_to_clock(pre_end)}, then moved on."
                     ),
                 ),
@@ -424,7 +434,7 @@ def _build_timelines(
                     post_start,
                     post_start + 25,
                     (
-                        f"{label} was only noticed at the {place_c} from "
+                        f"{first} was only noticed at the {place_c} from "
                         f"{minutes_to_clock(post_start)} onward, after the incident window "
                         "had already closed."
                     ),
@@ -442,7 +452,7 @@ def _build_timelines(
                     crime_start - 50,
                     leave_prior,
                     (
-                        f"{label} left the {place_a} around "
+                        f"{first} left the {place_a} around "
                         f"{minutes_to_clock(leave_prior)}."
                     ),
                 ),
@@ -451,7 +461,7 @@ def _build_timelines(
                     arrive_elsewhere,
                     arrive_elsewhere + 20,
                     (
-                        f"{label} was seen at the {place_b} at "
+                        f"{first} was seen at the {place_b} at "
                         f"{minutes_to_clock(arrive_elsewhere)}, too soon after the incident began."
                     ),
                 ),
@@ -466,7 +476,7 @@ def _build_timelines(
                         crime_start - 10,
                         crime_end + 5,
                         (
-                            f"{label} remained at the {place_c} through "
+                            f"{first} remained at the {place_c} through "
                             f"{minutes_to_clock(crime_start)}–{minutes_to_clock(crime_end)}."
                         ),
                     )
@@ -480,7 +490,7 @@ def _build_timelines(
                         leave - 35,
                         leave,
                         (
-                            f"{label} was still at the {place_b} at "
+                            f"{first} was still at the {place_b} at "
                             f"{minutes_to_clock(leave)}, too late to reach the "
                             f"{crime} by {minutes_to_clock(crime_start)}."
                         ),
@@ -495,7 +505,7 @@ def _build_timelines(
                         nxt,
                         nxt + 30,
                         (
-                            f"{label} had to be at the {place_a} by "
+                            f"{first} had to be at the {place_a} by "
                             f"{minutes_to_clock(nxt)}, leaving no room to finish the incident."
                         ),
                     )
@@ -518,13 +528,14 @@ def _build_timelines(
                 raise ValueError("answer lacks opportunity")
         elif ok:
             # Force an overlapping alibi.
+            first = _first_name(timeline.label)
             timeline.segments.append(
                 Segment(
                     place_c,
                     crime_start,
                     crime_end,
                     (
-                        f"{timeline.label} was accounted for at the {place_c} during "
+                        f"{first} was accounted for at the {place_c} during "
                         f"{minutes_to_clock(crime_start)}–{minutes_to_clock(crime_end)}."
                     ),
                     fact_id=f"f_seg_{person_id}_block",
@@ -593,6 +604,23 @@ def _facts_and_logic(
                 channel=ClueChannel.RECORD,
                 role="required",
                 scene_id="sc1",
+                reveal_order=order,
+            )
+        )
+        order += 1
+
+    # Surname disclosures without contiguous full-name strings.
+    for person_id, timeline in timelines.items():
+        first = _first_name(timeline.label)
+        last = _surname(timeline.label)
+        facts.append(
+            VisibleFact(
+                id=f"f_surname_{person_id}",
+                text=f"Staff notes give {first} the surname {last}.",
+                formal=f"name:{person_id}",
+                channel=ClueChannel.RECORD,
+                role="required",
+                scene_id="sc2",
                 reveal_order=order,
             )
         )
@@ -820,7 +848,7 @@ def _questions(
         ),
         ScoredQuestion(
             id="q_time",
-            question="At what clock time did the incident window begin?",
+            question="At what clock time did the incident window begin? Answer in h:mm AM/PM format.",
             gold_answer=minutes_to_clock(crime_start),
             gold_answer_variants=[
                 minutes_to_clock(crime_start),
@@ -1094,9 +1122,20 @@ def _names(seed: int, n: int) -> list[tuple[str, str]]:
             f"{seed}:timeline-name:{pair[0]}:{pair[1]}".encode()
         ).digest(),
     )
-    if n > len(ordered):
-        raise ValueError(f"need {n} unique names but only {len(ordered)} available")
-    return [(f"p{i}", f"{first} {last}") for i, (first, last) in enumerate(ordered[:n])]
+    selected: list[tuple[str, str]] = []
+    seen_first: set[str] = set()
+    seen_last: set[str] = set()
+    for first, last in ordered:
+        if first in seen_first or last in seen_last:
+            continue
+        seen_first.add(first)
+        seen_last.add(last)
+        selected.append((first, last))
+        if len(selected) >= n:
+            break
+    if len(selected) < n:
+        raise ValueError(f"need {n} unique given/surname pairs but only {len(selected)} available")
+    return [(f"p{i}", f"{first} {last}") for i, (first, last) in enumerate(selected)]
 
 
 def _pick(seed: int, salt: str, modulo: int) -> int:

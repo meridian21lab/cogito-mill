@@ -150,7 +150,7 @@ world) without dropping appendix recoverability or story-only hardness.
 
 ## quality-20260722-timeline-opportunity — Timeline/alibi stories vs formula ledgers (2026-07-22)
 
-Status: planned
+Status: running
 Claim level: development calibration
 Protocol: dataset-quality.v1
 

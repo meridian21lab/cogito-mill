@@ -189,8 +189,10 @@ Phase 1 — simple factual storyline only.
 Write a title, opening, and the same five scene IDs as a plain chronological account of the
 incident and every obligated fact. No literary padding yet. Keep people, places, clock times,
 durations, and travel exact. Do not reveal who alone had opportunity.
-Never use protocol declarations, status scales, coefficients, modulo arithmetic, checksums,
-tallies, or six-stream ledgers. Do not invent twin-name suffixes.
+Never write any participant's contiguous full name (given name immediately followed by surname).
+Keep surnames in separate clauses, as in the obligations. Never use protocol declarations,
+status scales, coefficients, modulo arithmetic, checksums, tallies, or six-stream ledgers.
+Do not invent twin-name suffixes.
 Concept: {concept.model_dump_json()}
 Scene obligations: {json.dumps(obligations, ensure_ascii=False)}
 Scaffold: {scaffold.model_dump_json()}
@@ -204,6 +206,7 @@ and travel claim. Weave ordinary activity (errands, festival food, work tasks, s
 noise around the critical sightings. Return a title, opening, and the same five scene IDs.
 Write like a short literary mystery or true-crime vignette, not a procedure manual.
 A careful reader should be able to build a timeline map and eliminate candidates.
+Never write any participant's contiguous full name; keep surnames in separate clauses.
 Never use protocol declarations, status scales, coefficients, modulo arithmetic, checksums,
 tallies, or six-stream ledgers. Do not invent twin-name suffixes or personnel-index walls.
 Do not state who alone had opportunity.

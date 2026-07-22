@@ -174,6 +174,52 @@ def critique_story_document(
         )
     )
 
+    # Contiguous gold full names must not appear in reader-facing prose.
+    leak_answers = [
+        q.gold_answer
+        for q in questions.questions
+        if q.question_type in {"main", "counterfactual"}
+        and q.gold_answer.lower() != "none"
+        and " " in q.gold_answer.strip()
+    ]
+    if questions.gold_answer.lower() != "none":
+        leak_answers.append(questions.gold_answer)
+    leaked = []
+    for answer in dict.fromkeys(leak_answers):
+        pattern = rf"(?<![\w-]){re.escape(answer)}(?!-\d)(?![\w-])"
+        if re.search(pattern, text):
+            leaked.append(answer)
+    findings.append(
+        CriticFinding(
+            gate="no_answer_leak",
+            passed=not leaked,
+            detail=(
+                "no contiguous gold full name in story"
+                if not leaked
+                else f"story leaks gold name(s): {', '.join(leaked[:3])}"
+            ),
+        )
+    )
+
+    # Scalar / clock questions need an explicit answer form.
+    scalar_qs = [q for q in questions.questions if q.question_type in {"scalar", "code"}]
+    scalar_ok = all(
+        "answer" in q.question.lower()
+        and (
+            "format" in q.question.lower()
+            or "exact" in q.question.lower()
+            or "only" in q.question.lower()
+        )
+        for q in scalar_qs
+    )
+    findings.append(
+        CriticFinding(
+            gate="scalar_answer_form",
+            passed=scalar_ok,
+            detail="scalar/code questions must state an explicit answer form",
+        )
+    )
+
     first = paragraphs[0] if paragraphs else ""
     opening_ok = bool(first) and ("Personnel index:" not in first and first.count("EMP-") < 3)
     findings.append(
