@@ -452,21 +452,21 @@ def _candidate_clues(
     ordered_people = sorted(people, key=lambda person: times.index(time_assignment[person]))
     ordered_objects = [object_assignment[person] for person in ordered_people]
     ordered_places = [place_assignment[person] for person in ordered_people]
-    for left, right in zip(ordered_people, ordered_people[1:], strict=True):
+    for left, right in zip(ordered_people, ordered_people[1:], strict=False):
         add(
             "person_before_person",
             [left, right],
             ["person", "time"],
             f"{labels[left].split()[0]}'s appointment came before {labels[right].split()[0]}'s.",
         )
-    for left, right in zip(ordered_objects, ordered_objects[1:], strict=True):
+    for left, right in zip(ordered_objects, ordered_objects[1:], strict=False):
         add(
             "object_before_object",
             [left, right],
             ["object", "time"],
             f"The {left} appeared in the record before the {right}.",
         )
-    for left, right in zip(ordered_places, ordered_places[1:], strict=True):
+    for left, right in zip(ordered_places, ordered_places[1:], strict=False):
         add(
             "place_before_place",
             [left, right],
