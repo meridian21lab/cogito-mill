@@ -22,6 +22,7 @@ Secrets (local `.env` or Cursor Cloud Secrets): see `.env.example`.
 - Do not assume marketplace Hugging Face plugins; use project skill `huggingface-datasets` + `huggingface_hub`.
 - Environment config is commit-scoped: push Dockerfile/`environment.json` changes before launching a cloud agent to test them.
 - `uv run mypy` reports `Package 'cogito_mill' cannot be type checked due to missing py.typed marker` and exits 0 — this is a known packaging gap in the scaffold, not a lint/type failure.
+- Custom agents under `.cursor/agents/` are project agents, **not** skills. Project skills live under `.agents/skills/` (e.g. `dataset-quality`). Cursor Cloud currently resolves a launched custom agent as a personal skill at `~/.cursor/skills/<name>/SKILL.md`; `scripts/cloud-install.sh` mirrors `.cursor/agents/*.md` there so entrypoints like `dataset-quality-judge` load. Plugin-cache `ENOENT` lines for marketplace plugins are expected and harmless.
 
 ## Subagents (project)
 
