@@ -6,7 +6,6 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-
 ConstraintKind = Literal[
     "person_not_place",
     "person_not_time",

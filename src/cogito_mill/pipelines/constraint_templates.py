@@ -225,7 +225,10 @@ def build_constraint_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         visible_facts.append(
             VisibleFact(
                 id=f"f_surname_{person_id}",
-                text=f"The duty roster records {_first_name(label)} under the surname {_surname(label)}.",
+                text=(
+                    f"The duty roster records {_first_name(label)} under the surname "
+                    f"{_surname(label)}."
+                ),
                 formal=f"name:{person_id}",
                 channel=ClueChannel.RECORD,
                 role="required",
@@ -310,7 +313,10 @@ def build_constraint_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             f"The {target_object} was at the {target_place} at {target_time}.",
         ],
         falsifier=FalsifierTask(
-            hypothesis=f"{labels[people[(people.index(answer_id) + 1) % len(people)]]} handled the {target_object}",
+            hypothesis=(
+                f"{labels[people[(people.index(answer_id) + 1) % len(people)]]} "
+                f"handled the {target_object}"
+            ),
             minimal_evidence=[clue.id for clue in theory.clues[:3]],
         ),
     )

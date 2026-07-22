@@ -146,16 +146,16 @@ target object with a person. The answer must come from jointly satisfying natura
 receipt, exclusion, relative-order, and either/or evidence. Do not choose or hint at the answer;
 Z3 fixes the hidden world and visible clue set."""
         elif recipe.prompt_version == "pilot.v5":
-            mechanism = """The mystery is a connected custody-provenance puzzle. Every named person has
-local access, so opportunity alone cannot answer it. A uniquely numbered authorization object
-moves inside sealed containers through witnessed handoffs and uninspected whole-content
-transfers. The answer requires following the shared object/container state from its opening
-location to a final authorization record. Do not choose or hint at the answer; deterministic
-code fixes the chain."""
+            mechanism = """The mystery is a connected custody-provenance puzzle.
+Every named person has local access, so opportunity alone cannot answer it. A uniquely numbered
+authorization object moves inside sealed containers through witnessed handoffs and uninspected
+whole-content transfers. The answer requires following the shared object/container state from
+its opening location to a final authorization record. Do not choose or hint at the answer;
+deterministic code fixes the chain."""
         else:
-            mechanism = """The mystery is a timeline/opportunity puzzle: an incident happens in a fixed
-time window at one place, and only one person could have been there for the whole window after
-travel times and alibis are applied."""
+            mechanism = """The mystery is a timeline/opportunity puzzle.
+An incident happens in a fixed time window at one place, and only one person could have been
+there for the whole window after travel times and alibis are applied."""
         prompt = f"""You are the concept planner for a synthetic reasoning benchmark.
 Create one compact narrative premise for the fixed family {family_id!r}.
 The setting must remain: {setting}
