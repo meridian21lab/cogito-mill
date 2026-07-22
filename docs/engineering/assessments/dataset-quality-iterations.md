@@ -673,3 +673,69 @@ Pending.
 ### Next action
 
 Add only the exact constraint vocabulary lock, verify, and run the final fixed candidate.
+
+## quality-20260722-full-target-tuple-audit — Frozen CSP answer-contract audit (2026-07-22)
+
+Status: planned
+Claim level: development calibration
+Protocol: dataset-quality.v1.1
+
+### Hypothesis
+
+All three scored v6c answers—target owner, place, and time—are invariant across every satisfying
+model of each frozen visible constraint theory, not merely consistent with the hidden generation
+world.
+
+### Scope and controls
+
+- Change surfaces: deterministic constraint verifier only; no generator, prompt, data, or
+  evaluator change
+- Primary metric: exactly one `(person, place, time)` tuple for the queried object in every one
+  of the 16 frozen appendices
+- Regression gates / invariants: existing unique-owner, clue-ablation, axis-dependence, and all
+  retained pack/eval hashes unchanged
+- Baseline pack + SHA-256: `pilot_v6c_vocabulary_locked` (raw
+  `5ec1cc8ae3f4209cee5c882f7a0197a0788dd37389fb4326facf4d3c22f9cf82`;
+  canonical `907cf235a43b5ff487d28790d4c19ded50c1585f99a6639cdb81f30cab5b7949`)
+- Candidate config / output path: frozen-pack audit; no new candidate
+- Git SHA: verifier implementation follows; starting branch commit `f471cb3`
+- Thin/full schema SHA-256: unchanged
+- Seed block/list: frozen 16000–16015
+- Requested size and balance: 16 frozen items
+- Difficulty / agent mode / provider: unchanged; no generation call
+- Evaluator: no new story-only call; retained Luna result 4/16
+- Planned commands: unit tests for tuple enumeration; validate all 16 packed appendices against
+  their main/intermediate/scalar gold answers; emit countermodels on any mismatch
+- Known deviations: external judge raised this gate after the measured final pack; this audit can
+  only confirm or reject that frozen pack, not repair it post hoc
+
+### Change
+
+Planned.
+
+### Generation and item gates
+
+Not applicable; frozen artifacts only.
+
+### Dataset metrics
+
+Pending tuple audit.
+
+### Human audit
+
+Unchanged fixed sample.
+
+### Difficulty evaluation
+
+Unchanged retained 4/16 story-only result.
+
+### Verdict
+
+- Primary hypothesis: pending
+- Regressions: pending
+- Permissible claim: pending
+- What this does not establish: human solve rate or release hardness
+
+### Next action
+
+Implement tuple enumeration and audit all frozen v6c items before promotion.
