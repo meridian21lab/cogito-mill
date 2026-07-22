@@ -628,7 +628,7 @@ automated gates.
   `data/experiments/quality-20260722-csp-vocabulary-lock/`
 - Git SHA: implementation follows; starting branch commit `5347914`
 - Thin/full schema SHA-256: unchanged
-- Seed block/list: 17000–17015
+- Seed block/list: 16000–16015 (paired formal worlds with v6b; new isolated live narrations)
 - Requested size and balance: 16 accepted items; six families
 - Difficulty: very_hard
 - Agent mode: live
@@ -638,7 +638,7 @@ automated gates.
 - Prompt versions / evaluator prompt SHA-256: generator remains `pilot.v6`; evaluator unchanged
 - Scorer version: pilot.v2
 - Planned commands: full offline validation; isolated generation (resume exact seeds after any
-  transport stall); integrity/assess; fixed audit IDs `017000`–`017005`; Luna main-only;
+  transport stall); integrity/assess; fixed audit IDs `016000`–`016005`; Luna main-only;
   appendix-assisted diagnostic if all prior gates pass
 - Known deviations: prompt-only live generations are nondeterministic; the v6b transport stalled
   after eight accepted items and was resumed at seed 16008 without changing the seed block
@@ -657,7 +657,7 @@ Pending.
 
 ### Human audit
 
-Pending; fixed IDs `lss-concept-017000` through `lss-concept-017005`.
+Pending; fixed IDs `lss-concept-016000` through `lss-concept-016005` in the new candidate pack.
 
 ### Difficulty evaluation
 
