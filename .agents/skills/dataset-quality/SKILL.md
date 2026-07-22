@@ -65,10 +65,12 @@ Companion materials:
 | `data/packed/pilot_v2.jsonl` | Prior 12-item live-agent calibration pack (six families, nonlinear local concept) |
 | `data/packed/pilot_v2_quality_metrics.json` | Pack narration + diversity gates (passed) |
 | `data/packed/luna_eval_metrics_v2.json` | Luna main-question hardness (16.7% = passed development gate) |
-| `data/packed/pilot_v3_balanced.jsonl` | Current forward calibration candidate (evidence-edit CFs + appendix) |
+| `data/packed/pilot_v3_balanced.jsonl` | Prior 12-item calibration (evidence-edit CFs + appendix; hardness pass) |
 | `data/packed/pilot_v3_balanced_appendix.jsonl` | Companion solver appendix for `pilot_v3_balanced` |
 | `data/packed/luna_eval_metrics_v3_balanced_story.json` | Story-only Luna main accuracy 16.7% (hardness pass) |
 | `data/packed/luna_eval_metrics_v3_balanced_appendix.json` | Appendix-assisted Luna main accuracy 100% |
+| `data/packed/pilot_v4b_neutral.jsonl` | Anti-ledger timeline narration baseline (n=20; hardness fail at 100%) |
+| `data/packed/luna_eval_metrics_v4b_neutral_story.json` | Story-only main accuracy 100% (too easy; not a hardness claim) |
 
 Historical packs (`pilot_v0`, `pilot_v1`) and their Luna metrics remain for regression narrative
 only. Iterate **forward** from `pilot_v2` lessons, but use the general experiment log and protocol

@@ -587,17 +587,21 @@ def _facts_and_logic(
         (family.places[0], family.places[1]),
         (family.places[0], family.places[2]),
     ]
-    for origin, dest in place_pairs:
+    travel_frames = (
+        "Getting from the {origin} to the {dest} usually took about {minutes} minutes that afternoon.",
+        "Anyone walking from the {origin} to the {dest} needed about {minutes} minutes.",
+        "The short trip between the {origin} and the {dest} was about {minutes} minutes in festival traffic.",
+        "From the {origin} over to the {dest} was roughly a {minutes}-minute journey.",
+    )
+    for pair_i, (origin, dest) in enumerate(place_pairs):
         minutes = travel[origin][dest]
         atom = LogicAtom(predicate="travel", arguments=[origin, dest, str(minutes)])
         logic_facts.append(atom)
+        frame = travel_frames[(seed + pair_i) % len(travel_frames)]
         facts.append(
             VisibleFact(
                 id=f"f_travel_{_slug(origin)}_{_slug(dest)}",
-                text=(
-                    f"On that day, the usual route between the {origin} and the {dest} "
-                    f"took about {minutes} minutes."
-                ),
+                text=frame.format(origin=origin, dest=dest, minutes=minutes),
                 formal=f"atom:{atom.key}",
                 channel=ClueChannel.RECORD,
                 role="required",

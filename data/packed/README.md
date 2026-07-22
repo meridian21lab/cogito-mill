@@ -19,6 +19,14 @@ Historical pilot log: `docs/engineering/assessments/pilot-quality-iterations.md`
 | `pilot_v3_balanced_appendix.jsonl` | Companion solver appendix (not Hub thin schema) |
 | `pilot_v3_balanced_integrity_metrics.json` | Integrity hashes for `pilot_v3_balanced` |
 | `pilot_v3_balanced_quality_metrics.json` | Narration/diversity gates for `pilot_v3_balanced` |
+| `pilot_v4_timeline.jsonl` | 20-item timeline/alibi pack (anti-ledger; hardness fail) |
+| `pilot_v4_timeline_appendix.jsonl` | Timeline opportunity appendix for `pilot_v4_timeline` |
+| `pilot_v4_timeline_integrity_metrics.json` | Integrity hashes for `pilot_v4_timeline` |
+| `pilot_v4_timeline_quality_metrics.json` | Narration/diversity gates for `pilot_v4_timeline` |
+| `pilot_v4b_neutral.jsonl` | 20-item neutral-claim timeline pack (anti-ledger; hardness fail) |
+| `pilot_v4b_neutral_appendix.jsonl` | Timeline opportunity appendix for `pilot_v4b_neutral` |
+| `pilot_v4b_neutral_integrity_metrics.json` | Integrity hashes for `pilot_v4b_neutral` |
+| `pilot_v4b_neutral_quality_metrics.json` | Narration/diversity gates for `pilot_v4b_neutral` |
 | `luna_eval_metrics.json` | Luna eval on `pilot_v0` |
 | `luna_eval_metrics_v1.json` | Luna eval sample on `pilot_v1` |
 | `luna_eval_metrics_v2.json` | Luna main-question eval on `pilot_v2` |
@@ -26,6 +34,9 @@ Historical pilot log: `docs/engineering/assessments/pilot-quality-iterations.md`
 | `luna_eval_metrics_v3_balanced_appendix.json` | Appendix-assisted Luna main eval |
 | `luna_eval_metrics_v3_balanced_story_cf.json` | Story-only counterfactual eval |
 | `luna_eval_metrics_v3_balanced_appendix_cf.json` | Appendix-assisted counterfactual eval |
+| `luna_eval_metrics_v4_timeline_story.json` | Story-only main eval on `pilot_v4_timeline` (1.00) |
+| `luna_eval_metrics_v4_timeline_appendix.json` | Appendix-assisted main eval on `pilot_v4_timeline` |
+| `luna_eval_metrics_v4b_neutral_story.json` | Story-only main eval on `pilot_v4b_neutral` (1.00) |
 | `luna_eval_predictions_sample.jsonl` | `pilot_v0` prediction sample |
 | `luna_eval_predictions_v1_sample.jsonl` | `pilot_v1` prediction sample |
 
