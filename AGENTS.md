@@ -39,16 +39,31 @@ Installed under `.agents/skills/` (also discovered by Cursor):
 - `langgraph` — LangGraph patterns
 - `/azure-usage` — Azure Foundry/OpenAI usage and costs via `az` (no secrets in skill)
 - `huggingface-datasets` — Dataset Viewer / Hub upload (lightweight; not the marketplace HF plugin)
-- `dataset-quality` — pilot pack assessment protocol, quality gates, iteration log, generate/evaluate launchers
+- `dataset-quality` — mandatory protocol for every dataset-quality change; metrics, controlled experiments, append-only records, and launchers
 
 ## Specs
 
 Living engineering docs: `docs/engineering/`. Refine with `/grill-with-docs` and `/to-spec`.
 
-Dataset quality iterations: read `.agents/skills/dataset-quality/SKILL.md` before
-changing generation or evaluation, then append measurements to
-`docs/engineering/assessments/pilot-quality-iterations.md`. Launchers:
-`scripts/generate-pilot.sh`, `scripts/evaluate-pilot.sh`.
+### Mandatory dataset-quality preflight
+
+For **every** change that can affect generated content, formal worlds, evidence, prompts,
+handoffs, agent/graph logic, critics, quality thresholds, scoring, packing, evaluation, or a
+quality claim, load and follow:
+
+1. `.agents/skills/dataset-quality/SKILL.md`
+2. `.agents/skills/dataset-quality/QUALITY-METRICS.md`
+3. `.agents/skills/dataset-quality/ASSESSMENT-PROTOCOL.md`
+4. `docs/engineering/assessments/dataset-quality-iterations.md`
+5. latest relevant history in `docs/engineering/assessments/pilot-quality-iterations.md`
+6. `data/packed/README.md`
+7. both contracts under `schemas/`
+
+Pre-register every measured improvement using
+`.agents/skills/dataset-quality/ASSESSMENT-RECORD-TEMPLATE.md`, then append results to
+`docs/engineering/assessments/dataset-quality-iterations.md`. Do not overwrite baselines or
+modify Hub schemas during routine quality work. Canonical launchers:
+`scripts/generate-dataset.sh`, `scripts/evaluate-dataset.sh`.
 
 ## Tests
 

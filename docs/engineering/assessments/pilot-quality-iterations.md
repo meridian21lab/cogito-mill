@@ -1,10 +1,10 @@
-# Pilot quality assessment log
+# Historical pilot quality assessment log
 
-Living log of blunt assessments against packed pilots. Newest iteration at the bottom.
+Historical experiments that established the current `pilot_v2` baseline. Do not append new
+general quality work here; use `dataset-quality-iterations.md`.
 
-**Protocol (single reference):** `.agents/skills/dataset-quality/SKILL.md`.
-Use `ITERATION-TEMPLATE.md` in that skill when appending. Launchers:
-`scripts/generate-pilot.sh`, `scripts/evaluate-pilot.sh`.
+Current protocol: `.agents/skills/dataset-quality/ASSESSMENT-PROTOCOL.md`.
+Metric registry: `.agents/skills/dataset-quality/QUALITY-METRICS.md`.
 
 ---
 

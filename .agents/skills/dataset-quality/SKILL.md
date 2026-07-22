@@ -1,38 +1,64 @@
 ---
 name: dataset-quality
-description: Develop and assess Long Story Short pilot datasets. Use when iterating on generation quality, measuring narration/diversity/hardness, recording assessments, evaluating improvements, or launching generate/evaluate scripts.
+description: Develop and assess Cogito Mill reasoning datasets. MUST be used for every change that can affect generated content, agents/prompts/handoffs, formal logic, grounding, quality gates, scoring, packed composition, evaluation, or dataset-quality claims.
 ---
 
 # Dataset quality — Long Story Short
 
-Single reference for **further developing** the pilot reasoning dataset. Read this skill before changing generation, critics, prompts, or evaluation. After every measured change, append the iteration to
-`docs/engineering/assessments/pilot-quality-iterations.md`.
+Entry point for **all dataset quality improvements**, from a one-prompt repair through a
+release-sized dataset. This skill is not limited to pilot packs. Pilot artifacts are the current
+baseline and historical evidence, not the boundary of the protocol.
+
+## Required reading — load on every quality task
+
+Read these files before planning or editing:
+
+1. this file;
+2. [QUALITY-METRICS.md](QUALITY-METRICS.md);
+3. [ASSESSMENT-PROTOCOL.md](ASSESSMENT-PROTOCOL.md);
+4. `docs/engineering/assessments/dataset-quality-iterations.md`;
+5. the latest relevant entries in
+   `docs/engineering/assessments/pilot-quality-iterations.md`;
+6. `data/packed/README.md`;
+7. both files under `schemas/`.
+
+Then inspect the affected implementation because executable gates outrank prose. Follow
+`ASSESSMENT-PROTOCOL.md`; use
+[ASSESSMENT-RECORD-TEMPLATE.md](ASSESSMENT-RECORD-TEMPLATE.md) for every measured change.
 
 Companion materials:
 
 | Path | Role |
 |------|------|
-| `data/packed/README.md` | Packed pilots, load/eval/regenerate commands |
-| `data/packed/` | Frozen packs, quality metrics, Luna metrics |
-| `docs/engineering/assessments/pilot-quality-iterations.md` | Living assessment log (newest at bottom) |
+| `QUALITY-METRICS.md` | Canonical formulas, gates, diagnostics, and claim levels |
+| `ASSESSMENT-PROTOCOL.md` | Detailed reproducible experiment procedure |
+| `ASSESSMENT-RECORD-TEMPLATE.md` | Pre-registration and result record |
+| `data/packed/README.md` | Immutable retained packs and metric snapshots |
+| `data/packed/` | Frozen packs, quality metrics, solver metrics |
+| `docs/engineering/assessments/dataset-quality-iterations.md` | Active append-only log for all improvements |
+| `docs/engineering/assessments/pilot-quality-iterations.md` | Historical pilot experiments |
 | `schemas/reasoning-item.schema.json` | Hub thin item schema (**do not modify**) |
 | `schemas/reasoning-item-full.schema.json` | Full accepted projection (**do not modify**) |
-| `scripts/generate-pilot.sh` | Launch batch generation + pack + assess |
-| `scripts/evaluate-pilot.sh` | Launch Luna hardness evaluation |
+| `scripts/generate-dataset.sh` | Launch isolated batch generation + pack + assess |
+| `scripts/evaluate-dataset.sh` | Launch solver hardness evaluation |
 
 ---
 
 ## Non-negotiables
 
-1. **Keep the Hub schema.** Do not change fields, enums, or required keys in `schemas/`. Pack and eval must stay compatible with `pilot_v2` rows.
+1. **Keep the Hub schema.** Do not change fields, enums, or required keys in `schemas/` during
+   quality iterations. Pack and eval remain compatible with the current contract.
 2. **Agents propose; code decides.** Models write premises, prose, and critiques. Z3/causal uniqueness, deterministic story gates, and pack assessors decide acceptance.
 3. **Readability is not traded for hardness.** Identifier dumps and EMP walls are failures even if Luna accuracy falls.
 4. **Minor agent changes only.** Prefer prompt, handoff, and internal-logic improvements over new graph topology or role proliferation.
 5. **Hardness cannot compensate for failed narration or diversity.** Run `assess` before Luna; if assess fails, stop and fix the pack.
+6. **No unregistered quality claims.** Pre-register the hypothesis and controls, retain immutable
+   artifacts/hashes, report failures, and append the completed experiment record.
+7. **Do not overwrite baselines.** Every measured candidate gets a new config/label and output.
 
 ---
 
-## Current baseline
+## Current implementation baseline (not protocol scope)
 
 | Artifact | Meaning |
 |----------|---------|
@@ -40,7 +66,9 @@ Companion materials:
 | `data/packed/pilot_v2_quality_metrics.json` | Pack narration + diversity gates (passed) |
 | `data/packed/luna_eval_metrics_v2.json` | Luna main-question hardness (16.7% = passed development gate) |
 
-Historical packs (`pilot_v0`, `pilot_v1`) and their Luna metrics remain for regression narrative only. Iterate **forward** from `pilot_v2` lessons: see iterations 0–7 in the assessment log.
+Historical packs (`pilot_v0`, `pilot_v1`) and their Luna metrics remain for regression narrative
+only. Iterate **forward** from `pilot_v2` lessons, but use the general experiment log and protocol
+for every new change.
 
 ---
 
@@ -222,39 +250,44 @@ Calibration packs (e.g. n=12) may pass development hardness while failing statis
 
 | What | Where |
 |------|-------|
-| Packed items | `data/packed/<config>.jsonl` (e.g. `pilot_v2.jsonl`) |
+| Packed items | `data/packed/<config>.jsonl` (immutable once measured) |
+| Schema/ID/hash integrity | `data/packed/<config>_integrity_metrics.json` |
 | Pack quality metrics | `data/packed/<config>_quality_metrics.json` |
-| Luna / solver metrics (canonical snapshot) | `data/packed/luna_eval_metrics_<label>.json` |
-| Luna prediction samples (optional) | `data/packed/luna_eval_predictions_<label>.jsonl` |
+| Solver metrics (current filename convention) | `data/packed/luna_eval_metrics_<label>.json` |
+| Solver prediction samples (optional) | `data/packed/luna_eval_predictions_<label>.jsonl` |
 | Per-run eval artifacts (auto) | `data/processed/evals/<eval_id>/{metrics.json,predictions.jsonl}` |
-| Iteration narrative + verdict | `docs/engineering/assessments/pilot-quality-iterations.md` (append newest at **bottom**) |
+| Experiment plan + results | `docs/engineering/assessments/dataset-quality-iterations.md` (append newest at **bottom**) |
+| Historical pilot evidence | `docs/engineering/assessments/pilot-quality-iterations.md` (do not append general work) |
 | Pack index | `data/packed/README.md` (add new files to the table) |
 
 Never commit secrets. Metrics JSON is fine to commit. Live predictions may be large — prefer samples plus full metrics.
 
 ---
 
-## Assessment protocol
+## Assessment protocol — quick reference
 
-Use this protocol for **every** quality iteration.
+The normative, reproducible procedure is
+[ASSESSMENT-PROTOCOL.md](ASSESSMENT-PROTOCOL.md). The sequence below is only a quick reference.
+It applies to every quality-affecting change, not only pilot generation.
 
-### 1. State the hypothesis
+### 1. Pre-register the hypothesis and controls
 
-One sentence: what structural or narrative change should improve which gate, without breaking others.
+Create a draft record in `dataset-quality-iterations.md`: one mechanism, primary metric, frozen
+baseline, fixed seeds/provider/evaluator/scorer, regression gates, exact commands, and claim level.
 
 ### 2. Implement a minimal change
 
 Allowed surfaces only (prompts, handoffs, template/logic, gate thresholds when intentional). Keep schema frozen.
 
-### 3. Generate
+### 3. Generate an isolated candidate
 
 ```bash
-scripts/generate-pilot.sh
-# or with overrides:
-scripts/generate-pilot.sh --n 12 --seeds-from 10000 --config pilot_v3 --agent-mode live
+scripts/generate-dataset.sh \
+  --n 12 --seeds-from 10000 --config <new-config> --agent-mode live
 ```
 
-Defaults target a live calibration pack. Requires Azure/GLM secrets for `--agent-mode live`.
+Never overwrite a baseline or pack unrelated processed runs. Requires Azure/GLM secrets for
+`--agent-mode live`.
 
 ### 4. Assess narration + diversity **before** hardness
 
@@ -266,27 +299,34 @@ uv run cogito-mill assess \
 
 If `passed` is false, **do not** run Luna as a success signal. Fix narration/diversity first.
 
-### 5. Evaluate hardness (main questions)
+### 5. Human-audit a deterministic stratified sample
+
+Use the sample sizes and rubric in `QUALITY-METRICS.md`; record item IDs before review.
+
+### 6. Evaluate hardness (main questions)
 
 ```bash
-scripts/evaluate-pilot.sh --local-dir data/packed/<config>.jsonl --label v3
+scripts/evaluate-dataset.sh \
+  --local-dir data/packed/<config>.jsonl --config <config> --label <experiment>
 ```
 
 Copies metrics into `data/packed/luna_eval_metrics_<label>.json`.
 
-### 6. Record the iteration
+### 7. Compare and record
 
-Append a section to `docs/engineering/assessments/pilot-quality-iterations.md` using the template in [ITERATION-TEMPLATE.md](ITERATION-TEMPLATE.md). Include:
+Complete the pre-registered section in
+`docs/engineering/assessments/dataset-quality-iterations.md` using
+[ASSESSMENT-RECORD-TEMPLATE.md](ASSESSMENT-RECORD-TEMPLATE.md). Include:
 
-- hypothesis and what changed
-- narration/diversity metrics (gate pass/fail)
-- Luna main accuracy, Wilson upper bound, first-name-only rate
-- honest verdict (what worked / failed)
-- next refinement targets
+- Git, schema, dataset, evaluator prompt, and metrics hashes;
+- exact generation/evaluation commands and provider identities;
+- baseline, candidate, delta, threshold, and verdict for every required metric;
+- human-audit sample and findings;
+- failures, deviations, permissible claim, and next action.
 
 Update `data/packed/README.md` when adding new pack files.
 
-### 7. Decision rules
+### 8. Decision rules
 
 | Outcome | Action |
 |---------|--------|
@@ -301,9 +341,11 @@ Update `data/packed/README.md` when adding new pack files.
 
 Treat each change as an experiment against the previous packed baseline.
 
-1. **Isolate one mechanism.** Do not mix narration rewrites with hardness mechanisms in the same unlogged change.
-2. **Hold the protocol fixed.** Same solver provider (Azure writer/Luna), `--main-only`, same scorer version, full prediction coverage (no silent skips).
-3. **Compare gates, not vibes.**
+1. **Isolate one mechanism.** Do not mix generator and measurement changes in one experiment.
+2. **Hold the protocol fixed.** Use the same seeds, sample size/balance, provider/deployments,
+   evaluator prompt, scorer, schema, and thresholds unless that variable is the experiment.
+3. **Identify immutable inputs.** Record Git, schema, dataset, prompt, and metrics hashes.
+4. **Compare gates, not vibes.**
 
 | Dimension | Primary signal | Secondary |
 |-----------|----------------|-----------|
@@ -313,8 +355,13 @@ Treat each change as an experiment against the previous packed baseline.
 | Hardness | `main_accuracy` | Wilson upper bound |
 | Grounding | Generation accept rate / critic findings | Spot-check fact maps |
 
-4. **Regression checks.** A “win” on hardness that reintroduces identifier dumps is a failure (iteration 0 lesson). A “win” on narration that yields 100% Luna (iteration 1–2) is incomplete.
-5. **Prefer structural hardness.** Lookup layers and linear checksums failed (iterations 3–4). Variable-depth nonlinear local concepts worked for calibration (iteration 7) but need **diverse structural mechanisms** at scale (state transitions, provenance DAGs, constraint worlds).
+5. **Regression checks.** A “win” on hardness that reintroduces identifier dumps is a failure
+   (iteration 0 lesson). A “win” on narration that yields 100% evaluator accuracy is incomplete.
+6. **Match claims to sample regime.** Smoke, calibration, release-sized, and statistical release
+   have distinct permissible claims in `QUALITY-METRICS.md`.
+7. **Prefer structural hardness.** Lookup layers and linear checksums failed (iterations 3–4).
+   Variable-depth nonlinear local concepts worked for calibration (iteration 7) but need diverse
+   structural mechanisms at scale (state transitions, provenance DAGs, constraint worlds).
 
 ---
 
@@ -322,8 +369,10 @@ Treat each change as an experiment against the previous packed baseline.
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/generate-pilot.sh` | `generate-batch` → dry-run `publish` into `data/packed/<config>.jsonl` → `assess` |
-| `scripts/evaluate-pilot.sh` | `evaluate --main-only` on a packed JSONL; snapshot metrics into `data/packed/` |
+| `scripts/generate-dataset.sh` | `generate-batch` → isolated pack → `assess` |
+| `scripts/evaluate-dataset.sh` | Require passing assessment, then `evaluate --main-only` and snapshot metrics |
+| `scripts/generate-pilot.sh` | Backward-compatible name for generation launcher |
+| `scripts/evaluate-pilot.sh` | Backward-compatible name for evaluation launcher |
 
 Both use `uv run`. See script `--help` / header comments for flags.
 
@@ -333,14 +382,16 @@ Manual CLI equivalents live in `data/packed/README.md`.
 
 ## Agent workflow checklist
 
-When invoked for dataset development:
+When invoked for dataset quality work:
 
-1. Read the latest section of `pilot-quality-iterations.md` and `data/packed/README.md`.
-2. Confirm schemas will not change.
-3. Choose a minimal improvement surface (prompt / handoff / template logic / gate).
-4. Run unit tests offline: `uv run pytest tests/unit -q`.
-5. Generate → assess → evaluate via scripts (live only with secrets).
-6. Append the iteration log and update `data/packed/README.md`.
-7. Commit metrics + log with the code change.
+1. Complete the mandatory reading list at the top of this skill.
+2. Pre-register experiment, controls, and permissible claim.
+3. Confirm schemas will not change.
+4. Choose one minimal improvement surface.
+5. Run deterministic tests.
+6. Generate isolated candidate → validate items → assess dataset → human audit → evaluate.
+7. Compare baseline/candidate using every required metric.
+8. Complete the append-only experiment record and update `data/packed/README.md`.
+9. Commit code, retained metrics, hashes, and log together.
 
 Do not invent provider keys. If secrets are missing, implement and test offline; leave live calibration for an environment with `AZURE_OPENAI_*` / `GLM_*`.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generate a pilot pack, dry-run publish to data/packed/, and run assess gates.
+# Generate an isolated dataset candidate, pack it, and run assess gates.
 # Usage:
 #   scripts/generate-pilot.sh
 #   scripts/generate-pilot.sh --n 12 --seeds-from 10000 --config pilot_v2 --agent-mode live
@@ -10,7 +10,7 @@ cd "$ROOT"
 
 N=12
 SEEDS_FROM=10000
-CONFIG="pilot_v2"
+CONFIG=""
 PROVIDER="azure"
 DIFFICULTY="very_hard"
 AGENT_MODE="live"
@@ -22,12 +22,13 @@ SKIP_ASSESS=0
 
 usage() {
   cat <<'EOF'
-Generate accepted pilot items, pack them to data/packed/<config>.jsonl, and assess.
+Generate accepted dataset items, pack them to <output-root>/packed/<config>.jsonl, and assess.
+The output root must not contain prior processed items; this prevents pack contamination.
 
 Options:
   --n N                 Accepted items to generate (default: 12)
   --seeds-from N        Starting seed (default: 10000)
-  --config NAME         Pack config / JSONL basename (default: pilot_v2)
+  --config NAME         Required unique candidate config / JSONL basename
   --provider NAME       azure|glm (default: azure)
   --difficulty NAME     medium|hard|very_hard (default: very_hard)
   --agent-mode MODE     offline|live (default: live)
@@ -39,8 +40,9 @@ Options:
   -h, --help            Show this help
 
 Writes:
-  data/packed/<config>.jsonl
-  data/packed/<config>_quality_metrics.json  (unless --skip-assess)
+  <output-root>/packed/<config>.jsonl
+  <output-root>/packed/<config>_integrity_metrics.json
+  <output-root>/packed/<config>_quality_metrics.json  (unless --skip-assess)
 
 See .agents/skills/dataset-quality/SKILL.md for the assessment protocol.
 EOF
@@ -64,8 +66,26 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ -z "${CONFIG}" ]]; then
+  echo "error: --config is required; use a new non-baseline name for each experiment" >&2
+  usage >&2
+  exit 2
+fi
+
 PACKED_JSONL="${OUTPUT_ROOT}/packed/${CONFIG}.jsonl"
+INTEGRITY_JSON="${OUTPUT_ROOT}/packed/${CONFIG}_integrity_metrics.json"
 METRICS_JSON="${OUTPUT_ROOT}/packed/${CONFIG}_quality_metrics.json"
+
+if compgen -G "${OUTPUT_ROOT}/processed/*/hub-item.json" >/dev/null; then
+  echo "error: ${OUTPUT_ROOT}/processed already contains accepted items" >&2
+  echo "Use a clean --output-root so this candidate cannot include unrelated runs." >&2
+  exit 2
+fi
+if [[ -e "${PACKED_JSONL}" || -e "${INTEGRITY_JSON}" || -e "${METRICS_JSON}" ]]; then
+  echo "error: candidate artifacts already exist; baselines and measured candidates are immutable" >&2
+  echo "Choose a new --config or clean --output-root." >&2
+  exit 2
+fi
 
 echo "==> generate-batch n=${N} seeds_from=${SEEDS_FROM} provider=${PROVIDER} agent_mode=${AGENT_MODE}"
 gen_args=(
@@ -96,6 +116,11 @@ if [[ ! -f "${PACKED_JSONL}" ]]; then
   exit 1
 fi
 
+echo "==> validate schema/integrity -> ${INTEGRITY_JSON}"
+uv run python scripts/validate-packed-dataset.py \
+  "${PACKED_JSONL}" \
+  --output "${INTEGRITY_JSON}"
+
 if [[ "${SKIP_ASSESS}" -eq 1 ]]; then
   echo "==> skip assess (${PACKED_JSONL} written)"
   exit 0
@@ -117,5 +142,6 @@ fi
 
 echo "assess PASSED"
 echo "Pack:    ${PACKED_JSONL}"
+echo "Integrity: ${INTEGRITY_JSON}"
 echo "Metrics: ${METRICS_JSON}"
-echo "Next:    scripts/evaluate-pilot.sh --local-dir ${PACKED_JSONL} --label <label>"
+echo "Next:    scripts/evaluate-dataset.sh --local-dir ${PACKED_JSONL} --config ${CONFIG} --label <experiment>"

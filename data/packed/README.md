@@ -1,13 +1,19 @@
-# Long Story Short — packed pilots
+# Long Story Short — retained packed datasets
 
-Further development protocol: `.agents/skills/dataset-quality/SKILL.md`.
-Assessment log: `docs/engineering/assessments/pilot-quality-iterations.md`.
+This directory indexes immutable retained packs and canonical metric snapshots. Never overwrite a
+baseline; add a new config/label for every measured candidate.
+
+Required protocol: `.agents/skills/dataset-quality/ASSESSMENT-PROTOCOL.md`.
+Metric definitions: `.agents/skills/dataset-quality/QUALITY-METRICS.md`.
+Active log: `docs/engineering/assessments/dataset-quality-iterations.md`.
+Historical pilot log: `docs/engineering/assessments/pilot-quality-iterations.md`.
 
 | File | Purpose |
 |------|---------|
 | `pilot_v0.jsonl` | Original 150-item pack (low readability; EMP-wall style) |
 | `pilot_v1.jsonl` | Improved 150-item pack (coherent narration, 2–4 QAs, answer variants) |
 | `pilot_v2.jsonl` | 12-item live-agent calibration pack (six concept families, nonlinear local rules) |
+| `pilot_v2_integrity_metrics.json` | Schema, unique-ID, dataset, and schema hashes for `pilot_v2` |
 | `pilot_v2_quality_metrics.json` | Narration and pack-level diversity gates for `pilot_v2` |
 | `luna_eval_metrics.json` | Luna eval on `pilot_v0` |
 | `luna_eval_metrics_v1.json` | Luna eval sample on `pilot_v1` |
@@ -50,7 +56,10 @@ print(len(rows[0]["questions"]), "scored questions")
 Preferred:
 
 ```bash
-scripts/evaluate-pilot.sh --local-dir data/packed/pilot_v2.jsonl --label v2
+scripts/evaluate-dataset.sh \
+  --local-dir data/packed/<candidate>.jsonl \
+  --config <candidate> \
+  --label <new-experiment-label>
 ```
 
 Equivalent CLI:
@@ -74,7 +83,12 @@ its Wilson upper bound does not yet certify a release-sized benchmark. See
 Preferred:
 
 ```bash
-scripts/generate-pilot.sh --n 12 --seeds-from 10000 --config pilot_v2 --agent-mode live
+scripts/generate-dataset.sh \
+  --n 12 \
+  --seeds-from <fixed-start> \
+  --config <new-candidate> \
+  --agent-mode live \
+  --output-root <clean-run-root>
 ```
 
 Equivalent CLI:

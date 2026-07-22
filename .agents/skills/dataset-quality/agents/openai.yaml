@@ -1,5 +1,5 @@
 interface:
   display_name: "Dataset Quality"
-  short_description: "Measure, assess, and iterate Long Story Short pilots"
+  short_description: "Reproducibly assess every dataset quality improvement"
 policy:
   allow_implicit_invocation: true

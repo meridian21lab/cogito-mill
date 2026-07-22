@@ -1,18 +1,27 @@
-# Pilot quality assessments
+# Dataset quality assessments
 
-Living measurements against packed Long Story Short pilots.
+Append-only measurements for all Cogito Mill dataset-quality improvements. Pilot iterations are
+the historical baseline, not the scope boundary.
 
 | Doc | Purpose |
 |-----|---------|
-| [pilot-quality-iterations.md](pilot-quality-iterations.md) | Iteration log (newest at bottom) |
-| [../../.agents/skills/dataset-quality/SKILL.md](../../.agents/skills/dataset-quality/SKILL.md) | **Canonical protocol**: gates, recording locations, agents, schema freeze |
-| [../../.agents/skills/dataset-quality/ITERATION-TEMPLATE.md](../../.agents/skills/dataset-quality/ITERATION-TEMPLATE.md) | Section template for each iteration |
+| [dataset-quality-iterations.md](dataset-quality-iterations.md) | Active pre-registered experiment log (newest at bottom) |
+| [pilot-quality-iterations.md](pilot-quality-iterations.md) | Historical experiments establishing `pilot_v2` baseline |
+| [skill](../../../.agents/skills/dataset-quality/SKILL.md) | Mandatory entry point and agent responsibilities |
+| [metric registry](../../../.agents/skills/dataset-quality/QUALITY-METRICS.md) | Formulas, thresholds, diagnostics, sample regimes |
+| [assessment protocol](../../../.agents/skills/dataset-quality/ASSESSMENT-PROTOCOL.md) | Reproducible end-to-end procedure |
+| [record template](../../../.agents/skills/dataset-quality/ASSESSMENT-RECORD-TEMPLATE.md) | Pre-registration and baseline/candidate result format |
 
 Launchers:
 
 ```bash
-scripts/generate-pilot.sh
-scripts/evaluate-pilot.sh --local-dir data/packed/pilot_v2.jsonl --label v2
+scripts/generate-dataset.sh --config <new-config> --output-root <clean-root>
+scripts/evaluate-dataset.sh \
+  --local-dir <clean-root>/packed/<new-config>.jsonl \
+  --config <new-config> \
+  --label <experiment-id>
 ```
 
-Metrics and packs live under `data/packed/`. Read the skill before changing generation or evaluation.
+Retained immutable packs and canonical metric snapshots live under `data/packed/`; raw run/eval
+artifacts live under the selected output root and `data/processed/evals/`. Complete the mandatory
+preflight in `AGENTS.md` before any quality-affecting work.

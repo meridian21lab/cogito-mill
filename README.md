@@ -150,11 +150,15 @@ Cogito Mill is currently an **early MVP under active development**.
 
 ### Pilot CLI
 
-Preferred launchers (assessment protocol: `.agents/skills/dataset-quality/SKILL.md`):
+Canonical launchers (mandatory protocol:
+`.agents/skills/dataset-quality/ASSESSMENT-PROTOCOL.md`):
 
 ```bash
-scripts/generate-pilot.sh --n 12 --config pilot_v2 --agent-mode live
-scripts/evaluate-pilot.sh --local-dir data/packed/pilot_v2.jsonl --label v2
+scripts/generate-dataset.sh \
+  --n 12 --config <new-candidate> --agent-mode live --output-root <clean-root>
+scripts/evaluate-dataset.sh \
+  --local-dir <clean-root>/packed/<new-candidate>.jsonl \
+  --config <new-candidate> --label <experiment-id>
 ```
 
 Equivalent direct CLI:

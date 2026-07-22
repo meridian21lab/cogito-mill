@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 import re
 from collections import Counter
@@ -52,8 +53,14 @@ def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "question_stem_max_share": stem_max_share <= 0.20,
         "structural_hops": all(int(row.get("n_hops", 0)) >= 10 for row in rows),
     }
+    dataset_sha256 = hashlib.sha256(
+        "\n".join(
+            json.dumps(row, ensure_ascii=False, sort_keys=True) for row in rows
+        ).encode()
+    ).hexdigest()
     return {
         "n": n,
+        "dataset_sha256": dataset_sha256,
         "passed": all(gates.values()),
         "gates": gates,
         "narration": {

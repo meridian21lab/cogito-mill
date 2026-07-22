@@ -30,6 +30,7 @@ def test_balanced_varied_pack_passes() -> None:
     report = assess_dataset([_row(index) for index in range(12)])
 
     assert report["passed"]
+    assert len(report["dataset_sha256"]) == 64
     assert report["diversity"]["template_effective_count"] == 6.0
 
 
