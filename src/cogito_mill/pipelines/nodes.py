@@ -37,7 +37,7 @@ class MillNodes:
             n_distractors=int(state.get("meta", {}).get("n_distractors", 4)),
             target_hops=int(state.get("meta", {}).get("target_hops", 10)),
             schema_version="pilot.v2",
-            prompt_version="pilot.v3",
+            prompt_version="pilot.v4",
         )
         run_id = new_run_id(seed)
         return {

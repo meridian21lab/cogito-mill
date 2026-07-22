@@ -10,6 +10,8 @@ from collections import Counter
 from itertools import combinations
 from typing import Any
 
+from cogito_mill.agents.critics import count_temporal_markers, formulaic_hits
+
 
 def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
     if not rows:
@@ -26,6 +28,8 @@ def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
     n = len(rows)
     narration_passes = sum(item["passed"] for item in narration)
     narration_gate = narration_passes == n if n < 100 else narration_passes / n >= 0.95
+    formulaic_fail = sum(1 for story in stories if formulaic_hits(story))
+    formulaic_gate = formulaic_fail == 0 if n < 100 else formulaic_fail / n <= 0.05
     min_templates = 4 if n < 100 else 6
     min_effective = 3.5 if n < 100 else 5.0
     max_template_share = 0.34 if n < 100 else 0.20
@@ -41,6 +45,7 @@ def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
     stem_max_share = max(main_stems.values()) / n
     gates = {
         "narration": narration_gate,
+        "no_formulaic_ledger": formulaic_gate,
         "no_exact_duplicates": exact_duplicates == 0,
         "template_count": len(template_counts) >= min_templates,
         "template_effective_count": template_effective >= min_effective,
@@ -69,6 +74,7 @@ def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
             "min_words": min(item["words"] for item in narration),
             "median_words": _percentile([item["words"] for item in narration], 0.50),
             "max_words": max(item["words"] for item in narration),
+            "formulaic_failures": formulaic_fail,
         },
         "diversity": {
             "exact_duplicates": exact_duplicates,
@@ -91,18 +97,23 @@ def _narration(text: str) -> dict[str, Any]:
     words = re.findall(r"\b[\w'-]+\b", text)
     sentences = [part.strip() for part in re.split(r"(?<=[.!?])\s+", text) if part.strip()]
     sentence_lengths = [len(re.findall(r"\b[\w'-]+\b", sentence)) for sentence in sentences]
+    temporal_markers = count_temporal_markers(text)
     passed = (
         len(paragraphs) >= 5
-        and 500 <= len(words) <= 2500
+        and 350 <= len(words) <= 2500
         and _percentile(sentence_lengths, 0.95) <= 45
         and text.casefold().count("personnel index:") <= 1
         and len(re.findall(r"\bEMP-\d+\b", text, flags=re.IGNORECASE)) <= 6
+        and not formulaic_hits(text)
+        and temporal_markers >= 4
     )
     return {
         "passed": passed,
         "paragraphs": len(paragraphs),
         "words": len(words),
         "sentence_p95_words": _percentile(sentence_lengths, 0.95),
+        "temporal_markers": temporal_markers,
+        "formulaic": bool(formulaic_hits(text)),
     }
 
 

@@ -14,10 +14,51 @@ _EMP_RE = re.compile(r"\bEMP-\d+\b", re.IGNORECASE)
 _PERSONNEL_INDEX_RE = re.compile(r"Personnel index:", re.IGNORECASE)
 _PROMPTS = Path(__file__).resolve().parent / "prompts"
 
+# Formulaic arithmetic / ledger patterns that must not dominate stories.
+FORMULAIC_PATTERNS: tuple[re.Pattern[str], ...] = tuple(
+    re.compile(pattern, re.IGNORECASE)
+    for pattern in (
+        r"protocol active",
+        r"status scale",
+        r"counted as \d",
+        r"coefficients?\s+\d",
+        r"modulo\s+\d",
+        r"six-stream",
+        r"three-pass",
+        r"squared the current",
+        r"tally began at",
+        r"local tally",
+        r"checksum",
+        r"relation, temporal, causal, spatial, sequence, and protocol",
+        r"shared status scale",
+        r"stream(?:'s|s)? coefficient",
+        r"remainder modulo",
+    )
+)
+
+# Clock times, day-parts, and order words a reader can use for a timeline map.
+TEMPORAL_MARKER_RE = re.compile(
+    r"(?:"
+    r"\b(?:a\.?m\.?|p\.?m\.?|o'clock|minutes?|hours?|before|after|until|"
+    r"morning|midmorning|afternoon|evening|noon|midnight|half.?hour)\b"
+    r"|\b(?:by|around|at|after|before)\s+\d{1,2}(?::\d{2})?\b"
+    r"|\b\d{1,2}:\d{2}\b"
+    r")",
+    re.IGNORECASE,
+)
+
+
+def count_temporal_markers(text: str) -> int:
+    return len(TEMPORAL_MARKER_RE.findall(text))
+
 
 def load_prompt(name: str) -> str:
     path = _PROMPTS / name
     return path.read_text(encoding="utf-8")
+
+
+def formulaic_hits(text: str) -> list[str]:
+    return [pattern.pattern for pattern in FORMULAIC_PATTERNS if pattern.search(text)]
 
 
 def critique_story_document(
@@ -56,7 +97,6 @@ def critique_story_document(
             detail=(f"Personnel index lines={personnel_count} (max {max_personnel_index_lines})"),
         )
     )
-    # Reject walls of nearly identical EMP mapping sentences.
     emp_lines = sum(
         1
         for line in re.split(r"[.\n]", text)
@@ -70,6 +110,28 @@ def critique_story_document(
         )
     )
 
+    hits = formulaic_hits(text)
+    findings.append(
+        CriticFinding(
+            gate="no_formulaic_ledger",
+            passed=not hits,
+            detail=(
+                "no formulaic protocol/status/coefficient ledger"
+                if not hits
+                else f"formulaic ledger patterns: {', '.join(hits[:4])}"
+            ),
+        )
+    )
+
+    temporal_markers = count_temporal_markers(text)
+    findings.append(
+        CriticFinding(
+            gate="temporal_grounding",
+            passed=temporal_markers >= 4,
+            detail=f"temporal markers={temporal_markers} (min 4)",
+        )
+    )
+
     q_count = len(questions.questions)
     findings.append(
         CriticFinding(
@@ -79,12 +141,20 @@ def critique_story_document(
         )
     )
 
+    # Person-identity answers only: place/time intermediates may be multi-word without
+    # "full name" in the stem.
     name_qs = [
         q
         for q in questions.questions
-        if q.question_type in {"main", "intermediate", "counterfactual"}
-        and q.gold_answer.lower() != "none"
+        if q.gold_answer.lower() != "none"
         and " " in q.gold_answer.strip()
+        and (
+            q.question_type in {"main", "counterfactual"}
+            or (
+                q.question_type == "intermediate"
+                and "full name" in q.question.lower()
+            )
+        )
     ]
     clear_form = all("full name" in q.question.lower() for q in name_qs)
     findings.append(
@@ -104,7 +174,6 @@ def critique_story_document(
         )
     )
 
-    # Opening must read as narration, not an ID table.
     first = paragraphs[0] if paragraphs else ""
     opening_ok = bool(first) and ("Personnel index:" not in first and first.count("EMP-") < 3)
     findings.append(

@@ -147,3 +147,75 @@ Evaluation metrics:
 Promote `pilot_v3_balanced` as the measured forward candidate for further work. Next experiment
 should add a second structural mechanism family (state transition / provenance DAG / constraint
 world) without dropping appendix recoverability or story-only hardness.
+
+## quality-20260722-timeline-opportunity — Timeline/alibi stories vs formula ledgers (2026-07-22)
+
+Status: planned
+Claim level: development calibration
+Protocol: dataset-quality.v1
+
+### Hypothesis
+
+Replacing iterated-checksum / status-scale ledgers with human-graspable timeline/alibi opportunity
+(people, places, clock times, travel) plus anti-formulaic pack/critic/external-judge gates and a
+two-phase story writer (fact spine → noise → coherent narration) will pass narration/diversity
+including `no_formulaic_ledger`, keep story-only Luna main accuracy ≤ 0.30 on n=20, and recover
+high appendix-assisted main accuracy (≥ 0.75 diagnostic).
+
+### Scope and controls
+
+- Change surfaces: concept formalizer mechanism; offline scaffold; story writer (two-phase);
+  story critic / pack assessor formulaic+temporal gates; external judge rubric; appendix.v2
+  timeline fields; prompts/roles
+- Primary metric: assess pass with zero formulaic ledger hits; story-only main_accuracy ≤ 0.30
+- Regression gates / invariants: Hub thin schema unchanged; appendix-assisted recovery diagnostic;
+  no protocol/status/coefficient/modulo language in retained stories; n≥20 accepted items
+- Baseline pack + SHA-256: `data/packed/pilot_v3_balanced.jsonl`
+  (`2cfab656842f18db8ca5eeb4387811e63f588a553e53259c58929420b5d29c6b`)
+- Candidate config / output path: `pilot_v4_timeline` under
+  `data/experiments/quality-20260722-timeline-opportunity/` (retain to `data/packed/` on pass)
+- Git SHA: (fill after commit)
+- Thin/full schema SHA-256:
+  thin `f89b79e30df8dded2d6f6c55f03f84a0cf521dd987345bbada86923f5d634e40`;
+  full `bfa5c6aaae4783906371cb7b6fff30c05feee39d91d96f3fd159525182544184`
+- Seed block/list: 11000–11019 (n=20)
+- Requested size and balance: 20 accepted items; six timeline families rotating by seed
+- Difficulty: very_hard
+- Agent mode: live
+- Provider family: azure
+- Writer/judge/evaluator deployments: Cursor Cloud Azure defaults
+- Prompt versions / evaluator prompt SHA-256: prompt_version `pilot.v4` (fill after run)
+- Scorer version: pilot.v2
+- Planned commands:
+  - `scripts/generate-dataset.sh --n 20 --seeds-from 11000 --config pilot_v4_timeline --agent-mode live --output-root data/experiments/quality-20260722-timeline-opportunity`
+  - story-only and appendix-assisted `cogito-mill evaluate`
+  - external quality judge on retained pack evidence
+- Known deviations: none planned
+
+### Change
+
+(pending measurement)
+
+### Generation and item gates
+
+(pending)
+
+### Dataset metrics
+
+(pending)
+
+### Human audit
+
+(pending)
+
+### Difficulty evaluation
+
+(pending)
+
+### Verdict
+
+(pending)
+
+### Next action
+
+Run live generation and complete the measured fields.
