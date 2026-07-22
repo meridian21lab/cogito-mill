@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Callable, Protocol
+from typing import TYPE_CHECKING, Protocol
 
 from cogito_mill.domain.appendix import (
     EvidenceIntervention,
@@ -112,17 +113,26 @@ FLAVORS: dict[str, ProvenanceFlavor] = {
 
 MAIN_STEMS = (
     "Whose custody chain ends with the {token} at the {checkpoint}? Give the full name.",
-    "Trace the sealed handoffs. Who held the {token} when it reached the {checkpoint}? Give the full name.",
+    "Trace the sealed handoffs. Who held the {token} when it reached the {checkpoint}? "
+    "Give the full name.",
     "Which full name belongs to the final custodian of the {token} at the time of the incident?",
-    "The {token} authorized the incident. Who had custody of it at that moment? Give the full name.",
-    "After following every witnessed handoff and repacking, who carried the {token} at the final checkpoint? Give the full name.",
-    "Who signed for the container that held the {token} when the authorization was recorded? Give the full name.",
-    "Reconstruct the provenance of the {token}. Which person was its final custodian? Give the full name.",
+    "The {token} authorized the incident. Who had custody of it at that moment? "
+    "Give the full name.",
+    "After following every witnessed handoff and repacking, who carried the {token} at the "
+    "final checkpoint? Give the full name.",
+    "Who signed for the container that held the {token} when the authorization was recorded? "
+    "Give the full name.",
+    "Reconstruct the provenance of the {token}. Which person was its final custodian? "
+    "Give the full name.",
     "Which full name is forced by the connected custody record for the {token}?",
-    "Who possessed the container holding the {token} when the {checkpoint} logged it? Give the full name.",
-    "Follow the token rather than the people. With whom did the {token} finish? Give the full name.",
-    "Which person received the final live container in the {token} custody chain? Give the full name.",
-    "Who was responsible for the final custody of the {token} when it authorized the incident? Give the full name.",
+    "Who possessed the container holding the {token} when the {checkpoint} logged it? "
+    "Give the full name.",
+    "Follow the token rather than the people. With whom did the {token} finish? "
+    "Give the full name.",
+    "Which person received the final live container in the {token} custody chain? "
+    "Give the full name.",
+    "Who was responsible for the final custody of the {token} when it authorized the incident? "
+    "Give the full name.",
 )
 
 
@@ -882,11 +892,16 @@ def _offline_draft(
         "The authorization record",
     )
     atmosphere = (
-        "Receipts, ordinary errands, and the low noise of the gathering continued around the witnessed seals.",
-        "People crossed paths for mundane work, so a familiar face near the room proved very little by itself.",
-        "A public badge and several unsealed papers also changed hands, making object identity more useful than suspicion.",
-        "The later exchanges were remembered because each recipient initialed the same physical custody line.",
-        "By evening, the witnesses agreed on the handoffs even when they disagreed about motives and gossip.",
+        "Receipts, ordinary errands, and the low noise of the gathering continued around the "
+        "witnessed seals.",
+        "People crossed paths for mundane work, so a familiar face near the room proved very "
+        "little by itself.",
+        "A public badge and several unsealed papers also changed hands, making object identity "
+        "more useful than suspicion.",
+        "The later exchanges were remembered because each recipient initialed the same physical "
+        "custody line.",
+        "By evening, the witnesses agreed on the handoffs even when they disagreed about "
+        "motives and gossip.",
     )
     for index in range(1, 6):
         obligations = [

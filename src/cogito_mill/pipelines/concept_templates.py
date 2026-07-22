@@ -114,8 +114,10 @@ MAIN_STEMS = (
     "Only one person had the opportunity for {incident}. Who was it? Give the full name.",
     "From the timeline, who alone could have done {incident}? Give the full name.",
     "Which full name belongs to the person who robbed the opportunity window for {incident}?",
-    "Reconstruct the afternoon. Who is forced to be responsible for {incident}? Give the full name.",
-    "Who remains after every alibi and travel constraint is applied for {incident}? Give the full name.",
+    "Reconstruct the afternoon. Who is forced to be responsible for {incident}? "
+    "Give the full name.",
+    "Who remains after every alibi and travel constraint is applied for {incident}? "
+    "Give the full name.",
     "Name the only person who could still have been present for {incident}. Give the full name.",
     "Which full name survives elimination for {incident}?",
     "Using times and travel only, who must have done {incident}? Give the full name.",
@@ -266,7 +268,7 @@ def elimination_reason(
     return ("no blocking constraint", [])
 
 
-def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
+def build_timeline_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     """Build one timeline/alibi mystery with a unique opportunity answer."""
     family = family_for_seed(recipe.seed)
     names = _names(recipe.seed, recipe.n_suspects)
@@ -576,9 +578,11 @@ def _facts_and_logic(
         (family.places[0], family.places[2]),
     ]
     travel_frames = (
-        "Getting from the {origin} to the {dest} usually took about {minutes} minutes that afternoon.",
+        "Getting from the {origin} to the {dest} usually took about {minutes} minutes "
+        "that afternoon.",
         "Anyone walking from the {origin} to the {dest} needed about {minutes} minutes.",
-        "The short trip between the {origin} and the {dest} was about {minutes} minutes in festival traffic.",
+        "The short trip between the {origin} and the {dest} was about {minutes} minutes "
+        "in festival traffic.",
         "From the {origin} over to the {dest} was roughly a {minutes}-minute journey.",
     )
     for pair_i, (origin, dest) in enumerate(place_pairs):
@@ -765,9 +769,6 @@ def _find_evidence_intervention(
     ]
     if all(seg.fact_id != answer_block.fact_id for seg in trial_answer):
         trial_answer = [*answer.segments, answer_block]
-    trial_runner = [
-        runner_free if seg.fact_id == runner_free.fact_id else seg for seg in runner.segments
-    ]
     # Prefer editing the runner's last segment description in the question.
     return EvidenceIntervention(
         person_id=runner_id,
@@ -837,7 +838,9 @@ def _questions(
         ),
         ScoredQuestion(
             id="q_time",
-            question="At what clock time did the incident window begin? Answer in h:mm AM/PM format.",
+            question=(
+                "At what clock time did the incident window begin? Answer in h:mm AM/PM format."
+            ),
             gold_answer=minutes_to_clock(crime_start),
             gold_answer_variants=[
                 minutes_to_clock(crime_start),
@@ -1133,9 +1136,6 @@ def _slug(text: str) -> str:
 
 def re_sub(text: str) -> str:
     return "".join(ch.lower() if ch.isalnum() else "_" for ch in text).strip("_")
-
-
-build_timeline_puzzle = build_concept_puzzle
 
 
 def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
