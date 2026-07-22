@@ -447,3 +447,85 @@ Pending.
 ### Next action
 
 Verify the refinement offline, backfill the new measurement, then generate the isolated candidate.
+
+## quality-20260722-relational-constraint-world — Narrative relational CSP (2026-07-22)
+
+Status: planned
+Claim level: development calibration
+Protocol: dataset-quality.v1.1
+
+### Hypothesis
+
+Replacing serial provenance replay with a six-person relational constraint world over bijective
+objects, places, and ordered times will require joint search across competing worlds and reduce
+story-only Luna main accuracy from 1.00 to ≤0.30. Z3 will derive the target owner without any
+direct person↔target clue; every retained core clue must be target-necessary under ablation, and
+removing any whole non-person axis must leave multiple target candidates.
+
+### Scope and controls
+
+- Change surfaces: new internal formal constraint theory and Z3 compiler; concept formalizer;
+  story/question rendering; generic solver appendix
+- Primary metric: story-only Luna main accuracy ≤0.30 on n=16
+- Regression gates / invariants: frozen Hub schemas; Z3 satisfiable and unique target; no direct
+  person↔target-object clue; every core clue target-necessary; object/place/time axis dependence;
+  2–4 precise questions; narration/diversity and v1.1 shortcut gates pass; no tables, status
+  scales, inventory dumps, or answer leaks; transport errors 0
+- Baseline pack + SHA-256: failed
+  `pilot_v5b_provenance_blind` (raw
+  `1890d4caec4ae4f6f8ff19402c31defe62d2935d8a44c1febd25e0e58f516197`;
+  canonical `775505b1da03303b67679a40526628c17f992f8d5d6cc84f4e703f541dd7efea`)
+- Candidate config / output path: `pilot_v6_relational_csp` under
+  `data/experiments/quality-20260722-relational-constraint-world/`
+- Git SHA: implementation commit follows; starting branch commit `031af4c`
+- Thin/full schema SHA-256: unchanged
+  (`f89b79e30df8dded2d6f6c55f03f84a0cf521dd987345bbada86923f5d634e40` /
+  `bfa5c6aaae4783906371cb7b6fff30c05feee39d91d96f3fd159525182544184`)
+- Seed block/list: 15000–15015
+- Requested size and balance: 16 accepted items; six narrative families
+- Difficulty: very_hard
+- Agent mode: live
+- Provider family: azure
+- Writer / judge / evaluator: `gpt-5.6-luna-stories` /
+  `gpt-5.6-terra-stories` / `gpt-5.6-luna-stories`
+- Prompt versions / evaluator prompt SHA-256: generator `pilot.v6`; evaluator unchanged
+  (`b54439bf7b3f284139b00825122588189aeb2ef130b75735a41d6b01ab3f30f1`)
+- Scorer version: pilot.v2
+- Planned commands: deterministic unit/integration/lint/type checks; isolated n=16 generation;
+  integrity and assess; fixed audit IDs `015000`–`015005`; Luna main-only, counterfactual if
+  present, then appendix-assisted recoverability diagnostic
+- Known deviations: n=16 is a directional mechanism calibration, not a release claim; it follows
+  external-judge advice to reject provenance if Luna stayed at ≥14/16, while retaining the
+  canonical stricter ≤0.30 development hardness gate
+
+### Change
+
+Planned; no implementation or measured candidate yet.
+
+### Generation and item gates
+
+Pending.
+
+### Dataset metrics
+
+Pending.
+
+### Human audit
+
+Pending; fixed IDs `lss-concept-015000` through `lss-concept-015005`.
+
+### Difficulty evaluation
+
+Pending.
+
+### Verdict
+
+- Primary hypothesis: pending
+- Regressions: pending
+- Permissible claim: pending
+- What this does not establish: release-scale, cross-model, or human-panel hardness
+
+### Next action
+
+Implement and verify the smallest Z3-backed narrative constraint world without changing the graph
+or Hub schemas.
