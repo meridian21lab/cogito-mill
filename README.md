@@ -150,6 +150,19 @@ Cogito Mill is currently an **early MVP under active development**.
 
 ### Pilot CLI
 
+Canonical launchers (mandatory protocol:
+`.agents/skills/dataset-quality/ASSESSMENT-PROTOCOL.md`):
+
+```bash
+scripts/generate-dataset.sh \
+  --n 12 --config <new-candidate> --agent-mode live --output-root <clean-root>
+scripts/evaluate-dataset.sh \
+  --local-dir <clean-root>/packed/<new-candidate>.jsonl \
+  --config <new-candidate> --label <experiment-id>
+```
+
+Equivalent direct CLI:
+
 ```bash
 uv run cogito-mill generate-batch \
   --n 12 --difficulty very_hard --agent-mode live
@@ -160,7 +173,8 @@ uv run cogito-mill evaluate \
 ```
 
 Thin Hub schema columns include `id`, `story`, `question`, `gold_answer`,
-`questions`, `n_hops`, `setting_family`, `difficulty_bucket`, and `template_id`.
+`questions`, `n_hops`, `setting_family`, `difficulty_bucket`, and `template_id`
+(`schemas/reasoning-item.schema.json` — freeze during routine quality iterations).
 
 The immediate milestone remains inspectable verification; the pilot slice adds batch
 generation plus a Luna hardness gate (target ≤30% exact-answer accuracy).

@@ -1,10 +1,19 @@
-# Long Story Short — packed pilots
+# Long Story Short — retained packed datasets
+
+This directory indexes immutable retained packs and canonical metric snapshots. Never overwrite a
+baseline; add a new config/label for every measured candidate.
+
+Required protocol: `.agents/skills/dataset-quality/ASSESSMENT-PROTOCOL.md`.
+Metric definitions: `.agents/skills/dataset-quality/QUALITY-METRICS.md`.
+Active log: `docs/engineering/assessments/dataset-quality-iterations.md`.
+Historical pilot log: `docs/engineering/assessments/pilot-quality-iterations.md`.
 
 | File | Purpose |
 |------|---------|
 | `pilot_v0.jsonl` | Original 150-item pack (low readability; EMP-wall style) |
 | `pilot_v1.jsonl` | Improved 150-item pack (coherent narration, 2–4 QAs, answer variants) |
 | `pilot_v2.jsonl` | 12-item live-agent calibration pack (six concept families, nonlinear local rules) |
+| `pilot_v2_integrity_metrics.json` | Schema, unique-ID, dataset, and schema hashes for `pilot_v2` |
 | `pilot_v2_quality_metrics.json` | Narration and pack-level diversity gates for `pilot_v2` |
 | `luna_eval_metrics.json` | Luna eval on `pilot_v0` |
 | `luna_eval_metrics_v1.json` | Luna eval sample on `pilot_v1` |
@@ -44,6 +53,17 @@ print(len(rows[0]["questions"]), "scored questions")
 
 ## Evaluate (Luna)
 
+Preferred:
+
+```bash
+scripts/evaluate-dataset.sh \
+  --local-dir data/packed/<candidate>.jsonl \
+  --config <candidate> \
+  --label <new-experiment-label>
+```
+
+Equivalent CLI:
+
 ```bash
 uv run cogito-mill evaluate \
   --local-dir data/packed/pilot_v2.jsonl \
@@ -60,9 +80,24 @@ its Wilson upper bound does not yet certify a release-sized benchmark. See
 
 ## Regenerate
 
+Preferred:
+
+```bash
+scripts/generate-dataset.sh \
+  --n 12 \
+  --seeds-from <fixed-start> \
+  --config <new-candidate> \
+  --agent-mode live \
+  --output-root <clean-run-root>
+```
+
+Equivalent CLI:
+
 ```bash
 uv run cogito-mill generate-batch \
   --n 12 --seeds-from 10000 --difficulty very_hard --agent-mode live
 uv run cogito-mill publish --input data/processed --dry-run --config pilot_v2
-uv run cogito-mill assess --local-dir data/packed/pilot_v2.jsonl
+uv run cogito-mill assess \
+  --local-dir data/packed/pilot_v2.jsonl \
+  --output data/packed/pilot_v2_quality_metrics.json
 ```
