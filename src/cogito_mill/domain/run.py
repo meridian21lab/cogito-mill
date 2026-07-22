@@ -40,7 +40,7 @@ class RunManifest(BaseModel):
     seed: int
     provider_family: str
     recipe_id: str
-    schema_version: str = "pilot.v1"
+    schema_version: str = "pilot.v2"
     terminal_reason: str | None = None
     artifact_dir: str | None = None
     content_hashes: dict[str, str] = Field(default_factory=dict)
@@ -50,7 +50,7 @@ class RunManifest(BaseModel):
 
 class AcceptedItem(BaseModel):
     id: str
-    schema_version: str = "pilot.v1"
+    schema_version: str = "pilot.v2"
     run_id: str
     story: str
     sentences: list[Sentence] = Field(default_factory=list)
@@ -84,12 +84,12 @@ class AcceptedItem(BaseModel):
             story=self.story,
             question=self.question,
             gold_answer=self.gold_answer,
-            gold_answer_variants=self.gold_answer_variants
-            or questions[0].gold_answer_variants,
+            gold_answer_variants=self.gold_answer_variants or questions[0].gold_answer_variants,
             questions=questions,
             n_hops=self.n_hops,
             setting_family=self.setting_family,
             difficulty_bucket=self.difficulty_bucket,
+            template_id=self.provenance.template_id,
         )
 
     @classmethod
@@ -140,3 +140,4 @@ class PilotHubItem(BaseModel):
     n_hops: int
     setting_family: SettingFamily
     difficulty_bucket: DifficultyBucket
+    template_id: str | None = None

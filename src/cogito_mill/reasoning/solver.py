@@ -46,11 +46,9 @@ class WorldSolver:
             # still accept if answer_entity matches expected
             if world.answer_entity != world.target.expected_value:
                 violations.append(
-                    
-                        "target mismatch: "
-                        f"derived={derived_actor} "
-                        f"expected={world.target.expected_value}"
-                    
+                    "target mismatch: "
+                    f"derived={derived_actor} "
+                    f"expected={world.target.expected_value}"
                 )
         # For fixture: expected alice and actor of reboot is alice
         reboot = next((e for e in world.events if "servers_rebooted" in e.effects), None)

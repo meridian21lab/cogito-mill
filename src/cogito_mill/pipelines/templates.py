@@ -29,13 +29,48 @@ from cogito_mill.domain.world import (
 from cogito_mill.eval.score import name_answer_variants
 
 FIRST = [
-    "Avery", "Blair", "Casey", "Drew", "Eden", "Finley", "Gray", "Harper",
-    "Indigo", "Jules", "Kai", "Logan", "Morgan", "Noel", "Oakley", "Parker",
-    "Quinn", "Reese", "Sawyer", "Tatum", "Val", "Winter", "Yael", "Zion",
+    "Avery",
+    "Blair",
+    "Casey",
+    "Drew",
+    "Eden",
+    "Finley",
+    "Gray",
+    "Harper",
+    "Indigo",
+    "Jules",
+    "Kai",
+    "Logan",
+    "Morgan",
+    "Noel",
+    "Oakley",
+    "Parker",
+    "Quinn",
+    "Reese",
+    "Sawyer",
+    "Tatum",
+    "Val",
+    "Winter",
+    "Yael",
+    "Zion",
 ]
 LAST = [
-    "Nguyen", "Patel", "Ortiz", "Brooks", "Hassan", "Silva", "Kline", "Okada",
-    "Meier", "Dubois", "Ibrahim", "Cohen", "Sato", "Andersen", "Rossi", "Novak",
+    "Nguyen",
+    "Patel",
+    "Ortiz",
+    "Brooks",
+    "Hassan",
+    "Silva",
+    "Kline",
+    "Okada",
+    "Meier",
+    "Dubois",
+    "Ibrahim",
+    "Cohen",
+    "Sato",
+    "Andersen",
+    "Rossi",
+    "Novak",
 ]
 PLACES = {
     SettingFamily.WORKPLACE: ("server room", "lobby", "records office"),
@@ -270,10 +305,7 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         rules=[
             Rule(
                 id="rule_access",
-                text=(
-                    f"Only people with access to the {place_secure} can "
-                    f"{action_phrase}."
-                ),
+                text=(f"Only people with access to the {place_secure} can {action_phrase}."),
                 formal="requires_access",
             ),
             Rule(
@@ -314,8 +346,7 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
     twin_last = twin_label.split()[-1]
 
     code_by_id = {
-        eid: f"EMP-{(recipe.seed + i * 17) % 89 + 10}"
-        for i, (eid, _, _) in enumerate(names)
+        eid: f"EMP-{(recipe.seed + i * 17) % 89 + 10}" for i, (eid, _, _) in enumerate(names)
     }
     answer_code = code_by_id[answer_id]
     lender_code = code_by_id[lender_id]
@@ -341,8 +372,7 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         VisibleFact(
             id="f_acc_ans",
             text=(
-                f"A faded authorization sheet for the {place_secure} includes "
-                f"code {answer_code}."
+                f"A faded authorization sheet for the {place_secure} includes code {answer_code}."
             ),
             formal=f"has_access:{answer_id}:{secure_id}",
             channel=ClueChannel.RECORD,
@@ -352,10 +382,7 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         ),
         VisibleFact(
             id="f_acc_lender",
-            text=(
-                f"The same sheet also lists code {lender_code} for the "
-                f"{place_secure}."
-            ),
+            text=(f"The same sheet also lists code {lender_code} for the {place_secure}."),
             formal=f"has_access:{lender_id}:{secure_id}",
             channel=ClueChannel.RECORD,
             role="required",
@@ -376,10 +403,7 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         ),
         VisibleFact(
             id="f_locker_assign",
-            text=(
-                f"Facilities roster: locker {locker_ans} is assigned to badge "
-                f"{answer_code}."
-            ),
+            text=(f"Facilities roster: locker {locker_ans} is assigned to badge {answer_code}."),
             formal=f"locker_assign:{answer_id}",
             channel=ClueChannel.RECORD,
             role="required",
@@ -400,10 +424,7 @@ def build_access_timeline(recipe: GenerationRecipe) -> TemplateBundle:
         ),
         VisibleFact(
             id="f_locker_twin",
-            text=(
-                f"Facilities roster: locker {locker_twin} is assigned to badge "
-                f"{twin_code}."
-            ),
+            text=(f"Facilities roster: locker {locker_twin} is assigned to badge {twin_code}."),
             formal=f"locker_assign:{twin_id}",
             channel=ClueChannel.RECORD,
             role="distractor",
@@ -612,8 +633,7 @@ def _build_questions(
         ScoredQuestion(
             id="q_main",
             question=(
-                f"Provide the full name (given name and surname) of the person who "
-                f"{action_past}."
+                f"Provide the full name (given name and surname) of the person who {action_past}."
             ),
             gold_answer=answer_label,
             gold_answer_variants=answer_variants,
@@ -710,9 +730,7 @@ def render_story(
     """Assemble a coherent multi-paragraph sentence-addressable mystery."""
     by_id = {f.id: f for f in facts}
     role_by_eid = {
-        eid: ROLES[
-            hashlib.sha256(f"{recipe.seed}:{eid}:role".encode()).digest()[0] % len(ROLES)
-        ]
+        eid: ROLES[hashlib.sha256(f"{recipe.seed}:{eid}:role".encode()).digest()[0] % len(ROLES)]
         for eid, _, _ in names
     }
 
@@ -747,7 +765,7 @@ def render_story(
 
     cast_bits = []
     firsts = []
-    for eid, first, label in names:
+    for eid, first, _label in names:
         cast_bits.append(f"{first} ({role_by_eid[eid]})")
         firsts.append(first)
     if len(cast_bits) == 1:
@@ -779,9 +797,7 @@ def render_story(
     sc1_lines.append(by_id["f_surname_twin"].text)
     distractors = [f for f in facts if f.role == "distractor" and f.id.startswith("d")]
     if distractors:
-        sc1_lines.append(
-            f"Elsewhere, ordinary noise continued: {distractors[0].text.rstrip('.')}."
-        )
+        sc1_lines.append(f"Elsewhere, ordinary noise continued: {distractors[0].text.rstrip('.')}.")
     sc1 = " ".join(sc1_lines)
 
     # Scene 2 — transfer + locker assignments (split from surnames)
@@ -806,9 +822,7 @@ def render_story(
     ]
     sc3_lines: list[str] = []
     if elim_facts:
-        sc3_lines.append(
-            "Attendance logs for the rest of the morning were blunt and consistent."
-        )
+        sc3_lines.append("Attendance logs for the rest of the morning were blunt and consistent.")
         for f in elim_facts:
             sc3_lines.append(f.text)
     sc3_lines.append(by_id["f_holds"].text)
@@ -820,9 +834,7 @@ def render_story(
         f"The {place_secure} showed signs of entry, while idle conversation "
         f"continued near the {place_public}."
     )
-    sc3_lines.append(
-        _padding_sentence(recipe.seed, 0, place_other, recipe.setting_family)
-    )
+    sc3_lines.append(_padding_sentence(recipe.seed, 0, place_other, recipe.setting_family))
     sc3 = " ".join(sc3_lines)
 
     scenes = [
@@ -912,4 +924,4 @@ def _split_sentences(text: str) -> list[Sentence]:
                 buf = []
         if buf and "".join(buf).strip():
             raw.append("".join(buf).strip())
-    return [Sentence(id=f"sent-{i+1}", text=s) for i, s in enumerate(raw) if s]
+    return [Sentence(id=f"sent-{i + 1}", text=s) for i, s in enumerate(raw) if s]

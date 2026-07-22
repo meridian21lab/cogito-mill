@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from cogito_mill.agents.roles import AgentSuite, LiveAgentSuite, OfflineAgentSuite
 from cogito_mill.domain.run import RunStatus
 from cogito_mill.pipelines.graph import build_mill_graph
 
@@ -17,8 +18,11 @@ def generate_one(
     n_suspects: int = 4,
     n_distractors: int = 4,
     target_hops: int = 5,
+    agent_mode: str = "offline",
+    agents: AgentSuite | None = None,
 ) -> dict[str, Any]:
-    graph = build_mill_graph()
+    suite = agents or _build_agents(provider, agent_mode)
+    graph = build_mill_graph(agents=suite)
     result = graph.invoke(
         {
             "provider_family": provider,
@@ -54,6 +58,7 @@ def generate_batch(
     n_suspects: int = 4,
     n_distractors: int = 4,
     max_attempts: int | None = None,
+    agent_mode: str = "offline",
 ) -> dict[str, Any]:
     attempts_limit = max_attempts or max(n * 2, n + 10)
     accepted = 0
@@ -61,6 +66,7 @@ def generate_batch(
     results: list[dict[str, Any]] = []
     seed = seeds_from
     attempts = 0
+    agents = _build_agents(provider, agent_mode)
     while accepted < n and attempts < attempts_limit:
         one = generate_one(
             seed=seed,
@@ -69,6 +75,8 @@ def generate_batch(
             difficulty=difficulty,
             n_suspects=n_suspects,
             n_distractors=n_distractors,
+            agent_mode=agent_mode,
+            agents=agents,
         )
         attempts += 1
         seed += 1
@@ -83,3 +91,11 @@ def generate_batch(
         "attempts": attempts,
         "results": results,
     }
+
+
+def _build_agents(provider: str, agent_mode: str) -> AgentSuite:
+    if agent_mode == "live":
+        return LiveAgentSuite(provider)
+    if agent_mode == "offline":
+        return OfflineAgentSuite()
+    raise ValueError(f"unknown agent mode: {agent_mode}")

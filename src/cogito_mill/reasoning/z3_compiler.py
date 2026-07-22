@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-import z3
+import z3  # type: ignore[import-untyped]
 
 from cogito_mill.domain.evidence import VisibleTheory
 from cogito_mill.domain.world import WorldSpec
+from cogito_mill.reasoning.logic import goal_candidates
 
 
 def eliminate_candidates(
@@ -21,6 +22,9 @@ def eliminate_candidates(
     - ``actor_must_be:<entity_id>``
     - ``present:<entity>:<place>`` / ``absent:<entity>:<place>``
     """
+    if visible.logic is not None:
+        return goal_candidates(visible.logic, world.candidate_answers)
+
     atoms = {f.formal for f in visible.facts if f.formal}
     surviving: list[str] = []
     for cand in world.candidate_answers:
@@ -71,7 +75,7 @@ def _candidate_survives(world: WorldSpec, atoms: set[str], cand: str) -> bool:
         if len(parts) == 3 and parts[0] == "not_holds" and parts[1] == cand:
             s.add(z3.Not(alive))
 
-    return s.check() == z3.sat
+    return bool(s.check() == z3.sat)
 
 
 def assert_unique(surviving: list[str]) -> tuple[bool, str | None]:

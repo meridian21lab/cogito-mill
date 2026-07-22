@@ -17,12 +17,21 @@ class SceneDraft(BaseModel):
     prose: str = ""
 
 
+class StoryDraft(BaseModel):
+    """Writer output before deterministic sentence addressing and grounding."""
+
+    title: str
+    opening: str
+    scenes: list[SceneDraft]
+
+
 class StoryDocument(BaseModel):
     id: str
     title: str
     scenes: list[SceneDraft]
     sentences: list[Sentence]
     full_text: str
+    fact_sentence_map: dict[str, list[str]] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def _nonempty_story(self) -> StoryDocument:
@@ -31,3 +40,6 @@ class StoryDocument(BaseModel):
         if not self.sentences:
             raise ValueError("story must have sentence IDs")
         return self
+
+
+__all__ = ["SceneDraft", "Sentence", "StoryDocument", "StoryDraft"]

@@ -52,3 +52,7 @@ Auth: `hf auth login` / `HF_TOKEN`, `gh auth login`, `az login`. Prefer env/secr
 - Code: `src/cogito_mill/`
 - Tests: `tests/unit/`, `tests/integration/`, `tests/e2e/`
 - Specs we refine together: `docs/engineering/`
+- Dataset quality iteration tracker:
+  `docs/engineering/assessments/pilot-quality-iterations.md`. Read it before changing
+  generation/evaluation, and append every measured refinement (narration, diversity,
+  grounding, and solver accuracy) with the newest iteration at the bottom.

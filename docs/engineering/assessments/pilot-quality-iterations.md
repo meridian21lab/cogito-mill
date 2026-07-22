@@ -86,3 +86,143 @@ Source: regenerated `data/packed/pilot_v1.jsonl` (150) + Luna sample eval (`luna
 4. Consider separate “readable pilot” vs “hard benchmark” configs once worlds are rich enough.
 
 ---
+
+## Iteration 2 — explicit agents + concept portfolio (2026-07-21)
+
+Hypothesis: replacing the single access-timeline template with explicit planner,
+concept-critic, formalizer/verifier, storyteller, story-critic, and final-critic roles would
+fix repetition and make structural difficulty controllable.
+
+### What changed
+
+1. The LangGraph became an explicit conditional graph with bounded concept and story repairs.
+2. Writer and judge deployments are injected behind narrow role interfaces; offline tests use
+   deterministic adapters.
+3. Six narrative families replaced the one access-timeline skin: watch handover, archive
+   provenance, fault network, delegated authority, expedition signal, and workshop provenance.
+4. Dataset-level narration, duplicate, setting, template-share, opening, question-stem, and
+   5-shingle similarity gates were added.
+
+### Measured result
+
+- Live dev pack: 12 stories, all narration/diversity gates passed.
+- Six families were balanced at two stories each; exact duplicates: 0; unique openings: 100%.
+- Pairwise story 5-shingle similarity: P95 **0.164**, max **0.250**.
+- Luna main accuracy: **12/12 (100%)** — failed.
+
+### Verdict
+
+Architecture and diversity improved, but the final concept was still a shallow intersection
+of visibly matching branches. More agents did not itself create harder reasoning.
+
+---
+
+## Iteration 3 — transformation chains and linear checksum (2026-07-21)
+
+Hypothesis: raw clue → channel → status transformations plus a weighted checksum would remove
+the direct-intersection shortcut.
+
+### Measured result
+
+- The blind story critic rejected early versions that serialized conversion tables; unused
+  mappings were removed and shared inference rules were narrated once.
+- Luna still solved the transformation probes and scored **8/8 (100%)** on the balanced
+  random linear-checksum sample.
+
+### Verdict
+
+Linear arithmetic remained easy for Luna. Difficulty could not come from adding lookup layers;
+those layers also pushed narration back toward disguised tables.
+
+---
+
+## Iteration 4 — nonlinear one-pass checksum (2026-07-21)
+
+Hypothesis: a seed-specific recurrence
+`state = (state² + coefficient × status_value) mod prime` over the six independently grounded
+evidence streams would test execution of a newly defined local concept.
+
+### Measured result
+
+- Narration/diversity gate: passed on 12/12 live-agent stories.
+- Word range: 730–953; six template families; P95 story similarity below 0.10.
+- Luna main accuracy: **9/12 (75%)** — improved, but failed.
+
+---
+
+## Iteration 5 — three-pass nonlinear checksum (2026-07-21)
+
+Hypothesis: forward, reverse, then coefficient-rotated passes would raise state-tracking depth
+without adding prose or identifiers.
+
+### Measured result
+
+- Narration passed on all 7 accepted calibration items.
+- Luna main accuracy: **5/7 (71.4%)** — failed.
+- A model critic incorrectly recomputed one checksum. Deterministic regression tests now lock
+  the recurrence; the final prose critic is explicitly advisory on arithmetic.
+
+---
+
+## Iteration 6 — variable 17–29-cycle checksum (2026-07-21)
+
+Hypothesis: varying recurrence depth by seed would prevent a fixed short-computation shortcut.
+
+### Measured result
+
+- A fresh six-item sample scored **0/6 (0%)**, but the balanced 12-item pack scored
+  **5/12 (41.7%)** — failed the ≤30% gate.
+- All 12 narration/diversity gates passed: 736–1034 words, six families represented,
+  100% unique openings/stems, P95 5-shingle similarity **0.096**, no duplicates.
+
+### Next refinement
+
+Increase the seed-dependent cycle range without adding any narrative records. Re-evaluate the
+same quality gates first, then Luna on all 12 main questions.
+
+---
+
+## Iteration 7 — pilot_v2, variable 97–127-cycle concept (2026-07-21)
+
+Source: `data/packed/pilot_v2.jsonl` (12 live-agent calibration items),
+`pilot_v2_quality_metrics.json`, and `luna_eval_metrics_v2.json`.
+
+### What changed
+
+1. The same six grounded evidence statuses feed the nonlinear recurrence; no clues, codes, or
+   filler were added.
+2. The seed-specific cycle count increased to 97–127 complete forward/reverse/rotated cycles.
+3. The exact cycle count and operation depth are retained per item.
+4. A regression test executes the disclosed recurrence. LLM critics judge narration and
+   usability but cannot overrule deterministic arithmetic.
+
+### Narration and diversity (12/12 gate passed)
+
+- Narration: **12/12**; 745–1277 words (median 902).
+- Exact duplicate stories: **0**.
+- Structural families represented: **6**; effective family count **5.14**; max share **0.25**.
+- Unique openings: **100%**.
+- Unique main-question stems: **100%**.
+- Pairwise token 5-shingle similarity: P95 **0.087**, max **0.097**.
+- Settings represented: 5; normalized setting entropy **0.943**.
+- Every item passed deterministic grounding plus model story/final critics.
+
+### Luna main-question evaluation
+
+- Correct: **2/12**.
+- Main accuracy: **16.7%** — development hardness gate **passed** (target <30%).
+- Transport failures: **0**.
+- First-name-only errors: **0/12**.
+- One-sided 95% Wilson upper bound: **39.9%** — statistical release gate not yet met.
+
+### Honest verdict
+
+- Requested development quality gates are met simultaneously: readable narration, low surface
+  overlap across six families, and Luna below 30%.
+- This is a calibration pack, not a release-sized benchmark. The hardness mechanism primarily
+  tests execution of a newly defined iterative concept over grounded evidence. The next scale
+  iteration should add other hard structural mechanisms (state transitions, provenance DAGs,
+  and constraint worlds) so difficulty diversity catches up with narrative diversity.
+- A larger balanced pack is required before claiming the ≤30% bound statistically.
+
+---
