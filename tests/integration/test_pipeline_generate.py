@@ -22,7 +22,7 @@ def test_generate_batch_small(tmp_path: Path) -> None:
         n=3,
         seeds_from=200,
         output_root=str(tmp_path),
-        n_suspects=4,
+        n_suspects=6,
         n_distractors=3,
     )
     assert summary["accepted"] == 3

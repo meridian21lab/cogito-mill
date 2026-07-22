@@ -6,6 +6,7 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
+from cogito_mill.domain.constraints import ConstraintClue
 from cogito_mill.domain.questions import FalsifierTask
 from cogito_mill.domain.reasoning import DeductionStep
 
@@ -71,6 +72,8 @@ class SolverAppendix(BaseModel):
     opportunity: dict[str, bool] = Field(default_factory=dict)
     eliminations: list[EliminationNote] = Field(default_factory=list)
     provenance_states: list[ProvenanceState] = Field(default_factory=list)
+    constraint_clues: list[ConstraintClue] = Field(default_factory=list)
+    constraint_solution: dict[str, dict[str, str]] = Field(default_factory=dict)
     gold_steps: list[DeductionStep] = Field(default_factory=list)
     supported_conclusions: list[str] = Field(default_factory=list)
     evidence_counterfactual: EvidenceIntervention | None = None
@@ -128,6 +131,17 @@ class SolverAppendix(BaseModel):
                 lines.append(
                     f"- step {state.step}: token in {state.token_container}; {carriers}{evidence}"
                 )
+            lines.append("")
+        if self.constraint_clues:
+            lines.append("Relational constraints:")
+            for clue in self.constraint_clues:
+                lines.append(f"- {clue.id} ({clue.kind}): {clue.text}")
+            lines.append("")
+        if self.constraint_solution:
+            lines.append("Verified assignment:")
+            for person, assignment in self.constraint_solution.items():
+                details = ", ".join(f"{axis}={value}" for axis, value in assignment.items())
+                lines.append(f"- {person}: {details}")
             lines.append("")
         if self.gold_steps:
             lines.append("Gold deduction steps:")

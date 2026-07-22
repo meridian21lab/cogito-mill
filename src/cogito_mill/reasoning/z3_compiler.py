@@ -6,6 +6,7 @@ import z3  # type: ignore[import-untyped]
 
 from cogito_mill.domain.evidence import VisibleTheory
 from cogito_mill.domain.world import WorldSpec
+from cogito_mill.reasoning.constraints import target_candidates
 from cogito_mill.reasoning.logic import goal_candidates
 
 
@@ -22,6 +23,8 @@ def eliminate_candidates(
     - ``actor_must_be:<entity_id>``
     - ``present:<entity>:<place>`` / ``absent:<entity>:<place>``
     """
+    if visible.constraints is not None:
+        return target_candidates(visible.constraints)
     if visible.logic is not None:
         return goal_candidates(visible.logic, world.candidate_answers)
 

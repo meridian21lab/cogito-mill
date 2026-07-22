@@ -1140,6 +1140,10 @@ def re_sub(text: str) -> str:
 
 def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     """Dispatch to the versioned structural mechanism without changing Hub schemas."""
+    if recipe.prompt_version == "pilot.v6":
+        from cogito_mill.pipelines.constraint_templates import build_constraint_puzzle
+
+        return build_constraint_puzzle(recipe)
     if recipe.prompt_version == "pilot.v5":
         from cogito_mill.pipelines.provenance_templates import build_provenance_puzzle
 

@@ -67,9 +67,7 @@ def _cmd_publish(args: argparse.Namespace) -> int:
         print(f"wrote {out}")
         appendices = pack_appendix_items(Path(args.input))
         if appendices:
-            appendix_out = (
-                Path(args.output_root) / "packed" / f"{args.config}_appendix.jsonl"
-            )
+            appendix_out = Path(args.output_root) / "packed" / f"{args.config}_appendix.jsonl"
             with appendix_out.open("w", encoding="utf-8") as handle:
                 for row in appendices:
                     handle.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -147,7 +145,7 @@ def build_parser() -> argparse.ArgumentParser:
     batch.add_argument("--seeds-from", type=int, default=1000)
     batch.add_argument("--output-root", default="data")
     batch.add_argument("--difficulty", default="hard", choices=["medium", "hard", "very_hard"])
-    batch.add_argument("--n-suspects", type=int, default=5)
+    batch.add_argument("--n-suspects", type=int, default=6)
     batch.add_argument("--n-distractors", type=int, default=6)
     batch.add_argument("--max-attempts", type=int, default=None)
     batch.add_argument("--agent-mode", default="offline", choices=["offline", "live"])
