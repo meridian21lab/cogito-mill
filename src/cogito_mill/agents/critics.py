@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import re
 from pathlib import Path
 from typing import Literal
@@ -129,6 +130,22 @@ def critique_story_document(
             gate="temporal_grounding",
             passed=temporal_markers >= 4,
             detail=f"temporal markers={temporal_markers} (min 4)",
+        )
+    )
+
+    sentences = [part.strip() for part in re.split(r"(?<=[.!?])\s+", text) if part.strip()]
+    sentence_lengths = [len(re.findall(r"\b[\w'-]+\b", sentence)) for sentence in sentences]
+    if sentence_lengths:
+        ordered = sorted(sentence_lengths)
+        index = max(0, math.ceil(0.95 * len(ordered)) - 1)
+        p95 = ordered[index]
+    else:
+        p95 = 0
+    findings.append(
+        CriticFinding(
+            gate="sentence_length_p95",
+            passed=p95 <= 45,
+            detail=f"sentence_p95_words={p95} (max 45)",
         )
     )
 

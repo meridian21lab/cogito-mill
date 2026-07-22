@@ -1,0 +1,12 @@
+{
+  "valid": true,
+  "n": 20,
+  "unique_ids": 20,
+  "duplicate_ids": [],
+  "jsonl": "data/experiments/quality-20260722-timeline-opportunity/packed/pilot_v4_timeline.jsonl",
+  "jsonl_sha256": "947d2d82bcae98b51d0321875628e0db30dd3f850b38552b2ec9d7fb6cbf52ba",
+  "dataset_sha256": "e219e5fd6171cd4ae777a83770e339633a361106c809c9ac43261ecf560ade48",
+  "schema": "schemas/reasoning-item.schema.json",
+  "schema_sha256": "f89b79e30df8dded2d6f6c55f03f84a0cf521dd987345bbada86923f5d634e40",
+  "errors": []
+}

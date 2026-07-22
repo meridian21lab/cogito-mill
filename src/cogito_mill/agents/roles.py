@@ -189,6 +189,7 @@ Phase 1 — simple factual storyline only.
 Write a title, opening, and the same five scene IDs as a plain chronological account of the
 incident and every obligated fact. No literary padding yet. Keep people, places, clock times,
 durations, and travel exact. Do not reveal who alone had opportunity.
+State times and places as observations; do not explain why a sighting rules someone out.
 Never write any participant's contiguous full name (given name immediately followed by surname).
 Keep surnames in separate clauses, as in the obligations. Never use protocol declarations,
 status scales, coefficients, modulo arithmetic, checksums, tallies, or six-stream ledgers.
@@ -207,6 +208,7 @@ noise around the critical sightings. Return a title, opening, and the same five 
 Write like a short literary mystery or true-crime vignette, not a procedure manual.
 A careful reader should be able to build a timeline map and eliminate candidates.
 Never write any participant's contiguous full name; keep surnames in separate clauses.
+State times and places as observations; do not explain why a sighting rules someone out.
 Never use protocol declarations, status scales, coefficients, modulo arithmetic, checksums,
 tallies, or six-stream ledgers. Do not invent twin-name suffixes or personnel-index walls.
 Do not state who alone had opportunity.

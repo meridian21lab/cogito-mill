@@ -1,0 +1,54 @@
+{
+  "n": 20,
+  "dataset_sha256": "e219e5fd6171cd4ae777a83770e339633a361106c809c9ac43261ecf560ade48",
+  "passed": true,
+  "gates": {
+    "narration": true,
+    "no_formulaic_ledger": true,
+    "no_exact_duplicates": true,
+    "template_count": true,
+    "template_effective_count": true,
+    "template_max_share": true,
+    "setting_coverage": true,
+    "setting_entropy": true,
+    "surface_similarity_p95": true,
+    "unique_openings": true,
+    "question_stems": true,
+    "question_stem_max_share": true,
+    "structural_hops": true
+  },
+  "narration": {
+    "passed": 20,
+    "failed": 0,
+    "min_words": 440,
+    "median_words": 553.0,
+    "max_words": 793,
+    "formulaic_failures": 0
+  },
+  "diversity": {
+    "exact_duplicates": 0,
+    "template_counts": {
+      "habitat_sabotage": 4,
+      "museum_release": 4,
+      "convoy_diversion": 3,
+      "workshop_switch": 3,
+      "festival_theft": 3,
+      "archive_theft": 3
+    },
+    "template_effective_count": 5.88235294117647,
+    "template_max_share": 0.2,
+    "setting_counts": {
+      "speculative": 4,
+      "workplace": 7,
+      "expedition": 3,
+      "domestic": 3,
+      "historical": 3
+    },
+    "setting_entropy": 0.9587380211059768,
+    "unique_opening_rate": 1.0,
+    "unique_main_question_stems": 20,
+    "main_question_stem_max_share": 0.05,
+    "pairwise_5_shingle_p95": 0.11255924170616113,
+    "pairwise_5_shingle_max": 0.15867944621938232
+  }
+}

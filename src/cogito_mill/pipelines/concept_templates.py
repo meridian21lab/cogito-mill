@@ -434,9 +434,8 @@ def _build_timelines(
                     post_start,
                     post_start + 25,
                     (
-                        f"{first} was only noticed at the {place_c} from "
-                        f"{minutes_to_clock(post_start)} onward, after the incident window "
-                        "had already closed."
+                        f"{first} was noticed at the {place_c} from "
+                        f"{minutes_to_clock(post_start)} onward."
                     ),
                 ),
             ]
@@ -462,7 +461,7 @@ def _build_timelines(
                     arrive_elsewhere + 20,
                     (
                         f"{first} was seen at the {place_b} at "
-                        f"{minutes_to_clock(arrive_elsewhere)}, too soon after the incident began."
+                        f"{minutes_to_clock(arrive_elsewhere)}."
                     ),
                 ),
             ]
@@ -491,8 +490,7 @@ def _build_timelines(
                         leave,
                         (
                             f"{first} was still at the {place_b} at "
-                            f"{minutes_to_clock(leave)}, too late to reach the "
-                            f"{crime} by {minutes_to_clock(crime_start)}."
+                            f"{minutes_to_clock(leave)}."
                         ),
                     )
                 ]
@@ -506,7 +504,7 @@ def _build_timelines(
                         nxt + 30,
                         (
                             f"{first} had to be at the {place_a} by "
-                            f"{minutes_to_clock(nxt)}, leaving no room to finish the incident."
+                            f"{minutes_to_clock(nxt)}."
                         ),
                     )
                 ]
@@ -722,9 +720,8 @@ def _facts_and_logic(
         VisibleFact(
             id="f_rule_opportunity",
             text=(
-                "Investigators agreed on a simple rule: the responsible person is whoever "
-                f"alone could have stayed at the {family.crime_place} for the whole incident "
-                "window after every sighting and travel time is taken seriously."
+                "Whoever did it had to remain at the scene for the whole stretch of the "
+                "incident window. Sightings and travel times are the only fair tests."
             ),
             formal=f"rule:{final_rule.id}",
             channel=ClueChannel.RULE_APPLICATION,
@@ -1091,10 +1088,9 @@ def _offline_draft(
             "What the timeline forces",
             rule,
             (
-                "In the end the question was not motive but opportunity. "
+                "By evening the clocks and routes were all on the table. "
                 + " ".join(fact.text for fact in rule)
-                + " A careful reader could line up the clocks, subtract the travel, and "
-                "see who alone could still have stayed for the whole window."
+                + " The rest was ordinary reconstruction: who could still fit the window."
             ),
         ),
     ]
