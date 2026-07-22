@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from cogito_mill.datasets.pack import pack_hub_items
+from cogito_mill.domain.appendix import SolverAppendix
 from cogito_mill.eval.score import normalize_answer, score_exact_any
 from cogito_mill.llm.providers import build_chat
 
@@ -91,6 +92,8 @@ def evaluate_dataset(
     local_dir: str | None = None,
     output_root: str = "data",
     main_only: bool = False,
+    appendix_path: str | None = None,
+    question_types: list[str] | None = None,
 ) -> dict[str, Any]:
     rows = _load_rows(
         dataset=dataset,
@@ -101,6 +104,10 @@ def evaluate_dataset(
     )
     if not rows:
         raise ValueError("no evaluation rows found")
+
+    appendices = _load_appendices(appendix_path) if appendix_path else {}
+    if appendix_path and not appendices:
+        raise ValueError(f"no appendix rows found in {appendix_path}")
 
     chat = build_chat(solver_provider, role="writer")
     predictions: list[dict[str, Any]] = []
@@ -117,13 +124,36 @@ def evaluate_dataset(
         "If nobody qualifies, answer exactly: none\n"
         "Respond with a single line in the form FINAL_ANSWER: <answer>.\n\n"
     )
+    if appendices:
+        prompt_template += (
+            "A solver appendix may be supplied. Use it as an explicit logical flow over "
+            "story-grounded evidence; do not invent facts absent from both story and appendix.\n\n"
+        )
     for row in rows:
         qa_units = _iter_qa(row)
         if main_only:
             qa_units = [qa for qa in qa_units if qa["question_type"] == "main"]
+        if question_types:
+            allowed = set(question_types)
+            qa_units = [qa for qa in qa_units if qa["question_type"] in allowed]
+        appendix_text = ""
+        if appendices:
+            appendix = appendices.get(row["id"])
+            if appendix is None:
+                raise ValueError(f"missing appendix for item {row['id']}")
+            appendix_text = (
+                "\n\n"
+                + SolverAppendix.model_validate(appendix).to_solver_text()
+                + "\n"
+            )
         for qa in qa_units:
             total_qa += 1
-            prompt = prompt_template + (f"STORY:\n{row['story']}\n\nQUESTION:\n{qa['question']}\n")
+            prompt = (
+                prompt_template
+                + f"STORY:\n{row['story']}\n"
+                + appendix_text
+                + f"\nQUESTION:\n{qa['question']}\n"
+            )
             try:
                 msg = _invoke_with_retry(chat, prompt)
                 raw = getattr(msg, "content", str(msg))
@@ -157,6 +187,7 @@ def evaluate_dataset(
                     "normalized_gold": normalize_answer(qa["gold_answer"]),
                     "correct": ok,
                     "raw": raw[:2000],
+                    "appendix_assisted": bool(appendices),
                 }
             )
 
@@ -165,6 +196,9 @@ def evaluate_dataset(
     main_correct = sum(1 for p in main_preds if p["correct"])
     main_accuracy = main_correct / len(main_preds) if main_preds else 0.0
     main_wilson_upper = _wilson_upper(main_correct, len(main_preds))
+    cf_preds = [p for p in predictions if p.get("question_type") == "counterfactual"]
+    cf_correct = sum(1 for p in cf_preds if p["correct"])
+    cf_accuracy = cf_correct / len(cf_preds) if cf_preds else None
     eval_id = f"eval-{int(time.time())}"
     out_dir = Path(output_root) / "processed" / "evals" / eval_id
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -177,6 +211,9 @@ def evaluate_dataset(
         "main_n": len(main_preds),
         "main_correct": main_correct,
         "main_accuracy": main_accuracy,
+        "counterfactual_n": len(cf_preds),
+        "counterfactual_correct": cf_correct,
+        "counterfactual_accuracy": cf_accuracy,
         "first_name_only_count": first_only,
         "first_name_only_n": first_only_denominator,
         "first_name_only_rate": (
@@ -186,6 +223,8 @@ def evaluate_dataset(
         "solver_provider": solver_provider,
         "dataset": dataset if local_dir is None else local_dir,
         "config": config,
+        "appendix_path": appendix_path,
+        "appendix_assisted": bool(appendices),
         "max_accuracy_gate": 0.30,
         "passed_hardness_gate": main_accuracy <= 0.30,
         "main_accuracy_wilson_upper_95": main_wilson_upper,
@@ -203,6 +242,20 @@ def evaluate_dataset(
     )
     report["artifact_dir"] = str(out_dir)
     return report
+
+
+def _load_appendices(path: str) -> dict[str, dict[str, Any]]:
+    root = Path(path)
+    rows = [
+        json.loads(line)
+        for line in root.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    out: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        appendix = SolverAppendix.model_validate(row)
+        out[appendix.id] = appendix.model_dump(mode="json")
+    return out
 
 
 def _invoke_with_retry(chat: Any, prompt: str) -> Any:

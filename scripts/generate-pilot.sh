@@ -41,6 +41,7 @@ Options:
 
 Writes:
   <output-root>/packed/<config>.jsonl
+  <output-root>/packed/<config>_appendix.jsonl  (solver companion, if generated)
   <output-root>/packed/<config>_integrity_metrics.json
   <output-root>/packed/<config>_quality_metrics.json  (unless --skip-assess)
 

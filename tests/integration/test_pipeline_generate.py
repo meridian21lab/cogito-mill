@@ -14,6 +14,7 @@ def test_generate_one_accepted(tmp_path: Path) -> None:
     assert result["item_id"]
     assert (tmp_path / "processed" / result["run_id"] / "hub-item.json").exists()
     assert (tmp_path / "processed" / result["run_id"] / "reasoning-item.json").exists()
+    assert (tmp_path / "processed" / result["run_id"] / "reasoning-appendix.json").exists()
 
 
 def test_generate_batch_small(tmp_path: Path) -> None:

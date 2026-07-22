@@ -195,11 +195,16 @@ scene openings, and paragraph rhythm. Do not reveal which person satisfies the f
 CRITICAL GROUNDING CONTRACT:
 - Realize every obligation faithfully in its assigned scene exactly once. Natural paraphrase is
   allowed, but preserve every named participant, value, relation, condition, and consequence.
-- Combine related conversion facts into motivated prose where that improves narration. Explain
-  why an auditor, witness, or participant checks each alternative instead of serializing a table.
+- Do not serialize evidence as a status ledger or repeated template
+  ("X's Y resolved to Z status"). Embed each status in a motivated scene action, damaged record,
+  witness check, doorway review, token count, or similar concrete event.
+- Present the shared status scale and local tally procedure once in clear prose. Do not reprint
+  the coefficient list in every scene.
+- Combine related facts into motivated narration. Explain why an auditor, witness, or participant
+  checks each stream instead of dumping a table.
 - You may add connective narration, reactions, and atmosphere, but no new logical facts.
-- Do not turn the evidence into a table, ledger dump, bullet list, or repeated template.
-- Give the six evidence streams distinct incident functions and scene-level purposes.
+- Do not invent twin-name suffixes (for example "Nguyen-2") or personnel-index walls.
+- Keep the story inside the given setting; do not open in a mismatched genre.
 - Keep all local rules explicit. A reader must be able to solve without outside knowledge.
 - Each scene's obligated_fact_ids must remain exactly those in the scaffold.
 
@@ -220,9 +225,10 @@ Repair feedback: {feedback or "none"}
         prompt = f"""You are a blind narrative-quality critic for a reasoning benchmark.
 Return accept only if the story is coherent narration, each clue is naturally integrated,
 the six evidence streams remain trackable but nontrivial, local rules are clear, prose is
-not a disguised table, the answer is not asserted, and every question is unambiguous.
-Return revise with actionable sentence-level feedback for repairable prose; reject only for
-an irreparable premise. Deterministic grounding has priority and reports:
+not a disguised status ledger or coefficient table, names have no artificial numeric suffixes,
+the setting is coherent from opening to close, the answer is not asserted, and every question
+is unambiguous. Return revise with actionable sentence-level feedback for repairable prose;
+reject only for an irreparable premise. Deterministic grounding has priority and reports:
 {grounding.model_dump_json()}
 Story: {story.full_text}
 Questions: {questions.model_dump_json()}
