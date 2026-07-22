@@ -28,6 +28,7 @@ Secrets (local `.env` or Cursor Cloud Secrets): see `.env.example`.
 Defined under `.cursor/agents/`:
 
 - `research-scout` — readonly background scout for papers, datasets, Hub cards, and repos (arXiv / OpenReview / ACL / HF / GitHub). Invoke with `/research-scout` or by asking for a literature / SoTA scan. Returns cited notes; does not decide mill design (use grilling / `/to-spec` for that). Substantial keepers → `docs/literature/`.
+- `dataset-quality-judge` — readonly coordinator that prepares an evidence packet and calls `scripts/run-external-quality-judge.py` (Azure `gpt-5.6-terra-stories` by default). Use for independent quality assessment of retained packs; does not edit the mill or substitute its own judgment when Azure fails.
 
 ## Skills (project)
 

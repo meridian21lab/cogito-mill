@@ -37,10 +37,13 @@ Project skills live in `.agents/skills/` and are surfaced to Claude through
 ## Subagents
 
 - **`research-scout`** — readonly scout for papers, datasets, Hub cards, and
-  repos (arXiv / OpenReview / ACL / PMLR / HF / GitHub). Spawn it (Agent tool)
-  for a literature / SoTA scan; it returns cited notes and does **not** decide
-  mill design — use `/grilling` or `/to-spec` for that. Substantial keepers →
-  `docs/literature/`.
+ repos (arXiv / OpenReview / ACL / PMLR / HF / GitHub). Spawn it (Agent tool)
+ for a literature / SoTA scan; it returns cited notes and does **not** decide
+ mill design — use `/grilling` or `/to-spec` for that. Substantial keepers →
+ `docs/literature/`.
+- **`dataset-quality-judge`** — readonly assessment coordinator. Prepares an
+ evidence packet and invokes `scripts/run-external-quality-judge.py` (Azure
+ `gpt-5.6-terra-stories`). Does not judge quality itself or edit artifacts.
 
 ## Running things
 

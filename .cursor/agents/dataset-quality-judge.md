@@ -1,11 +1,11 @@
 ---
+name: dataset-quality-judge
+description: >-
   Orchestrates independent external Azure assessment of Cogito Mill dataset quality. Use
   proactively when assessing the current dataset, planning the next quality iteration,
   checking a user's quality observation, or finding overlooked weaknesses. Prepares an
   evidence packet, invokes the external judge script, and returns its concise findings.
-name: dataset-quality-judge
 model: grok-4.5[effort=medium,fast=false]
-description: >-
 readonly: true
 is_background: true
 ---
