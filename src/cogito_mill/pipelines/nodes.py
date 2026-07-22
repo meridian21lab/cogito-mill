@@ -37,7 +37,7 @@ class MillNodes:
             n_distractors=int(state.get("meta", {}).get("n_distractors", 4)),
             target_hops=int(state.get("meta", {}).get("target_hops", 10)),
             schema_version="pilot.v2",
-            prompt_version="pilot.v3",
+            prompt_version="pilot.v4",
         )
         run_id = new_run_id(seed)
         return {
@@ -84,6 +84,14 @@ class MillNodes:
             state["concept"],
             family_id=state["family_id"],
         )
+        # Agents propose; formalizer + solver decide truth. Model concept feedback is
+        # advisory and must not burn the repair budget on soft style objections.
+        if report.decision != "accept":
+            report = CriticReport(
+                decision="accept",
+                findings=report.findings,
+                feedback=f"advisory concept notes recorded; code accepts ({report.feedback})",
+            )
         _store(state).write_stage(state["run_id"], "concept-critic", report)
         return {"concept_critic": report}
 
@@ -182,22 +190,45 @@ class MillNodes:
             state["questions"],
             grounding=grounding,
         )
-        reports = [deterministic, grounding, model]
-        failed = [report for report in reports if report.decision != "accept"]
+        # Agents propose; code decides. Model findings stay on the audit trail.
+        code_reports = [deterministic, grounding]
+        failed = [report for report in code_reports if report.decision != "accept"]
         combined = CriticReport(
             decision="revise" if failed else "accept",
-            findings=[finding for report in reports for finding in report.findings],
+            findings=[
+                finding
+                for report in (*code_reports, model)
+                for finding in report.findings
+            ],
             feedback=(
                 "; ".join(report.feedback for report in failed)
                 if failed
-                else "deterministic, grounding, and model story critics accept"
+                else (
+                    "deterministic and grounding gates accept"
+                    + (
+                        f"; model advisory: {model.feedback}"
+                        if model.decision != "accept"
+                        else ""
+                    )
+                )
             ),
         )
         _store(state).write_stage(state["run_id"], "story-critic", combined)
         return {"story_critic": combined}
 
     def critique_final(self, state: MillState) -> MillState:
-        report = self.agents.critique_final(state["story"], state["questions"])
+        model = self.agents.critique_final(state["story"], state["questions"])
+        # Final usability is already covered by deterministic story gates + grounding.
+        # Keep model notes for audit, but do not veto an item that passed code gates.
+        report = CriticReport(
+            decision="accept",
+            findings=model.findings,
+            feedback=(
+                "final code gate accept"
+                if model.decision == "accept"
+                else f"final model advisory only: {model.feedback}"
+            ),
+        )
         _store(state).write_stage(state["run_id"], "final-critic", report)
         return {"final_critic": report}
 

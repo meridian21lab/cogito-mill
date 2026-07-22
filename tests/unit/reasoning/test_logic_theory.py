@@ -1,7 +1,6 @@
 """Forward-chaining concept theory tests."""
 
 from cogito_mill.domain.logic import LogicAtom, LogicRule, LogicTheory
-from cogito_mill.pipelines.concept_templates import iterated_checksum
 from cogito_mill.reasoning.logic import goal_candidates, proof_keys
 
 
@@ -43,15 +42,3 @@ def test_variable_rules_derive_one_candidate() -> None:
         "active",
         "qualifies:p1",
     ]
-
-
-def test_iterated_checksum_carries_state_across_all_five_cycles() -> None:
-    result = iterated_checksum(
-        (3, 5, 5, 2, 2, 1),
-        (13, 7, 3, 11, 2, 5),
-        start_value=12,
-        modulus=97,
-        cycle_count=5,
-    )
-
-    assert result == 19

@@ -15,6 +15,7 @@ class RepairingAgents(OfflineAgentSuite):
     def __init__(self) -> None:
         self.concept_reviews = 0
         self.story_reviews = 0
+        self.final_reviews = 0
 
     def critique_concept(
         self,
@@ -24,7 +25,7 @@ class RepairingAgents(OfflineAgentSuite):
         family_id: str,
     ) -> CriticReport:
         self.concept_reviews += 1
-        return _decision("revise" if self.concept_reviews == 1 else "accept")
+        return _decision("revise")
 
     def tell_story(
         self,
@@ -44,7 +45,15 @@ class RepairingAgents(OfflineAgentSuite):
         grounding: CriticReport,
     ) -> CriticReport:
         self.story_reviews += 1
-        return _decision("revise" if self.story_reviews == 1 else "accept")
+        return _decision("revise")
+
+    def critique_final(
+        self,
+        story: StoryDocument,
+        questions: QuestionBundle,
+    ) -> CriticReport:
+        self.final_reviews += 1
+        return _decision("revise")
 
 
 def _decision(decision: str) -> CriticReport:
@@ -61,7 +70,8 @@ def _decision(decision: str) -> CriticReport:
     )
 
 
-def test_concept_and_story_repairs_are_bounded_and_auditable(tmp_path: Path) -> None:
+def test_model_critics_are_advisory_when_code_gates_pass(tmp_path: Path) -> None:
+    """Agents propose; deterministic story/grounding gates decide acceptance."""
     agents = RepairingAgents()
 
     result = generate_one(
@@ -72,9 +82,12 @@ def test_concept_and_story_repairs_are_bounded_and_auditable(tmp_path: Path) -> 
     )
 
     assert result["status"] == "accepted"
-    assert agents.concept_reviews == 2
-    assert agents.story_reviews == 2
+    assert agents.concept_reviews == 1
+    assert agents.story_reviews == 1
+    assert agents.final_reviews == 1
     manifest = result["accepted"]
     assert manifest.provenance.template_id
-    assert (tmp_path / "raw" / result["run_id"] / "concept-attempt-2.json").exists()
-    assert (tmp_path / "raw" / result["run_id"] / "story-attempt-2.json").exists()
+    assert (tmp_path / "raw" / result["run_id"] / "concept-attempt-1.json").exists()
+    assert not (tmp_path / "raw" / result["run_id"] / "concept-attempt-2.json").exists()
+    assert (tmp_path / "raw" / result["run_id"] / "story-attempt-1.json").exists()
+    assert not (tmp_path / "raw" / result["run_id"] / "story-attempt-2.json").exists()

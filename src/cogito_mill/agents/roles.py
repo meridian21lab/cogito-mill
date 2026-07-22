@@ -76,9 +76,8 @@ class OfflineAgentSuite:
             target_question=f"Who satisfies the locally defined concept {concept}?",
             intended_answer="selected only by the deterministic formal theory",
             composition_notes=(
-                "Disperse six independent relational, temporal, causal, spatial, sequence, "
-                "and protocol streams. Keep the checksum rule explicit and every candidate "
-                "plausible."
+                "Disperse times, places, travel constraints, and alibis across ordinary "
+                "activity. Keep the opportunity rule explicit without arithmetic ledgers."
             ),
         )
 
@@ -143,12 +142,12 @@ class LiveAgentSuite:
         prompt = f"""You are the concept planner for a synthetic reasoning benchmark.
 Create one compact narrative premise for the fixed family {family_id!r}.
 The setting must remain: {setting}
-The locally defined target concept must remain exactly: {concept}
-Define that concept crisply as the one participant whose six evidence statuses produce the
-incident's accepted iterated modular checksum under the local rules. The statuses are relational,
-temporal, causal, spatial, sequence, and protocol evidence. Do not choose or hint at the
-answer. The formalizer and deterministic code will choose
-the answer. Make the premise natural, self-contained, and unlike a generic murder mystery.
+The target label must remain exactly: {concept}
+The mystery is a timeline/opportunity puzzle: an incident happens in a fixed time window at
+one place, and only one person could have been there for the whole window after travel times
+and alibis are applied. Do not invent arithmetic tallies, status scales, coefficients, or
+protocols. Do not choose or hint at the answer. The formalizer and deterministic code choose
+the answer. Prefer a natural day-in-the-life incident with people moving between places.
 Prior critic feedback: {feedback or "none"}
 Recipe: {recipe.model_dump_json()}
 """
@@ -163,12 +162,10 @@ Recipe: {recipe.model_dump_json()}
     ) -> CriticReport:
         prompt = f"""You are an independent concept critic. Return accept, revise, or reject.
 Gate the proposal for: compatibility with family {family_id}; self-containment; a natural
-narrative premise; no answer hint; explicit need to combine relational, temporal, causal,
-spatial, sequence, and local-protocol evidence; and low resemblance to a stock locked-room
-mystery. The benchmark intentionally defines its target concept locally as the person whose
-six-stream iterated modular checksum equals the accepted checksum. Treat that as a crisp success
-condition; do not demand an external job title or add another condition. Recommend revision
-only when a listed gate actually fails.
+narrative premise; no answer hint; explicit need to combine times, places, travel, and alibis;
+and low resemblance to a stock locked-room mystery. Reject premises that rely on status scales,
+checksums, coefficient lists, or protocol ledgers. The success condition is: only one person
+had opportunity during the incident window. Recommend revision only when a listed gate fails.
 Do not judge formal truth—the deterministic solver does that.
 Recipe: {recipe.model_dump_json()}
 Proposal: {concept.model_dump_json()}
@@ -187,36 +184,41 @@ Proposal: {concept.model_dump_json()}
             scene.id: [fact.text for fact in visible.facts if fact.id in scene.obligated_fact_ids]
             for scene in scaffold.scenes
         }
-        prompt = f"""You are the storyteller for a machine-verified deduction dataset.
-Write an engaging, coherent short mystery as a title, opening, and the same five scene IDs.
-Use the supplied scaffold only as structural guidance; vary voice, pacing, transitions,
-scene openings, and paragraph rhythm. Do not reveal which person satisfies the final concept.
-
-CRITICAL GROUNDING CONTRACT:
-- Realize every obligation faithfully in its assigned scene exactly once. Natural paraphrase is
-  allowed, but preserve every named participant, value, relation, condition, and consequence.
-- Never assign two different statuses to the same person and evidence stream.
-- Do not serialize evidence as a status ledger or repeated template
-  ("X's Y resolved to Z status"). Embed each status in a motivated scene action, damaged record,
-  witness check, doorway review, token count, or similar concrete event.
-- Group evidence by investigative beat (one person, one artifact, one room), not by dumping all
-  six streams in identical sentence frames.
-- Present the shared status scale and local tally procedure once in clear prose. Do not reprint
-  the coefficient list in every scene.
-- Combine related facts into motivated narration. Explain why an auditor, witness, or participant
-  checks each stream instead of dumping a table.
-- You may add connective narration, reactions, and atmosphere, but no new logical facts.
-- Do not invent twin-name suffixes (for example "Nguyen-2") or personnel-index walls.
-- Keep the story inside the given setting; do not open in a mismatched genre.
-- Keep all local rules explicit. A reader must be able to solve without outside knowledge.
-- Each scene's obligated_fact_ids must remain exactly those in the scaffold.
-
+        spine_prompt = f"""You are the storyteller for a machine-verified deduction dataset.
+Phase 1 — simple factual storyline only.
+Write a title, opening, and the same five scene IDs as a plain chronological account of the
+incident and every obligated fact. No literary padding yet. Keep people, places, clock times,
+durations, and travel exact. Do not reveal who alone had opportunity.
+State times and places as observations; do not explain why a sighting rules someone out.
+Never write any participant's contiguous full name (given name immediately followed by surname).
+Keep surnames in separate clauses, as in the obligations. Never use protocol declarations,
+status scales, coefficients, modulo arithmetic, checksums, tallies, or six-stream ledgers.
+Do not invent twin-name suffixes.
 Concept: {concept.model_dump_json()}
 Scene obligations: {json.dumps(obligations, ensure_ascii=False)}
 Scaffold: {scaffold.model_dump_json()}
 Repair feedback: {feedback or "none"}
 """
-        return self.writer.invoke_structured(StoryDraft, prompt)
+        spine = self.writer.invoke_structured(StoryDraft, spine_prompt)
+        polish_prompt = f"""You are the storyteller for a machine-verified deduction dataset.
+Phase 2 — add light noise, then regenerate into one coherent human-readable mystery.
+You receive a fact-true spine. Preserve every named participant, place, clock time, duration,
+and travel claim. Weave ordinary activity (errands, festival food, work tasks, small talk) as
+noise around the critical sightings. Return a title, opening, and the same five scene IDs.
+Write like a short literary mystery or true-crime vignette, not a procedure manual.
+A careful reader should be able to build a timeline map and eliminate candidates.
+Never write any participant's contiguous full name; keep surnames in separate clauses.
+State times and places as observations; do not explain why a sighting rules someone out.
+Never use protocol declarations, status scales, coefficients, modulo arithmetic, checksums,
+tallies, or six-stream ledgers. Do not invent twin-name suffixes or personnel-index walls.
+Do not state who alone had opportunity.
+Concept: {concept.model_dump_json()}
+Scene obligations: {json.dumps(obligations, ensure_ascii=False)}
+Fact-true spine: {spine.model_dump_json()}
+Scaffold obligation ids: {scaffold.model_dump_json()}
+Repair feedback: {feedback or "none"}
+"""
+        return self.writer.invoke_structured(StoryDraft, polish_prompt)
 
     def critique_story(
         self,
@@ -227,13 +229,12 @@ Repair feedback: {feedback or "none"}
     ) -> CriticReport:
         prompt = f"""You are a blind narrative-quality critic for a reasoning benchmark.
 Hard failures only (return revise/reject): explicit tables/bullet ledgers; personnel-index
-walls; answer asserted in the story; unreadable prose; contradictory status assignments for
-the same person and stream; missing obligated facts (defer to deterministic grounding).
-Soft style issues such as imperfect literary integration of status evidence are NOT alone
-grounds for revise when deterministic gates pass and the text is coherent paragraphs.
-Return accept when the story is usable narration and questions are unambiguous. Return revise
-only with actionable sentence-level fixes for hard failures; reject only for an irreparable
-premise. Deterministic grounding has priority and reports:
+walls; formulaic protocol/status/coefficient/checksum language; answer asserted in the story;
+missing obligated times/places; contradictory timelines for the same person; unreadable prose.
+The story must read as a human timeline mystery: people, places, clock times, travel, and
+ordinary activity. Soft style issues alone are not grounds for revise when deterministic gates
+pass. Return accept when the story is usable narration and questions are unambiguous.
+Deterministic grounding has priority and reports:
 {grounding.model_dump_json()}
 Story: {story.full_text}
 Questions: {questions.model_dump_json()}
@@ -248,12 +249,11 @@ Questions: {questions.model_dump_json()}
         prompt = f"""You are the final usability critic. The question bundle includes private
 gold answers and variants for dataset validation; these fields are never shown to the solver
 and are not answer leaks. Judge direct leakage only inside the story and reader-facing question
-text. Deterministic code has already executed and verified the checksum; do not recompute or
-override its arithmetic. Accept only if the item is self-contained, readable as a story,
-materially requires combining dispersed evidence, does not state which candidate satisfies
-the final concept in the story, and asks precise questions with explicit answer forms.
-Revise if wording can fix it;
-reject if unusable.
+text. Deterministic code has already verified opportunity uniqueness; do not recompute the
+timeline arithmetic. Accept only if the item is self-contained, reads as a human story with a
+followable timeline, does not use status-scale or checksum ledgers, does not state which
+candidate alone had opportunity, and asks precise questions with explicit answer forms.
+Revise if wording can fix it; reject if unusable.
 Story: {story.full_text}
 Questions: {questions.model_dump_json()}
 """

@@ -147,3 +147,126 @@ Evaluation metrics:
 Promote `pilot_v3_balanced` as the measured forward candidate for further work. Next experiment
 should add a second structural mechanism family (state transition / provenance DAG / constraint
 world) without dropping appendix recoverability or story-only hardness.
+
+## quality-20260722-timeline-opportunity — Timeline/alibi stories vs formula ledgers (2026-07-22)
+
+Status: failed
+Claim level: development calibration
+Protocol: dataset-quality.v1
+
+### Hypothesis
+
+Replacing iterated-checksum / status-scale ledgers with human-graspable timeline/alibi opportunity
+(people, places, clock times, travel) plus anti-formulaic pack/critic/external-judge gates and a
+two-phase story writer (fact spine → noise → coherent narration) will pass narration/diversity
+including `no_formulaic_ledger`, keep story-only main accuracy ≤ 0.30 on n=20, and recover
+high appendix-assisted main accuracy (≥ 0.75 diagnostic).
+
+### Scope and controls
+
+- Change surfaces: concept formalizer mechanism; offline scaffold; story writer (two-phase);
+  story critic / pack assessor formulaic+temporal gates; external judge rubric; appendix.v2
+  timeline fields; prompts/roles; model critics advisory when code gates pass
+- Primary metric: assess pass with zero formulaic ledger hits; story-only main_accuracy ≤ 0.30
+- Regression gates / invariants: Hub thin schema unchanged; appendix-assisted recovery diagnostic;
+  no protocol/status/coefficient/modulo language in retained stories; n≥20 accepted items
+- Baseline pack + SHA-256: `data/packed/pilot_v3_balanced.jsonl`
+  (`2cfab656842f18db8ca5eeb4387811e63f588a553e53259c58929420b5d29c6b`)
+- Candidate config / output path: `pilot_v4_timeline` then `pilot_v4b_neutral` in `data/packed/`
+- Git SHA: timeline pack `2506647`; neutral follow-up on branch tip
+- Thin/full schema SHA-256:
+  thin `f89b79e30df8dded2d6f6c55f03f84a0cf521dd987345bbada86923f5d634e40`;
+  full `bfa5c6aaae4783906371cb7b6fff30c05feee39d91d96f3fd159525182544184`
+- Seed blocks: `pilot_v4_timeline` 11000–11019; `pilot_v4b_neutral` 12000–12019
+- Requested size and balance: 20 accepted items; six timeline families
+- Difficulty: very_hard
+- Agent mode: live
+- Provider family: azure
+- Writer/judge/evaluator deployments: Cursor Cloud Azure defaults
+- Prompt versions: `pilot.v4`
+- Scorer version: pilot.v2
+- Planned commands: executed as recorded in generation logs
+- Known deviations: one `pilot_v4_timeline` item needed a post-hoc sentence split for P95≤45;
+  `pilot_v4b_neutral` removes explicit elimination phrasing in facts
+
+### Change
+
+Replaced checksum/status-scale formalizer with timeline opportunity (clocks, alibis, travel);
+anti-formula gates in critic/assess/external judge; two-phase story writing; code decides on
+acceptance; companion appendix carries timelines/eliminations; neutral-claim follow-up removes
+“too late / too soon” giveaways.
+
+### Generation and item gates
+
+| Metric | Baseline | Candidate | Delta | Gate | Verdict |
+|--------|----------|-----------|-------|------|---------|
+| accepted / rejected / attempts | 12 live | v4: 20/0/20; v4b: 20/0/20 | yield 1.0 | record | pass |
+| acceptance yield | — | 1.0 | — | diagnostic | pass |
+| schema validity | 100% | 100% | 0 | 100% | pass |
+| unique IDs | 100% | 100% | 0 | 100% | pass |
+| deterministic correctness / grounding | 100% | 100% accepted rows | 0 | 100% | pass |
+
+### Dataset metrics
+
+| Metric | Baseline (`pilot_v3_balanced`) | `pilot_v4_timeline` | `pilot_v4b_neutral` | Gate | Verdict |
+|--------|--------------------------------|---------------------|---------------------|------|---------|
+| narration pass rate | 1.0 | 1.0 | 1.0 | size-dependent | pass |
+| formulaic ledger failures | n/a (ledger mechanism) | 0 | 0 | 0 | pass |
+| exact duplicates | 0 | 0 | 0 | 0 | pass |
+| template count / effective / max share | 6 / 6.0 / 0.167 | 6 / 5.88 / 0.20 | 6 / 5.88 / 0.20 | size-dependent | pass |
+| setting coverage / entropy | 4 / 0.959 | 5 / 0.959 | 5 / 0.978 | size-dependent | pass |
+| unique openings | 1.0 | 1.0 | 1.0 | ≥0.80 | pass |
+| pairwise 5-shingle P95 | 0.087 | 0.113 | 0.115 | ≤0.65 | pass |
+
+Candidate packs:
+- `data/packed/pilot_v4_timeline.jsonl` (raw `947d2d82…`, dataset `e219e5fd…`)
+- `data/packed/pilot_v4b_neutral.jsonl` (raw `d8c5b869…`, dataset `cf8ff826…`)
+Quality metrics:
+- `data/packed/pilot_v4_timeline_quality_metrics.json` (`5dd6896d…`)
+- `data/packed/pilot_v4b_neutral_quality_metrics.json` (`1de272d7…`)
+
+### Human audit
+
+- Sampling rule: one per family, lowest id (`pilot_v4b_neutral`)
+- Selected item IDs: family representatives `lss-concept-012000`–`012005`
+- Reviewer: cloud agent + external Azure judge (`gpt-5.6-terra-stories`)
+- Passed: no protocol/status/coefficient/modulo ledger language; readable incident+timeline form
+- Failed: travel-matrix recital monotony; explicit “whole stretch / only fair tests” rule language;
+  atmosphere labeled as irrelevant
+- Findings: external judge confirms formulaic-ledger fix and hardness failure; recommends
+  near-miss timelines without exhaustive route tables or rule announcements
+
+### Difficulty evaluation
+
+| Metric | Baseline | `pilot_v4_timeline` | `pilot_v4b_neutral` | Gate | Verdict |
+|--------|----------|---------------------|---------------------|------|---------|
+| main correct / n | 2/12 | 20/20 story-only | 20/20 story-only | record | fail hardness |
+| main accuracy | 0.167 | 1.00 | 1.00 | ≤0.30 development | fail |
+| appendix-assisted main accuracy | 1.00 | 1.00 | n/a (story-only already 1.00) | ≥0.75 diagnostic | pass (vacuous) |
+| first-name-only rate | 0.0 | 0.0 | 0.0 | diagnostic | pass |
+| transport errors | 0 | 0 | 0 | 0 | pass |
+
+Evaluation metrics:
+- `data/packed/luna_eval_metrics_v4_timeline_story.json`
+- `data/packed/luna_eval_metrics_v4_timeline_appendix.json`
+- `data/packed/luna_eval_metrics_v4b_neutral_story.json`
+
+### Verdict
+
+- Primary hypothesis: **partially confirmed / overall failed**. Formulaic ledger language is
+  eliminated (0 failures; assess pass on n=20), and stories read as timeline/alibi mysteries
+  rather than status-scale procedures. Story-only hardness **failed** (main accuracy 1.00 ≫ 0.30)
+  on both candidates—explicit clock+travel availability filters are too easy for the recorded
+  Azure evaluator.
+- Regressions: none on schema, transport, formulaic ban, or diversity gates.
+- Permissible claim: `pilot_v4b_neutral` is a narration/diversity development pack without ledger
+  language; it is **not** a hardness-passing calibration pack.
+- What this does not establish: relative-time encoding hardness; near-miss density; CF evaluation
+  on the neutral pack; human time/error study.
+
+### Next action
+
+Next experiment: near-miss timeline set without route-matrix recitals or “only fair tests” rule
+statements; interleave travel inside witness accounts; require ≥2 ordinary observations per
+elimination; evaluate main + CF. Do not promote `pilot_v4*` over `pilot_v3_balanced` for hardness
+claims—promote only as the anti-ledger narration baseline.
