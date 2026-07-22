@@ -195,9 +195,12 @@ scene openings, and paragraph rhythm. Do not reveal which person satisfies the f
 CRITICAL GROUNDING CONTRACT:
 - Realize every obligation faithfully in its assigned scene exactly once. Natural paraphrase is
   allowed, but preserve every named participant, value, relation, condition, and consequence.
+- Never assign two different statuses to the same person and evidence stream.
 - Do not serialize evidence as a status ledger or repeated template
   ("X's Y resolved to Z status"). Embed each status in a motivated scene action, damaged record,
   witness check, doorway review, token count, or similar concrete event.
+- Group evidence by investigative beat (one person, one artifact, one room), not by dumping all
+  six streams in identical sentence frames.
 - Present the shared status scale and local tally procedure once in clear prose. Do not reprint
   the coefficient list in every scene.
 - Combine related facts into motivated narration. Explain why an auditor, witness, or participant
@@ -223,12 +226,14 @@ Repair feedback: {feedback or "none"}
         grounding: CriticReport,
     ) -> CriticReport:
         prompt = f"""You are a blind narrative-quality critic for a reasoning benchmark.
-Return accept only if the story is coherent narration, each clue is naturally integrated,
-the six evidence streams remain trackable but nontrivial, local rules are clear, prose is
-not a disguised status ledger or coefficient table, names have no artificial numeric suffixes,
-the setting is coherent from opening to close, the answer is not asserted, and every question
-is unambiguous. Return revise with actionable sentence-level feedback for repairable prose;
-reject only for an irreparable premise. Deterministic grounding has priority and reports:
+Hard failures only (return revise/reject): explicit tables/bullet ledgers; personnel-index
+walls; answer asserted in the story; unreadable prose; contradictory status assignments for
+the same person and stream; missing obligated facts (defer to deterministic grounding).
+Soft style issues such as imperfect literary integration of status evidence are NOT alone
+grounds for revise when deterministic gates pass and the text is coherent paragraphs.
+Return accept when the story is usable narration and questions are unambiguous. Return revise
+only with actionable sentence-level fixes for hard failures; reject only for an irreparable
+premise. Deterministic grounding has priority and reports:
 {grounding.model_dump_json()}
 Story: {story.full_text}
 Questions: {questions.model_dump_json()}
