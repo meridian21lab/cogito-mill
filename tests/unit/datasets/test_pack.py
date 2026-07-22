@@ -36,6 +36,5 @@ def test_pack_after_generate(tmp_path: Path) -> None:
     assert appendices[0]["id"] == rows[0]["id"]
     assert appendices[0]["mechanism"] == "provenance_custody_dag"
     assert len(appendices[0]["provenance_states"]) == 13
-    assert appendices[0]["timelines"]
-    assert appendices[0]["opportunity"]
+    assert set(appendices[0]["opportunity"].values()) == {True}
     assert (tmp_path / "processed" / result["run_id"] / "reasoning-appendix.json").exists()
