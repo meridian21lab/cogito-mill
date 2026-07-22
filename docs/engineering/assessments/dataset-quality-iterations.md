@@ -739,3 +739,74 @@ Unchanged retained 4/16 story-only result.
 ### Next action
 
 Implement tuple enumeration and audit all frozen v6c items before promotion.
+
+## quality-20260722-tuple-unique-csp — Full-answer unique relational CSP (2026-07-22)
+
+Status: planned
+Claim level: development calibration
+Protocol: dataset-quality.v1.1
+
+### Hypothesis
+
+Minimizing, selecting, and ablating relational constraints against the complete queried
+`(person, place, time)` tuple will make every scored answer uniquely entailed while preserving
+v6c's narration gates and Luna main accuracy ≤0.30.
+
+### Scope and controls
+
+- Change surfaces: constraint target uniqueness criterion only; vocabulary-locked writer retained
+- Primary metric: 16/16 unique and gold-matching target tuples; Luna main accuracy ≤0.30
+- Regression gates / invariants: no direct person↔object clue; every retained clue tuple-necessary;
+  object/place/time axis ablations break tuple uniqueness; schema/assess/human audit/transport
+- Baseline pack + SHA-256: rejected `pilot_v6c_vocabulary_locked` (raw
+  `5ec1cc8ae3f4209cee5c882f7a0197a0788dd37389fb4326facf4d3c22f9cf82`;
+  canonical `907cf235a43b5ff487d28790d4c19ded50c1585f99a6639cdb81f30cab5b7949`;
+  tuple audit 11/16)
+- Candidate config / output path: `pilot_v6d_tuple_unique` under
+  `data/experiments/quality-20260722-tuple-unique-csp/`
+- Git SHA: verifier/generator implementation `a7e89ad`; final record commit follows
+- Thin/full schema SHA-256: unchanged
+- Seed block/list: 16000–16015 (same hidden assignments; tuple-aware visible clue selection)
+- Requested size and balance: 16 accepted items; six families
+- Difficulty: very_hard
+- Agent mode: live
+- Provider family: azure
+- Writer / judge / evaluator: `gpt-5.6-luna-stories` /
+  `gpt-5.6-terra-stories` / `gpt-5.6-luna-stories`
+- Prompt versions / evaluator prompt SHA-256: generator `pilot.v6`; evaluator unchanged
+- Scorer version: pilot.v2
+- Planned commands: full offline validation; isolated generation with exact-seed resume on stall;
+  integrity/assess; tuple audit; fixed human IDs `016000`–`016005`; Luna main-only; appendix assist
+- Known deviations: v6c main hardness remains a valid owner-question diagnostic but the pack is
+  rejected because 5/16 auxiliary answers were underdetermined
+
+### Change
+
+Tuple-aware generator implemented; no candidate measured yet.
+
+### Generation and item gates
+
+Pending.
+
+### Dataset metrics
+
+Pending.
+
+### Human audit
+
+Pending.
+
+### Difficulty evaluation
+
+Pending.
+
+### Verdict
+
+- Primary hypothesis: pending
+- Regressions: pending
+- Permissible claim: pending
+- What this does not establish: release-scale or cross-model hardness
+
+### Next action
+
+Verify tuple-aware generation offline, then run the immutable final candidate.
