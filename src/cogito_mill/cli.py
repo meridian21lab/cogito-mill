@@ -54,7 +54,7 @@ def _cmd_generate_batch(args: argparse.Namespace) -> int:
 
 def _cmd_publish(args: argparse.Namespace) -> int:
     from cogito_mill.datasets.hub import publish_pilot_dataset
-    from cogito_mill.datasets.pack import pack_hub_items
+    from cogito_mill.datasets.pack import pack_appendix_items, pack_hub_items
 
     packed = pack_hub_items(Path(args.input))
     print(f"packed {len(packed)} items from {args.input}")
@@ -65,6 +65,15 @@ def _cmd_publish(args: argparse.Namespace) -> int:
             for row in packed:
                 handle.write(json.dumps(row, ensure_ascii=False) + "\n")
         print(f"wrote {out}")
+        appendices = pack_appendix_items(Path(args.input))
+        if appendices:
+            appendix_out = (
+                Path(args.output_root) / "packed" / f"{args.config}_appendix.jsonl"
+            )
+            with appendix_out.open("w", encoding="utf-8") as handle:
+                for row in appendices:
+                    handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+            print(f"wrote {appendix_out}")
         return 0
     url = publish_pilot_dataset(
         rows=packed,
@@ -88,9 +97,16 @@ def _cmd_evaluate(args: argparse.Namespace) -> int:
         local_dir=args.local_dir,
         output_root=args.output_root,
         main_only=args.main_only,
+        appendix_path=args.appendix,
+        question_types=args.question_types,
     )
     print(json.dumps(report, indent=2))
     acc = float(report.get("main_accuracy", report.get("accuracy", 1.0)))
+    if args.appendix:
+        # Appendix-assisted mode: success means the logical flow is usable.
+        min_acc = float(args.min_assisted_accuracy)
+        report_passed = acc >= min_acc
+        return 0 if report_passed else 2
     return 0 if acc <= args.max_accuracy else 2
 
 
@@ -156,6 +172,23 @@ def build_parser() -> argparse.ArgumentParser:
     ev.add_argument("--output-root", default="data")
     ev.add_argument("--max-accuracy", type=float, default=0.30)
     ev.add_argument("--main-only", action="store_true")
+    ev.add_argument(
+        "--appendix",
+        default=None,
+        help="Optional companion appendix JSONL for assisted evaluation",
+    )
+    ev.add_argument(
+        "--min-assisted-accuracy",
+        type=float,
+        default=0.9,
+        help="Minimum main accuracy when --appendix is supplied",
+    )
+    ev.add_argument(
+        "--question-types",
+        nargs="+",
+        default=None,
+        help="Optional question_type filter (e.g. main counterfactual)",
+    )
     ev.set_defaults(func=_cmd_evaluate)
 
     assess = sub.add_parser("assess", help="Gate narration and pack-level diversity")

@@ -11,6 +11,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
+from cogito_mill.domain.appendix import SolverAppendix
 from cogito_mill.domain.run import AcceptedItem, RunManifest, RunStatus
 
 
@@ -56,13 +57,21 @@ class ArtifactStore:
         _write_json(path, manifest)
         return path
 
-    def promote_accepted(self, item: AcceptedItem, report: dict[str, Any]) -> Path:
+    def promote_accepted(
+        self,
+        item: AcceptedItem,
+        report: dict[str, Any],
+        *,
+        appendix: SolverAppendix | None = None,
+    ) -> Path:
         dirs = self.run_dirs(item.run_id)
         out = dirs["processed"]
         out.mkdir(parents=True, exist_ok=True)
         _write_json(out / "reasoning-item.json", item)
         _write_json(out / "hub-item.json", item.to_hub_item())
         _write_json(out / "acceptance-report.json", report)
+        if appendix is not None:
+            _write_json(out / "reasoning-appendix.json", appendix)
         return out
 
     def list_accepted(self) -> list[Path]:

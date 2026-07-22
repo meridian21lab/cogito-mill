@@ -84,6 +84,7 @@ def critique_story_document(
         for q in questions.questions
         if q.question_type in {"main", "intermediate", "counterfactual"}
         and q.gold_answer.lower() != "none"
+        and " " in q.gold_answer.strip()
     ]
     clear_form = all("full name" in q.question.lower() for q in name_qs)
     findings.append(

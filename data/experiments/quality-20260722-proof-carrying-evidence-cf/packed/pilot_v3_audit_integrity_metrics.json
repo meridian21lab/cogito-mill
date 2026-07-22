@@ -1,0 +1,12 @@
+{
+  "valid": true,
+  "n": 12,
+  "unique_ids": 12,
+  "duplicate_ids": [],
+  "jsonl": "data/experiments/quality-20260722-proof-carrying-evidence-cf/packed/pilot_v3_audit.jsonl",
+  "jsonl_sha256": "4fa70854fce9da7374f44cbe462afae3b0eee32ae375eb522d72298d4fec19c9",
+  "dataset_sha256": "a11b671405de63aced27fe43193ed05acb79b69a098797f513a3156484d8302b",
+  "schema": "schemas/reasoning-item.schema.json",
+  "schema_sha256": "f89b79e30df8dded2d6f6c55f03f84a0cf521dd987345bbada86923f5d634e40",
+  "errors": []
+}
