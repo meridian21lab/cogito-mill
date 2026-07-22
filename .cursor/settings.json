@@ -2,9 +2,6 @@
   "plugins": {
     "huggingface-skills": {
       "enabled": true
-    },
-    "azure": {
-      "enabled": true
     }
   }
 }
