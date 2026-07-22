@@ -270,3 +270,97 @@ Next experiment: near-miss timeline set without route-matrix recitals or “only
 statements; interleave travel inside witness accounts; require ≥2 ordinary observations per
 elimination; evaluate main + CF. Do not promote `pilot_v4*` over `pilot_v3_balanced` for hardness
 claims—promote only as the anti-ledger narration baseline.
+
+## quality-20260722-provenance-custody-dag — Connected custody provenance (2026-07-22)
+
+Status: planned
+Claim level: development calibration
+Protocol: dataset-quality.v1
+
+### Hypothesis
+
+Replacing v4's separable opportunity filter with a connected custody-provenance DAG—where every
+suspect has local opportunity and the answer is derived from shared container handoffs, evidence
+grounded state transitions, and a final authorization record—will reduce story-only Luna main
+accuracy from 1.00 to ≤0.30 without reintroducing formula ledgers. Removing any key proof clue
+must prevent the same unique answer, demonstrating dependency rather than answer-atom injection.
+
+### Scope and controls
+
+- Change surfaces: formal world / structural mechanism; story and question rendering; proof
+  appendix state trace; agent prompts required to narrate provenance rather than opportunity
+- Primary metric: story-only Luna `main_accuracy` ≤0.30 on a balanced n=20 candidate
+- Regression gates / invariants: frozen Hub schemas; schema/ID validity 100%; deterministic
+  unique disclosure; key-clue ablation cannot retain the same unique answer; assess passes every
+  narration/diversity gate; no formulaic ledger; no answer-specific `has_opportunity` seed;
+  transport errors 0; first-name-only rate 0; counterfactual evidence edit has a deterministically
+  different unique custodian; proof appendix recovers the answer
+- Baseline pack + SHA-256: anti-ledger mechanism baseline
+  `data/packed/pilot_v4b_neutral.jsonl`
+  (`d8c5b86920680435c37b11d564966ec8ecddf044683a3ceb455bcbf6fb2dce01`);
+  retained hardness baseline `pilot_v3_balanced`
+  (`2cfab656842f18db8ca5eeb4387811e63f588a553e53259c58929420b5d29c6b`)
+- Candidate config / output path: `pilot_v5_provenance` under
+  `data/experiments/quality-20260722-provenance-custody-dag/packed/`, then retained under
+  `data/packed/` only if integrity and assess pass
+- Git SHA: `7cb3f8acafa14583035fd0ab47cb7b60813730f3` before implementation
+- Thin/full schema SHA-256:
+  `f89b79e30df8dded2d6f6c55f03f84a0cf521dd987345bbada86923f5d634e40` /
+  `bfa5c6aaae4783906371cb7b6fff30c05feee39d91d96f3fd159525182544184`
+- Seed block/list: 13000–13019
+- Requested size and balance: 20 accepted items; six existing narrative families rotated by seed
+- Difficulty: very_hard
+- Agent mode: live
+- Provider family: azure
+- Writer deployment/model: `gpt-5.6-luna-stories`
+- Judge deployment/model: `gpt-5.6-terra-stories`
+- Evaluator deployment/model: `gpt-5.6-luna-stories`
+- Prompt versions / evaluator prompt SHA-256: generator `pilot.v5`; evaluator unchanged
+  (`b54439bf7b3f284139b00825122588189aeb2ef130b75735a41d6b01ab3f30f1`)
+- Scorer version: pilot.v2
+- Planned commands:
+  `uv run pytest tests/unit -q`;
+  `uv run pytest tests/integration -q`;
+  `scripts/generate-dataset.sh --n 20 --seeds-from 13000 --config pilot_v5_provenance
+  --agent-mode live --output-root
+  data/experiments/quality-20260722-provenance-custody-dag`;
+  schema validation and `assess` via that launcher;
+  `scripts/evaluate-dataset.sh --local-dir data/packed/pilot_v5_provenance.jsonl
+  --config pilot_v5_provenance --label v5_provenance_story`;
+  counterfactual and appendix-assisted diagnostic evaluations after the main gate
+- Known deviations: provider generation is nondeterministic despite fixed recipes; n=20 supports
+  development calibration only; mechanism and the minimum prompt changes needed to narrate it
+  move together, so this tests the complete provenance treatment rather than prompt causality
+
+### Change
+
+Planned; no implementation or measured candidate yet.
+
+### Generation and item gates
+
+Pending.
+
+### Dataset metrics
+
+Pending.
+
+### Human audit
+
+Pending; sample will be one lowest-ID item per represented family, fixed before reading.
+
+### Difficulty evaluation
+
+Pending.
+
+### Verdict
+
+- Primary hypothesis: pending
+- Regressions: pending
+- Permissible claim: pending
+- What this does not establish: cross-model hardness, human completion time, or statistical
+  release hardness
+
+### Next action
+
+Implement the smallest provenance mechanism behind the existing graph, add deterministic
+transition and key-clue-ablation tests, then run the pre-registered candidate.
