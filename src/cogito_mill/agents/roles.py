@@ -212,11 +212,23 @@ Proposal: {concept.model_dump_json()}
             for scene in scaffold.scenes
         }
         if visible.constraints is not None:
-            surface_rules = """Preserve every exclusion, relative order, and exclusive either/or
+            identity_facts = [
+                fact.text for fact in visible.facts if fact.id.startswith("f_surname_")
+            ]
+            allowed_vocabulary = {
+                "identity_facts": identity_facts,
+                "objects": visible.constraints.objects,
+                "places": visible.constraints.places,
+                "times": visible.constraints.times,
+            }
+            surface_rules = f"""Preserve every exclusion, relative order, and exclusive either/or
 statement exactly. Embed them as witness memories, receipts, calls, and ordinary observations
 across the five scenes. Do not render a table, bullet list, roster, logic-grid recap, or
-investigator enumeration. Never add a direct person-to-object association. Use only people named
-in the obligations and do not invent additional named characters."""
+investigator enumeration. Never add a direct person-to-object association. The exact permitted
+constraint vocabulary is {json.dumps(allowed_vocabulary, ensure_ascii=False)}. Do not invent,
+rename, or list any other person, trackable object, recorded place, or appointment time. Generic
+atmosphere may mention food, weather, or unnamed routine supplies, but must not look like another
+member of a constraint axis."""
         else:
             surface_rules = """Preserve people, objects, containers, custody handoffs,
 whole-content transfers, places, and clock times exactly. A transfer moves unexamined contents;
