@@ -5,7 +5,7 @@ from __future__ import annotations
 from cogito_mill.agents.critics import critique_story_document, formulaic_hits
 from cogito_mill.domain.recipe import DifficultyBucket, GenerationRecipe
 from cogito_mill.pipelines.concept_templates import build_concept_puzzle, family_for_seed
-from cogito_mill.reasoning.constraints import target_candidates
+from cogito_mill.reasoning.constraints import TargetTuple, target_tuples
 from cogito_mill.reasoning.solver import WorldSolver
 from cogito_mill.validation.grounding import assemble_story, critique_grounding
 
@@ -36,6 +36,23 @@ def test_constraint_world_has_unique_solver_derived_target() -> None:
         assert puzzle.visible.logic is None
         assert puzzle.appendix.mechanism == "relational_constraint_world"
         assert 10 <= len(puzzle.visible.constraints.clues) <= 30
+        target_place = next(
+            question.gold_answer
+            for question in puzzle.questions.questions
+            if question.id == "q_target_place"
+        )
+        target_time = next(
+            question.gold_answer
+            for question in puzzle.questions.questions
+            if question.id == "q_target_time"
+        )
+        assert target_tuples(puzzle.visible.constraints) == [
+            TargetTuple(
+                person=puzzle.world.answer_entity,
+                place=target_place,
+                time=target_time,
+            )
+        ]
         assert not any(
             set(clue.axes) == {"person", "object"} for clue in puzzle.visible.constraints.clues
         )
@@ -45,24 +62,28 @@ def test_every_constraint_clue_is_target_necessary() -> None:
     puzzle = build_concept_puzzle(_recipe(15003))
     assert puzzle.visible.constraints is not None
     theory = puzzle.visible.constraints
+    expected = target_tuples(theory)
+    assert len(expected) == 1
 
     for clue in theory.clues:
         reduced = theory.model_copy(
             update={"clues": [item for item in theory.clues if item.id != clue.id]}
         )
-        assert target_candidates(reduced) != [puzzle.world.answer_entity], clue.id
+        assert target_tuples(reduced) != expected, clue.id
 
 
 def test_target_depends_on_object_place_and_time_axes() -> None:
     puzzle = build_concept_puzzle(_recipe(15004))
     assert puzzle.visible.constraints is not None
     theory = puzzle.visible.constraints
+    expected = target_tuples(theory)
+    assert len(expected) == 1
 
     for axis in ("object", "place", "time"):
         reduced = theory.model_copy(
             update={"clues": [clue for clue in theory.clues if axis not in clue.axes]}
         )
-        assert target_candidates(reduced) != [puzzle.world.answer_entity], axis
+        assert target_tuples(reduced) != expected, axis
 
 
 def test_constraint_appendix_carries_machine_certificate() -> None:

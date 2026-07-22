@@ -14,7 +14,7 @@ from cogito_mill.domain.questions import FalsifierTask, QuestionBundle, ScoredQu
 from cogito_mill.domain.recipe import GenerationRecipe
 from cogito_mill.domain.world import Entity, Event, TargetClaim, TimePoint, WorldSpec
 from cogito_mill.eval.score import name_answer_variants
-from cogito_mill.reasoning.constraints import target_candidates
+from cogito_mill.reasoning.constraints import TargetTuple, target_candidates, target_tuples
 
 if TYPE_CHECKING:
     from cogito_mill.pipelines.concept_templates import ConceptPuzzle, FamilySpec
@@ -235,10 +235,17 @@ def _build_constraint_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     candidates = target_candidates(theory)
     if candidates != [answer_id]:
         raise ValueError(f"constraint target is not unique: {candidates}")
+    expected_tuple = TargetTuple(
+        person=answer_id,
+        place=place_assignment[answer_id],
+        time=time_assignment[answer_id],
+    )
+    if target_tuples(theory) != [expected_tuple]:
+        raise ValueError("constraint target place/time is not unique")
     if not (10 <= len(theory.clues) <= 30):
         raise ValueError(f"constraint core has unsuitable size: {len(theory.clues)}")
-    _assert_clue_ablation(theory, answer_id)
-    _assert_axis_dependence(theory, answer_id)
+    _assert_clue_ablation(theory, expected_tuple)
+    _assert_axis_dependence(theory, expected_tuple)
 
     visible_facts: list[VisibleFact] = []
     order = 1
@@ -557,7 +564,7 @@ def _minimal_target_theory(
             clues=trial,
             target_object=target_object,
         )
-        if len(target_candidates(theory)) == 1:
+        if len(target_tuples(theory)) == 1:
             selected = trial
     return ConstraintTheory(
         people=people,
@@ -569,21 +576,21 @@ def _minimal_target_theory(
     )
 
 
-def _assert_clue_ablation(theory: ConstraintTheory, answer_id: str) -> None:
+def _assert_clue_ablation(theory: ConstraintTheory, expected: TargetTuple) -> None:
     for clue in theory.clues:
         reduced = theory.model_copy(
             update={"clues": [item for item in theory.clues if item.id != clue.id]}
         )
-        if target_candidates(reduced) == [answer_id]:
+        if target_tuples(reduced) == [expected]:
             raise ValueError(f"constraint clue is not target-necessary: {clue.id}")
 
 
-def _assert_axis_dependence(theory: ConstraintTheory, answer_id: str) -> None:
+def _assert_axis_dependence(theory: ConstraintTheory, expected: TargetTuple) -> None:
     for axis in ("object", "place", "time"):
         reduced = theory.model_copy(
             update={"clues": [clue for clue in theory.clues if axis not in clue.axes]}
         )
-        if target_candidates(reduced) == [answer_id]:
+        if target_tuples(reduced) == [expected]:
             raise ValueError(f"constraint target does not depend on {axis} clues")
 
 

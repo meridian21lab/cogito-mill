@@ -14,6 +14,13 @@ class ConstraintSolution:
     assignments: dict[str, dict[str, str]]
 
 
+@dataclass(frozen=True)
+class TargetTuple:
+    person: str
+    place: str
+    time: str
+
+
 @dataclass
 class _Compiled:
     solver: z3.Solver
@@ -34,6 +41,37 @@ def target_candidates(theory: ConstraintTheory) -> list[str]:
             candidates.append(person)
         compiled.solver.pop()
     return candidates
+
+
+def target_tuples(theory: ConstraintTheory) -> list[TargetTuple]:
+    """Enumerate distinct person/place/time tuples possible for the target object."""
+    compiled = _compile(theory)
+    target = theory.objects.index(theory.target_object)
+    found: set[TargetTuple] = set()
+    while compiled.solver.check() == z3.sat:
+        model = compiled.solver.model()
+        person_index = next(
+            index
+            for index, variable in enumerate(compiled.object_vars)
+            if model.eval(variable).as_long() == target
+        )
+        place_index = model.eval(compiled.place_vars[person_index]).as_long()
+        time_index = model.eval(compiled.time_vars[person_index]).as_long()
+        found.add(
+            TargetTuple(
+                person=theory.people[person_index],
+                place=theory.places[place_index],
+                time=theory.times[time_index],
+            )
+        )
+        compiled.solver.add(
+            z3.Or(
+                compiled.object_vars[person_index] != target,
+                compiled.place_vars[person_index] != place_index,
+                compiled.time_vars[person_index] != time_index,
+            )
+        )
+    return sorted(found, key=lambda item: (item.person, item.place, item.time))
 
 
 def solve_unique(theory: ConstraintTheory) -> ConstraintSolution | None:
@@ -201,4 +239,10 @@ def _axis_time(
     )
 
 
-__all__ = ["ConstraintSolution", "solve_unique", "target_candidates"]
+__all__ = [
+    "ConstraintSolution",
+    "TargetTuple",
+    "solve_unique",
+    "target_candidates",
+    "target_tuples",
+]
