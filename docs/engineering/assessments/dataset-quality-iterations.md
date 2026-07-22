@@ -174,7 +174,7 @@ high appendix-assisted main accuracy (≥ 0.75 diagnostic).
   (`2cfab656842f18db8ca5eeb4387811e63f588a553e53259c58929420b5d29c6b`)
 - Candidate config / output path: `pilot_v4_timeline` under
   `data/experiments/quality-20260722-timeline-opportunity/` (retain to `data/packed/` on pass)
-- Git SHA: (fill after commit)
+- Git SHA: `c19ee1fe53af2e773d459c2d593e0b91aebd0733`
 - Thin/full schema SHA-256:
   thin `f89b79e30df8dded2d6f6c55f03f84a0cf521dd987345bbada86923f5d634e40`;
   full `bfa5c6aaae4783906371cb7b6fff30c05feee39d91d96f3fd159525182544184`
