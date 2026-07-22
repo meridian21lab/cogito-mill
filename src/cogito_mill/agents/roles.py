@@ -171,8 +171,8 @@ Recipe: {recipe.model_dump_json()}
         family_id: str,
     ) -> CriticReport:
         mechanism_gate = (
-            "explicit need to compose sealed-container handoffs, whole-content transfers, and a final "
-            "authorization record; every suspect has local opportunity"
+            "explicit need to compose sealed-container handoffs, whole-content transfers, "
+            "and a final authorization record; every suspect has local opportunity"
             if recipe.prompt_version == "pilot.v5"
             else "explicit need to combine times, places, travel, and alibis"
         )
@@ -221,9 +221,9 @@ Repair feedback: {feedback or "none"}
         polish_prompt = f"""You are the storyteller for a machine-verified deduction dataset.
 Phase 2 — add light noise, then regenerate into one coherent human-readable mystery.
 You receive a fact-true spine. Preserve every named participant, object, container, custody
-handoff, whole-content transfer, place, clock time, duration, and travel claim. Weave ordinary activity
-(errands, food, work tasks, small talk) around the critical observations. Return a title,
-opening, and the same five scene IDs.
+handoff, whole-content transfer, place, clock time, duration, and travel claim. Weave ordinary
+activity (errands, food, work tasks, small talk) around the critical observations. Return a
+title, opening, and the same five scene IDs.
 Write like a short literary mystery or true-crime vignette, not a procedure manual.
 A careful reader should be able to reconstruct the changing physical state.
 Never write any participant's contiguous full name; keep surnames in separate clauses.
