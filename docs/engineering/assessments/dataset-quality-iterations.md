@@ -600,3 +600,76 @@ Pending.
 ### Next action
 
 Implement only max-dependency target selection, verify unchanged gates, and run the fixed candidate.
+
+## quality-20260722-csp-vocabulary-lock — Exact CSP vocabulary lock (2026-07-22)
+
+Status: planned
+Claim level: development calibration
+Protocol: dataset-quality.v1.1
+
+### Hypothesis
+
+Holding max-dependency CSP worlds fixed while explicitly whitelisting the six formal people,
+objects, places, and times in both writer phases will eliminate invented-axis contradictions in
+the six-item human audit while preserving the candidate's measured hardness direction and all
+automated gates.
+
+### Scope and controls
+
+- Change surfaces: constraint-story writer prompt only
+- Primary metric: zero invented people/object/place/time axis members in the fixed human sample;
+  story-only Luna main accuracy remains ≤0.30
+- Regression gates / invariants: generator/Z3/target-selection code unchanged; all schema,
+  ablation, axis-dependence, assess, narration, diversity, answer-form, and transport gates
+- Baseline pack + SHA-256: quarantined `pilot_v6b_max_dependency` (raw
+  `148e1d58c8c12c7b4b33c066534c7293b891810821f6c6dc73a1ef67c14a2c02`;
+  canonical `ec0ad2ab01de12e1ea23bce4cc512578d2d769955a15b46194089919a166f01a`)
+- Candidate config / output path: `pilot_v6c_vocabulary_locked` under
+  `data/experiments/quality-20260722-csp-vocabulary-lock/`
+- Git SHA: implementation follows; starting branch commit `5347914`
+- Thin/full schema SHA-256: unchanged
+- Seed block/list: 17000–17015
+- Requested size and balance: 16 accepted items; six families
+- Difficulty: very_hard
+- Agent mode: live
+- Provider family: azure
+- Writer / judge / evaluator: `gpt-5.6-luna-stories` /
+  `gpt-5.6-terra-stories` / `gpt-5.6-luna-stories`
+- Prompt versions / evaluator prompt SHA-256: generator remains `pilot.v6`; evaluator unchanged
+- Scorer version: pilot.v2
+- Planned commands: full offline validation; isolated generation (resume exact seeds after any
+  transport stall); integrity/assess; fixed audit IDs `017000`–`017005`; Luna main-only;
+  appendix-assisted diagnostic if all prior gates pass
+- Known deviations: prompt-only live generations are nondeterministic; the v6b transport stalled
+  after eight accepted items and was resumed at seed 16008 without changing the seed block
+
+### Change
+
+Planned; no measured candidate yet.
+
+### Generation and item gates
+
+Pending.
+
+### Dataset metrics
+
+Pending.
+
+### Human audit
+
+Pending; fixed IDs `lss-concept-017000` through `lss-concept-017005`.
+
+### Difficulty evaluation
+
+Pending.
+
+### Verdict
+
+- Primary hypothesis: pending
+- Regressions: pending
+- Permissible claim: pending
+- What this does not establish: release-scale or cross-model hardness
+
+### Next action
+
+Add only the exact constraint vocabulary lock, verify, and run the final fixed candidate.
