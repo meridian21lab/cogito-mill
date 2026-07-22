@@ -155,8 +155,20 @@ MAIN_STEMS = (
     "Solve the linked times and places. Who had the {target}? Give the full name.",
 )
 
+_PUZZLE_CACHE: dict[str, ConceptPuzzle] = {}
+
 
 def build_constraint_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
+    """Return a cached immutable-by-convention puzzle for repeated graph stages."""
+    key = recipe.model_dump_json()
+    cached = _PUZZLE_CACHE.get(key)
+    if cached is None:
+        cached = _build_constraint_puzzle(recipe)
+        _PUZZLE_CACHE[key] = cached
+    return cached
+
+
+def _build_constraint_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     """Build one cross-axis constraint world and expose only its natural-language clues."""
     from cogito_mill.pipelines.concept_templates import (
         ConceptPuzzle,
@@ -187,9 +199,6 @@ def build_constraint_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     place_assignment = dict(zip(people, _permutation(places, recipe.seed, "places"), strict=True))
     time_assignment = dict(zip(people, _permutation(times, recipe.seed, "times"), strict=True))
     object_owner = {value: person for person, value in object_assignment.items()}
-    target_object = objects[_pick(recipe.seed, "constraint-target", len(objects))]
-    answer_id = object_owner[target_object]
-    answer_label = labels[answer_id]
 
     pool = _candidate_clues(
         seed=recipe.seed,
@@ -202,15 +211,28 @@ def build_constraint_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         place_assignment=place_assignment,
         time_assignment=time_assignment,
     )
-    theory = _minimal_target_theory(
-        people=people,
-        objects=objects,
-        places=places,
-        times=times,
-        pool=pool,
-        target_object=target_object,
-        seed=recipe.seed,
-    )
+    preferred = _pick(recipe.seed, "constraint-target", len(objects))
+    target_order = [objects[preferred], *[item for item in objects if item != objects[preferred]]]
+    theory: ConstraintTheory | None = None
+    for candidate_target in target_order:
+        candidate_theory = _minimal_target_theory(
+            people=people,
+            objects=objects,
+            places=places,
+            times=times,
+            pool=pool,
+            target_object=candidate_target,
+            seed=recipe.seed,
+        )
+        if theory is None or len(candidate_theory.clues) > len(theory.clues):
+            theory = candidate_theory
+        if len(candidate_theory.clues) >= 10:
+            theory = candidate_theory
+            break
+    assert theory is not None
+    target_object = theory.target_object
+    answer_id = object_owner[target_object]
+    answer_label = labels[answer_id]
     candidates = target_candidates(theory)
     if candidates != [answer_id]:
         raise ValueError(f"constraint target is not unique: {candidates}")
