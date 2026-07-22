@@ -529,3 +529,74 @@ Pending.
 
 Implement and verify the smallest Z3-backed narrative constraint world without changing the graph
 or Hub schemas.
+
+## quality-20260722-max-dependency-target — Max-dependency CSP target selection (2026-07-22)
+
+Status: planned
+Claim level: development calibration
+Protocol: dataset-quality.v1.1
+
+### Hypothesis
+
+Holding the relational CSP generator, clue language, evaluator, and all gates fixed while selecting
+the object whose irreducible target-proof uses the most clues will reduce Luna main accuracy from
+6/16 (0.375) to ≤0.30 without adding clues, prose, or serial operations after target selection.
+
+### Scope and controls
+
+- Change surfaces: deterministic target selection only
+- Primary metric: story-only Luna main accuracy ≤0.30 on n=16
+- Regression gates / invariants: all v6 Z3, ablation, axis-dependence, schema, narration,
+  diversity, answer-form, and transport gates; clue count remains 10–30; evaluator unchanged
+- Baseline pack + SHA-256: `pilot_v6_relational_csp` (raw
+  `b54d028126cc21024ffd538b6157e5449696ab46a5547f926db7c53a47b5d4ee`;
+  canonical `41a5a5adac55c3420fb21508750944de23b65e66488a64754caf1a90772a30d8`)
+- Candidate config / output path: `pilot_v6b_max_dependency` under
+  `data/experiments/quality-20260722-max-dependency-target/`
+- Git SHA: implementation follows; starting branch commit `baae391`
+- Thin/full schema SHA-256: unchanged
+- Seed block/list: 16000–16015
+- Requested size and balance: 16 accepted items; six families
+- Difficulty: very_hard
+- Agent mode: live
+- Provider family: azure
+- Writer / judge / evaluator: `gpt-5.6-luna-stories` /
+  `gpt-5.6-terra-stories` / `gpt-5.6-luna-stories`
+- Prompt versions / evaluator prompt SHA-256: generator `pilot.v6`; evaluator unchanged
+  (`b54439bf7b3f284139b00825122588189aeb2ef130b75735a41d6b01ab3f30f1`)
+- Scorer version: pilot.v2
+- Planned commands: full offline validation; isolated n=16 generation; integrity/assess; fixed
+  audit IDs `016000`–`016005`; Luna main-only; appendix-assisted diagnostic if main gate passes
+- Known deviations: Azure generation/evaluation nondeterminism; the target-selection computation
+  is slower because all six possible target objects are minimized before one is chosen
+
+### Change
+
+Planned; no measured candidate yet.
+
+### Generation and item gates
+
+Pending.
+
+### Dataset metrics
+
+Pending.
+
+### Human audit
+
+Pending; fixed IDs `lss-concept-016000` through `lss-concept-016005`.
+
+### Difficulty evaluation
+
+Pending.
+
+### Verdict
+
+- Primary hypothesis: pending
+- Regressions: pending
+- Permissible claim: pending
+- What this does not establish: release-scale or cross-model hardness
+
+### Next action
+
+Implement only max-dependency target selection, verify unchanged gates, and run the fixed candidate.
