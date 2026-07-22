@@ -186,6 +186,7 @@ Implemented primarily in `agents/critics.py`, `validation/grounding.py`, and `pi
 | `answer_form_clarity` | Name questions include “full name” |
 | `answer_variants` | Each question has 1–3 `gold_answer_variants` |
 | `human_readable_opening` | Opening is narration, not an ID table |
+| `no_direct_token_transfer_reset` | Provenance transfers do not directly reveal the tracked token's new container |
 
 #### Grounding (`critique_grounding`)
 
@@ -232,6 +233,7 @@ Per-story **narration metrics** inside assess (stricter identifier budget than g
 - sentence length P95 ≤45 words
 - `Personnel index:` ≤1
 - `EMP-*` tokens ≤6
+- direct tracked-token transfer resets: 0 for calibration packs (≤5% at release size)
 
 `assess` exit code: `0` if `passed`, else `3`.
 

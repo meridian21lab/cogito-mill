@@ -275,7 +275,7 @@ claims—promote only as the anti-ledger narration baseline.
 
 Status: planned
 Claim level: development calibration
-Protocol: dataset-quality.v1
+Protocol: dataset-quality.v1.1
 
 ### Hypothesis
 
@@ -364,3 +364,86 @@ Pending.
 
 Implement the smallest provenance mechanism behind the existing graph, add deterministic
 transition and key-clue-ablation tests, then run the pre-registered candidate.
+
+## quality-20260722-provenance-blind-transfer — Blind contents transfer refinement (2026-07-22)
+
+Status: planned
+Claim level: development calibration
+Protocol: dataset-quality.v1.1
+
+### Hypothesis
+
+Keeping the custody graph but replacing four explicit token-naming repacks with seven uninspected
+whole-content transfers will remove the last-transfer shortcut and reduce story-only Luna main
+accuracy from 1.00 to ≤0.30. Deterministically varied event frames, a no-extra-named-people prompt,
+and new boilerplate/direct-transfer gates will also make all six fixed human-audit samples read as
+stories rather than custody ledgers.
+
+### Scope and controls
+
+- Change surfaces: story realization of existing provenance transitions; connected depth from
+  four to seven transfer cycles; deterministic critic and assessor measurement
+- Primary metric: story-only Luna `main_accuracy` ≤0.30 on n=20
+- Regression gates / invariants: all v5 formal invariants; each key proof atom remains
+  ablation-necessary; zero direct tracked-token transfer resets; zero repeated custody boilerplate
+  hits; no invented named cast in the fixed human sample; all assess gates pass
+- Baseline pack + SHA-256: quarantined
+  `data/experiments/quality-20260722-provenance-custody-dag/packed/pilot_v5_provenance.jsonl`
+  (raw `47b526dd81b95864cce7087b1d480180b106f37da72b75f7ec7356a8dfd5c5b7`;
+  canonical `48ce4eb99c5f58b447b62b815e5362ba70592c36245feda2d493248a0aa9fb8a`)
+- Candidate config / output path: `pilot_v5b_provenance_blind` under
+  `data/experiments/quality-20260722-provenance-blind-transfer/`
+- Git SHA: implementation commit follows; starting branch commit `3845ae7`
+- Thin/full schema SHA-256: unchanged
+  (`f89b79e30df8dded2d6f6c55f03f84a0cf521dd987345bbada86923f5d634e40` /
+  `bfa5c6aaae4783906371cb7b6fff30c05feee39d91d96f3fd159525182544184`)
+- Seed block/list: 14000–14019
+- Requested size and balance: 20 accepted items; six families
+- Difficulty: very_hard
+- Agent mode: live
+- Provider family: azure
+- Writer / judge / evaluator: `gpt-5.6-luna-stories` /
+  `gpt-5.6-terra-stories` / `gpt-5.6-luna-stories`
+- Prompt versions / evaluator prompt SHA-256: generator `pilot.v5`; evaluator unchanged
+  (`b54439bf7b3f284139b00825122588189aeb2ef130b75735a41d6b01ab3f30f1`)
+- Scorer version: pilot.v2
+- Planned commands: unit/integration/lint/type checks; backfill v4b and v5 under v1.1;
+  `scripts/generate-dataset.sh --n 20 --seeds-from 14000
+  --config pilot_v5b_provenance_blind --agent-mode live
+  --output-root data/experiments/quality-20260722-provenance-blind-transfer`;
+  integrity/assess; fixed audit IDs 014000–014005; Luna main + CF + appendix diagnostics
+- Known deviations: the two new deterministic failure signatures were selected after the fixed
+  v5 human audit, so the measurement version changes from v1 to v1.1; baseline v4b and
+  quarantined v5 will be backfilled. The code repair began immediately after the failure was
+  identified, before this second record was written; no v5b data was generated or measured.
+
+### Change
+
+Planned; no measured candidate yet.
+
+### Generation and item gates
+
+Pending.
+
+### Dataset metrics
+
+Pending.
+
+### Human audit
+
+Pending; fixed IDs `lss-concept-014000` through `lss-concept-014005`.
+
+### Difficulty evaluation
+
+Pending.
+
+### Verdict
+
+- Primary hypothesis: pending
+- Regressions: pending
+- Permissible claim: pending
+- What this does not establish: cross-model or statistical release hardness
+
+### Next action
+
+Verify the refinement offline, backfill the new measurement, then generate the isolated candidate.

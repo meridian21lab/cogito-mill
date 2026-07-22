@@ -1,6 +1,9 @@
 # Reproducible dataset quality assessment protocol
 
-Protocol version: **dataset-quality.v1**
+Protocol version: **dataset-quality.v1.1**
+
+`v1.1` adds the provenance direct-token-transfer reset gate and custody-boilerplate patterns after
+the first v5 human audit showed that the prior narration/formulaic metrics missed those shortcuts.
 
 Use this protocol for every change that can alter generated items, acceptance decisions, packed
 dataset composition, evaluator inputs, scores, or quality claims. Documentation-only edits to
