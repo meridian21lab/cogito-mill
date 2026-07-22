@@ -1,5 +1,8 @@
 # Long Story Short — packed pilots
 
+Further development protocol: `.agents/skills/dataset-quality/SKILL.md`.
+Assessment log: `docs/engineering/assessments/pilot-quality-iterations.md`.
+
 | File | Purpose |
 |------|---------|
 | `pilot_v0.jsonl` | Original 150-item pack (low readability; EMP-wall style) |
@@ -44,6 +47,14 @@ print(len(rows[0]["questions"]), "scored questions")
 
 ## Evaluate (Luna)
 
+Preferred:
+
+```bash
+scripts/evaluate-pilot.sh --local-dir data/packed/pilot_v2.jsonl --label v2
+```
+
+Equivalent CLI:
+
 ```bash
 uv run cogito-mill evaluate \
   --local-dir data/packed/pilot_v2.jsonl \
@@ -60,9 +71,19 @@ its Wilson upper bound does not yet certify a release-sized benchmark. See
 
 ## Regenerate
 
+Preferred:
+
+```bash
+scripts/generate-pilot.sh --n 12 --seeds-from 10000 --config pilot_v2 --agent-mode live
+```
+
+Equivalent CLI:
+
 ```bash
 uv run cogito-mill generate-batch \
   --n 12 --seeds-from 10000 --difficulty very_hard --agent-mode live
 uv run cogito-mill publish --input data/processed --dry-run --config pilot_v2
-uv run cogito-mill assess --local-dir data/packed/pilot_v2.jsonl
+uv run cogito-mill assess \
+  --local-dir data/packed/pilot_v2.jsonl \
+  --output data/packed/pilot_v2_quality_metrics.json
 ```

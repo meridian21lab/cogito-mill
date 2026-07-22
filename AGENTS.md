@@ -39,10 +39,16 @@ Installed under `.agents/skills/` (also discovered by Cursor):
 - `langgraph` — LangGraph patterns
 - `/azure-usage` — Azure Foundry/OpenAI usage and costs via `az` (no secrets in skill)
 - `huggingface-datasets` — Dataset Viewer / Hub upload (lightweight; not the marketplace HF plugin)
+- `dataset-quality` — pilot pack assessment protocol, quality gates, iteration log, generate/evaluate launchers
 
 ## Specs
 
 Living engineering docs: `docs/engineering/`. Refine with `/grill-with-docs` and `/to-spec`.
+
+Dataset quality iterations: read `.agents/skills/dataset-quality/SKILL.md` before
+changing generation or evaluation, then append measurements to
+`docs/engineering/assessments/pilot-quality-iterations.md`. Launchers:
+`scripts/generate-pilot.sh`, `scripts/evaluate-pilot.sh`.
 
 ## Tests
 

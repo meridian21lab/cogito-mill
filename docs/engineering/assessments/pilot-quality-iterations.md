@@ -2,6 +2,10 @@
 
 Living log of blunt assessments against packed pilots. Newest iteration at the bottom.
 
+**Protocol (single reference):** `.agents/skills/dataset-quality/SKILL.md`.
+Use `ITERATION-TEMPLATE.md` in that skill when appending. Launchers:
+`scripts/generate-pilot.sh`, `scripts/evaluate-pilot.sh`.
+
 ---
 
 ## Iteration 0 — pilot_v0 (2026-07-21)
