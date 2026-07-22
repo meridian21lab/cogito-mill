@@ -1,0 +1,46 @@
+{
+  "n": 12,
+  "dataset_sha256": "a11b671405de63aced27fe43193ed05acb79b69a098797f513a3156484d8302b",
+  "passed": false,
+  "gates": {
+    "narration": true,
+    "no_exact_duplicates": true,
+    "template_count": false,
+    "template_effective_count": false,
+    "template_max_share": false,
+    "setting_coverage": false,
+    "setting_entropy": true,
+    "surface_similarity_p95": true,
+    "unique_openings": true,
+    "question_stems": true,
+    "question_stem_max_share": true,
+    "structural_hops": true
+  },
+  "narration": {
+    "passed": 12,
+    "failed": 0,
+    "min_words": 672,
+    "median_words": 828.0,
+    "max_words": 927
+  },
+  "diversity": {
+    "exact_duplicates": 0,
+    "template_counts": {
+      "expedition_signal": 2,
+      "workshop_provenance": 6,
+      "watch_handover": 4
+    },
+    "template_effective_count": 2.571428571428571,
+    "template_max_share": 0.5,
+    "setting_counts": {
+      "expedition": 6,
+      "workplace": 6
+    },
+    "setting_entropy": 1.0,
+    "unique_opening_rate": 1.0,
+    "unique_main_question_stems": 12,
+    "main_question_stem_max_share": 0.08333333333333333,
+    "pairwise_5_shingle_p95": 0.07701711491442542,
+    "pairwise_5_shingle_max": 0.11009817671809256
+  }
+}

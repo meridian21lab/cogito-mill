@@ -1,0 +1,76 @@
+{
+  "opening": "Rain ticked against the high windows of the Alder Street Conservation Workshop while a damaged lacquered astrolabe waited beneath the imaging lamps. Its trail crossed the intake room, imaging bay, solvent room, joinery room, records office, and quarantine vault, leaving behind annotations, tool checkouts, transit cards, messages, condition reports, and acknowledgments. Supply deliveries, a broken lift, duplicate photographs, a visiting curator\u2019s questions, a lunch-room key, and a mislabeled solvent crate crowded the file but did not answer the central question. The reviewers therefore narrowed the inquiry to the provenance ledger\u2019s six evidence streams and the local arithmetic written beside them.",
+  "scenes": [
+    {
+      "id": "sc1",
+      "obligated_fact_ids": [
+        "f_protocol_active",
+        "f_status_weights",
+        "f_checksum_formula"
+      ],
+      "prose": "Before anyone compared a name, the panel cleared a space on the intake-room bench and read the governing note aloud. For this incident, the board declared the certified restoration lead protocol active; ordinary rank and reputation did not count. The panel fixed one shared status scale for the whole inquiry: dormant counted as 0; clear counted as 1; open counted as 2; waking counted as 3; latent counted as 4; stable counted as 5. The local tally began at 8. In order it used relation, temporal, causal, spatial, sequence, and protocol statuses with coefficients 13, 3, 2, 5, 11, 7. At each stream, the panel squared the current tally, added that stream's coefficient times its status value, and kept the remainder modulo 97. It made three passes: first in the stated order, then in reverse order with the coefficients reversed, then once more in the stated order with the coefficient list rotated one place left. Without resetting the tally, it repeated that complete three-pass cycle 117 times. Only after the final repetition would a participant\u2019s six recorded statuses be compared with the incident result.",
+      "title": "The Rule on the Bench"
+    },
+    {
+      "id": "sc2",
+      "obligated_fact_ids": [
+        "f_relation_p0",
+        "f_relation_p3",
+        "f_temporal_p2",
+        "f_causal_p1",
+        "f_causal_p4",
+        "f_spatial_p0",
+        "f_spatial_p3",
+        "f_sequence_p2",
+        "f_protocol_p1",
+        "f_protocol_p4"
+      ],
+      "prose": "In the imaging bay, the recovered pairing sheet had buckled beneath a water stain. The conservator flattened it under glass, and Sawyer Okada's apprentice lineage stood at waking. Beside it, the damaged roster still marked Quinn Dubois's apprentice lineage as clear. A clock-backed entry, its battery tested against the bay\u2019s master clock, listed Gray Rossi's work interval as open. The chemical-response strip taken after Val Dubois handled the lacquer registered as waking, while a separate causal review marked Harper Novak's chemical response stable. The route team then followed door scuffs and transit marks: they placed Sawyer Okada's workshop room at latent, while corridor witnesses put Quinn Dubois's workshop room at stable. At the joinery table, reconstruction kept Gray Rossi's treatment order at clear. Finally, a close photograph of the token set Val Dubois's tool stamp to latent, and the final count of the sealed checkout envelope left Harper Novak's tool stamp open.",
+      "title": "Marks Under the Lamp"
+    },
+    {
+      "id": "sc3",
+      "obligated_fact_ids": [
+        "f_relation_p1",
+        "f_relation_p4",
+        "f_temporal_p0",
+        "f_temporal_p3",
+        "f_causal_p2",
+        "f_spatial_p1",
+        "f_spatial_p4",
+        "f_sequence_p0",
+        "f_sequence_p3",
+        "f_protocol_p2"
+      ],
+      "prose": "The records office offered less certainty at first: several pages had fused at their edges, and the clerks worked with a bone folder between each sheet. A witness who checked the roster left Val Dubois with a latent apprentice lineage. On the sealed worksheet, clerks wrote stable beside Harper Novak's apprentice lineage. Clocked entries put Sawyer Okada's work interval at latent, whereas the sequence sheet showed Quinn Dubois's work interval as clear. Downstream checks tied Gray Rossi to a latent chemical response. For the spatial trail, a movement sketch marked Val Dubois's workshop room as dormant, while the route ledger tied Harper Novak's workshop room to open. In the ordered log, Sawyer Okada's treatment order appeared as latent; the ordered sheet showed Quinn Dubois's treatment order as dormant. Inventory staff finished the pass by counting Gray Rossi's tool stamp as stable.",
+      "title": "The Sealed Worksheet"
+    },
+    {
+      "id": "sc4",
+      "obligated_fact_ids": [
+        "f_relation_p2",
+        "f_temporal_p1",
+        "f_temporal_p4",
+        "f_causal_p0",
+        "f_causal_p3",
+        "f_spatial_p2",
+        "f_sequence_p1",
+        "f_sequence_p4",
+        "f_protocol_p0",
+        "f_protocol_p3"
+      ],
+      "prose": "By late afternoon, the reviewers had moved the comparison to the solvent room and joinery room, where each surviving mark had to be matched to the artifact\u2019s passage rather than to a person\u2019s reputation. In the earlier pairing note, Gray Rossi carried a dormant apprentice lineage. After the timesheet review, Val Dubois's work interval stayed waking, and reconciled timing notes kept Harper Novak's work interval at stable. Instruments tracing Sawyer Okada's action left the chemical response open; when Quinn Dubois acted, the chemical response came back dormant. Location review left Gray Rossi's workshop room waking. Sequence notes placed Val Dubois's treatment order at stable, while at sequence review Harper Novak's treatment order stayed open. At the vault door, token and seal checks left Sawyer Okada's tool stamp at waking, and the sealed check showed Quinn Dubois's tool stamp as clear.",
+      "title": "Routes Through Solvent and Joinery"
+    },
+    {
+      "id": "sc5",
+      "obligated_fact_ids": [
+        "f_checksum_key",
+        "f_rule_final_workshop_provenance"
+      ],
+      "prose": "The astrolabe rested in the quarantine vault behind a fresh seal. The panel entered the six streams in their prescribed order, applied the three-pass cycle without resetting the tally, and checked the result against the ledger\u2019s room-to-room constraints. For this incident, the accepted tally was 11. The final definition was strict: the certified restoration lead was the one person whose six-stream tally equaled the accepted tally. The reviewers closed the file without relying on rank, reputation, or any of the distracting workshop details.",
+      "title": "The Number in the Vault"
+    }
+  ],
+  "title": "Certified Restoration Lead \u2014 Case 10002"
+}

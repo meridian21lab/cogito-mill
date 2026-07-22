@@ -1,0 +1,76 @@
+{
+  "opening": "The record concerns an icebound research vessel changing watches during a storm. By the time investigators reconstructed the emergency ballast release, casual impressions had produced several plausible candidates. The reviewers therefore used only the local rules stated in the surviving record.",
+  "scenes": [
+    {
+      "id": "sc1",
+      "obligated_fact_ids": [
+        "f_protocol_active",
+        "f_status_weights",
+        "f_checksum_formula"
+      ],
+      "prose": "Before comparing names, the panel read the governing notes aloud. For this incident, the board declared the concordant watchkeeper protocol active; ordinary rank and reputation did not count. The panel fixed one shared status scale for the whole inquiry: waking counted as 0; clear counted as 1; latent counted as 2; stable counted as 3; dormant counted as 4; open counted as 5. The local tally began at 14. In order it used relation, temporal, causal, spatial, sequence, and protocol statuses with coefficients 3, 7, 5, 11, 13, 2. At each stream, the panel squared the current tally, added that stream's coefficient times its status value, and kept the remainder modulo 97. It made three passes: first in the stated order, then in reverse order with the coefficients reversed, then once more in the stated order with the coefficient list rotated one place left. Without resetting the tally, it repeated that complete three-pass cycle 123 times.",
+      "title": "Reconstruction 1"
+    },
+    {
+      "id": "sc2",
+      "obligated_fact_ids": [
+        "f_relation_p0",
+        "f_relation_p3",
+        "f_temporal_p2",
+        "f_causal_p1",
+        "f_causal_p4",
+        "f_spatial_p0",
+        "f_spatial_p3",
+        "f_sequence_p2",
+        "f_protocol_p1",
+        "f_protocol_p4"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. When the pairing sheet was recovered, Quinn Nguyen's mentor pennant stood at open. Even the damaged roster still marked Parker Nguyen's mentor pennant as clear. A clock-backed entry listed Yael Novak's watch interval as open. The alarm consequence that followed Jules Nguyen registered as open. Causal review marked Finley Silva's alarm consequence stable. Door and route checks placed Quinn Nguyen's assigned station at dormant. Witnesses in the corridor put Parker Nguyen's assigned station at open. Reconstruction kept Yael Novak's handover order at open. A close photograph of the token set Jules Nguyen's seal notch to stable. At final count, Finley Silva's seal notch remained clear.",
+      "title": "Reconstruction 2"
+    },
+    {
+      "id": "sc3",
+      "obligated_fact_ids": [
+        "f_relation_p1",
+        "f_relation_p4",
+        "f_temporal_p0",
+        "f_temporal_p3",
+        "f_causal_p2",
+        "f_spatial_p1",
+        "f_spatial_p4",
+        "f_sequence_p0",
+        "f_sequence_p3",
+        "f_protocol_p2"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. A witness who checked the roster left Jules Nguyen with a dormant mentor pennant. On the sealed worksheet, clerks wrote stable beside Finley Silva's mentor pennant. Clocked entries put Quinn Nguyen's watch interval at waking. The sequence sheet showed Parker Nguyen's watch interval as stable. Downstream checks tied Yael Novak to a latent alarm consequence. A movement sketch marked Jules Nguyen's assigned station as latent. The route ledger tied Finley Silva's assigned station to clear. In the ordered log, Quinn Nguyen's handover order appeared as clear. The ordered sheet showed Parker Nguyen's handover order as waking. Inventory counted Yael Novak's seal notch as dormant.",
+      "title": "Reconstruction 3"
+    },
+    {
+      "id": "sc4",
+      "obligated_fact_ids": [
+        "f_relation_p2",
+        "f_temporal_p1",
+        "f_temporal_p4",
+        "f_causal_p0",
+        "f_causal_p3",
+        "f_spatial_p2",
+        "f_sequence_p1",
+        "f_sequence_p4",
+        "f_protocol_p0",
+        "f_protocol_p3"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. In the earlier pairing note, Yael Novak carried a latent mentor pennant. After the timesheet review, Jules Nguyen's watch interval stayed clear. Reconciled timing notes kept Finley Silva's watch interval at dormant. Instruments tracing Quinn Nguyen's action left the alarm consequence clear. When Parker Nguyen acted, the alarm consequence came back dormant. Location review left Yael Novak's assigned station stable. Sequence notes placed Jules Nguyen's handover order at dormant. At sequence review, Finley Silva's handover order stayed stable. Token and seal checks left Quinn Nguyen's seal notch at latent. The sealed check showed Parker Nguyen's seal notch as open.",
+      "title": "Reconstruction 4"
+    },
+    {
+      "id": "sc5",
+      "obligated_fact_ids": [
+        "f_checksum_key",
+        "f_rule_final_watch_handover"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. For this incident, the accepted tally was 9. The final definition was strict: the concordant watchkeeper was the one person whose six-stream tally equaled the accepted tally.",
+      "title": "Reconstruction 5"
+    }
+  ],
+  "title": "Concordant Watchkeeper \u2014 Case 10008"
+}

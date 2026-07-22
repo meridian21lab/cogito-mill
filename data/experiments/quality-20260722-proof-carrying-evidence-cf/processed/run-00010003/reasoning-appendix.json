@@ -1,0 +1,449 @@
+{
+  "candidate_checksums": {
+    "Kai Patel": 69,
+    "Logan Hassan": 37,
+    "Logan Meier": 75,
+    "Morgan Brooks": 36,
+    "Yael Nguyen": 2
+  },
+  "checkpoints": [
+    {
+      "after_cycles": 0,
+      "person_id": "p0",
+      "person_label": "Logan Meier",
+      "value": 9
+    },
+    {
+      "after_cycles": 39,
+      "person_id": "p0",
+      "person_label": "Logan Meier",
+      "value": 0
+    },
+    {
+      "after_cycles": 78,
+      "person_id": "p0",
+      "person_label": "Logan Meier",
+      "value": 0
+    },
+    {
+      "after_cycles": 118,
+      "person_id": "p0",
+      "person_label": "Logan Meier",
+      "value": 75
+    },
+    {
+      "after_cycles": 0,
+      "person_id": "p1",
+      "person_label": "Kai Patel",
+      "value": 9
+    },
+    {
+      "after_cycles": 39,
+      "person_id": "p1",
+      "person_label": "Kai Patel",
+      "value": 47
+    },
+    {
+      "after_cycles": 78,
+      "person_id": "p1",
+      "person_label": "Kai Patel",
+      "value": 69
+    },
+    {
+      "after_cycles": 118,
+      "person_id": "p1",
+      "person_label": "Kai Patel",
+      "value": 69
+    }
+  ],
+  "checksum_params": {
+    "branch_order": [
+      "relation",
+      "temporal",
+      "causal",
+      "spatial",
+      "sequence",
+      "protocol"
+    ],
+    "coefficients": [
+      13,
+      3,
+      7,
+      5,
+      11,
+      2
+    ],
+    "cycle_count": 118,
+    "modulus": 97,
+    "pass_order": [
+      "forward",
+      "reverse_with_reversed_coefficients",
+      "forward_with_coefficients_rotated_left"
+    ],
+    "start_value": 9
+  },
+  "evidence_counterfactual": {
+    "answer_label": "Logan Hassan",
+    "branch": "relation",
+    "fact_id": "f_relation_p2",
+    "from_status": "waking",
+    "noun": "apprentice lineage",
+    "person_id": "p2",
+    "person_label": "Logan Hassan",
+    "secondary_branch": "relation",
+    "secondary_fact_id": "f_relation_p4",
+    "secondary_from_status": "dormant",
+    "secondary_noun": "apprentice lineage",
+    "secondary_person_id": "p4",
+    "secondary_person_label": "Yael Nguyen",
+    "secondary_to_status": "clear",
+    "to_status": "stable"
+  },
+  "falsifier": {
+    "hypothesis": "Logan Hassan already qualifies under the original record",
+    "minimal_evidence": [
+      "f_checksum_key",
+      "f_checksum_formula",
+      "f_relation_p4",
+      "f_temporal_p4",
+      "f_causal_p4",
+      "f_spatial_p4",
+      "f_sequence_p4",
+      "f_protocol_p4",
+      "f_relation_p2",
+      "f_relation_p4"
+    ]
+  },
+  "gold_steps": [
+    {
+      "conclusion": "derived_status:relation:p4:dormant",
+      "evidence_fact_ids": [
+        "f_relation_p4"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s1",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:temporal:p4:stable",
+      "evidence_fact_ids": [
+        "f_temporal_p4"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s2",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:causal:p4:open",
+      "evidence_fact_ids": [
+        "f_causal_p4"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s3",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:spatial:p4:open",
+      "evidence_fact_ids": [
+        "f_spatial_p4"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s4",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:sequence:p4:dormant",
+      "evidence_fact_ids": [
+        "f_sequence_p4"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s5",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:protocol:p4:latent",
+      "evidence_fact_ids": [
+        "f_protocol_p4"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s6",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "checksum:p4:2",
+      "evidence_fact_ids": [],
+      "evidence_sentence_ids": [],
+      "explanation": "Apply the disclosed iterated modulo-97 tally to p4.",
+      "id": "s7",
+      "inference_type": "conclusion",
+      "prior_step_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ]
+    },
+    {
+      "conclusion": "checksum_key:2",
+      "evidence_fact_ids": [
+        "f_checksum_key"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s8",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "protocol_active",
+      "evidence_fact_ids": [
+        "f_protocol_active"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s9",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "qualifies:p4",
+      "evidence_fact_ids": [
+        "f_rule_final_workshop_provenance"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "The title certified restoration lead belongs to the person whose tally matches the key.",
+      "id": "s10",
+      "inference_type": "conclusion",
+      "prior_step_ids": [
+        "s7",
+        "s8",
+        "s9"
+      ]
+    }
+  ],
+  "id": "lss-concept-010003",
+  "notes": [
+    "Thin Hub items stay story-only; this appendix is a companion audit artifact.",
+    "Narrative family: workshop_provenance; setting family: workplace.",
+    "Unaided solvers should struggle; appendix-assisted solvers should recover the answer."
+  ],
+  "schema_version": "appendix.v1",
+  "status_matrix": {
+    "Kai Patel": {
+      "causal": {
+        "fact_id": "f_causal_p1",
+        "noun": "chemical response",
+        "status": "latent",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p1",
+        "noun": "tool stamp",
+        "status": "waking",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p1",
+        "noun": "apprentice lineage",
+        "status": "open",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p1",
+        "noun": "treatment order",
+        "status": "clear",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p1",
+        "noun": "workshop room",
+        "status": "stable",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p1",
+        "noun": "work interval",
+        "status": "dormant",
+        "stream": "temporal"
+      }
+    },
+    "Logan Hassan": {
+      "causal": {
+        "fact_id": "f_causal_p2",
+        "noun": "chemical response",
+        "status": "stable",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p2",
+        "noun": "tool stamp",
+        "status": "open",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p2",
+        "noun": "apprentice lineage",
+        "status": "waking",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p2",
+        "noun": "treatment order",
+        "status": "latent",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p2",
+        "noun": "workshop room",
+        "status": "latent",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p2",
+        "noun": "work interval",
+        "status": "waking",
+        "stream": "temporal"
+      }
+    },
+    "Logan Meier": {
+      "causal": {
+        "fact_id": "f_causal_p0",
+        "noun": "chemical response",
+        "status": "waking",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p0",
+        "noun": "tool stamp",
+        "status": "stable",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p0",
+        "noun": "apprentice lineage",
+        "status": "clear",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p0",
+        "noun": "treatment order",
+        "status": "stable",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p0",
+        "noun": "workshop room",
+        "status": "dormant",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p0",
+        "noun": "work interval",
+        "status": "clear",
+        "stream": "temporal"
+      }
+    },
+    "Morgan Brooks": {
+      "causal": {
+        "fact_id": "f_causal_p3",
+        "noun": "chemical response",
+        "status": "dormant",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p3",
+        "noun": "tool stamp",
+        "status": "dormant",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p3",
+        "noun": "apprentice lineage",
+        "status": "stable",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p3",
+        "noun": "treatment order",
+        "status": "waking",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p3",
+        "noun": "workshop room",
+        "status": "clear",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p3",
+        "noun": "work interval",
+        "status": "open",
+        "stream": "temporal"
+      }
+    },
+    "Yael Nguyen": {
+      "causal": {
+        "fact_id": "f_causal_p4",
+        "noun": "chemical response",
+        "status": "open",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p4",
+        "noun": "tool stamp",
+        "status": "latent",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p4",
+        "noun": "apprentice lineage",
+        "status": "dormant",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p4",
+        "noun": "treatment order",
+        "status": "dormant",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p4",
+        "noun": "workshop room",
+        "status": "open",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p4",
+        "noun": "work interval",
+        "status": "stable",
+        "stream": "temporal"
+      }
+    }
+  },
+  "supported_conclusions": [
+    "Yael Nguyen's six-stream tally equals the accepted tally.",
+    "After the evidence edit (Yael Nguyen's apprentice lineage status had been clear instead of dormant and Logan Hassan's apprentice lineage status had been stable instead of waking), the unique result is Logan Hassan."
+  ],
+  "weights": {
+    "clear": 4,
+    "dormant": 3,
+    "latent": 1,
+    "open": 2,
+    "stable": 0,
+    "waking": 5
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "decision": "accept",
+  "feedback": "all required visible facts are assigned once and sentence-anchored",
+  "findings": [
+    {
+      "detail": "missing required fact realizations: []",
+      "gate": "required_fact_grounding",
+      "passed": true
+    },
+    {
+      "detail": "facts assigned to multiple scenes: []",
+      "gate": "single_fact_realization",
+      "passed": true
+    },
+    {
+      "detail": "unknown scene obligations: []",
+      "gate": "known_scene_obligations",
+      "passed": true
+    }
+  ]
+}

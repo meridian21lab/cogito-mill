@@ -1,0 +1,96 @@
+{
+  "answer_entity": "p2",
+  "candidate_answers": [
+    "p0",
+    "p1",
+    "p2",
+    "p3",
+    "p4"
+  ],
+  "entities": [
+    {
+      "aliases": [
+        "Sawyer"
+      ],
+      "attributes": {},
+      "id": "p0",
+      "label": "Sawyer Okada",
+      "type": "person"
+    },
+    {
+      "aliases": [
+        "Val"
+      ],
+      "attributes": {},
+      "id": "p1",
+      "label": "Val Dubois",
+      "type": "person"
+    },
+    {
+      "aliases": [
+        "Gray"
+      ],
+      "attributes": {},
+      "id": "p2",
+      "label": "Gray Rossi",
+      "type": "person"
+    },
+    {
+      "aliases": [
+        "Quinn"
+      ],
+      "attributes": {},
+      "id": "p3",
+      "label": "Quinn Dubois",
+      "type": "person"
+    },
+    {
+      "aliases": [
+        "Harper"
+      ],
+      "attributes": {},
+      "id": "p4",
+      "label": "Harper Novak",
+      "type": "person"
+    }
+  ],
+  "events": [
+    {
+      "actor": "p2",
+      "causal_parents": [],
+      "effects": [
+        "key_action"
+      ],
+      "enabled": true,
+      "id": "e_resolution",
+      "inhibitors": [],
+      "label": "the treatment that stabilized the artifact",
+      "preconditions": [],
+      "time_point": "t1"
+    }
+  ],
+  "facts": [],
+  "id": "world-10002",
+  "intervention": {
+    "description": "Gray Rossi's apprentice lineage status had been clear instead of dormant",
+    "disable_event": "e_resolution",
+    "expected_target_value": "none",
+    "id": "iv_evidence_status"
+  },
+  "relations": [],
+  "rules": [],
+  "target": {
+    "arguments": [
+      "person"
+    ],
+    "expected_value": "p2",
+    "predicate": "qualifies"
+  },
+  "time_points": [
+    {
+      "id": "t1",
+      "label": "incident",
+      "order": 1
+    }
+  ]
+}

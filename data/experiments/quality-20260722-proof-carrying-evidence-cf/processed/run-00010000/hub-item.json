@@ -1,0 +1,54 @@
+{
+  "difficulty_bucket": "very_hard",
+  "gold_answer": "Gray Meier",
+  "gold_answer_variants": [
+    "Gray Meier",
+    "Meier, Gray"
+  ],
+  "id": "lss-concept-010000",
+  "n_hops": 33,
+  "question": "Under the local rules, who alone became the coherent signal bearer? Give the full name.",
+  "questions": [
+    {
+      "gold_answer": "Gray Meier",
+      "gold_answer_variants": [
+        "Gray Meier",
+        "Meier, Gray"
+      ],
+      "id": "q_main",
+      "question": "Under the local rules, who alone became the coherent signal bearer? Give the full name.",
+      "question_type": "main"
+    },
+    {
+      "gold_answer": "clear",
+      "gold_answer_variants": [
+        "clear"
+      ],
+      "id": "q_near_match",
+      "question": "According to the surviving record, what status was assigned to Casey Rossi's beacon sector? Answer with the exact status word.",
+      "question_type": "intermediate"
+    },
+    {
+      "gold_answer": "Morgan Okada",
+      "gold_answer_variants": [
+        "Morgan Okada",
+        "Okada, Morgan"
+      ],
+      "id": "q_counterfactual",
+      "question": "If Gray Meier's team pairing status had been clear instead of latent and Morgan Okada's signal interval status had been open instead of stable, while every other record stayed fixed, who would become the coherent signal bearer? Give the full name, or answer exactly none.",
+      "question_type": "counterfactual"
+    },
+    {
+      "gold_answer": "58",
+      "gold_answer_variants": [
+        "58"
+      ],
+      "id": "q_protocol_key",
+      "question": "What exact integer tally did the board accept?",
+      "question_type": "scalar"
+    }
+  ],
+  "setting_family": "expedition",
+  "story": "The sandstorm had buried half the relay chain and scattered the expedition\u2019s route markers across a basin of red dunes. When the emergency beacons began repeating fragments of one broken distress call, the five-person team brought every surviving trace into the field shelter: pairing sheets, clock records, route sketches, sequence logs, and sealed token photographs. Several names seemed persuasive for ordinary human reasons. The review board rejected those impressions and required one reconstruction under the expedition\u2019s own rules.\n\nBefore anyone argued over the fragments, the panel read the governing notice beside the shelter door. For this incident, the board had declared the coherent signal bearer protocol active; ordinary rank and reputation did not count. The reviewers then fixed one shared status scale for the entire inquiry: clear counted as 0, dormant as 1, stable as 2, waking as 3, latent as 4, and open as 5.\n\nA slate beside the notice described the local tally procedure. It began at 6 and, in order, took the relation, temporal, causal, spatial, sequence, and protocol statuses, using coefficients 11, 13, 5, 3, 2, and 7. At each stream, the panel squared the current tally, added that stream\u2019s coefficient multiplied by its status value, and kept the remainder modulo 97. The calculation made three passes: first in the stated order, then in reverse order with the coefficients reversed, and then once more in the stated order with the coefficient list rotated one place to the left. Without resetting the tally, the panel repeated that complete three-pass cycle 115 times.\n\nThe first crate yielded the pairing sheet. Its legible carbon copy put Sawyer Okada\u2019s team pairing at stable, while a torn edge of the roster still marked Casey Rossi\u2019s team pairing as dormant. The two entries were clipped together because the auditors were checking whether the storm had separated a planned relay pair.\n\nA clock-backed beacon entry placed Morgan Okada\u2019s signal interval at stable. Nearby, the repeater trace that followed Drew Nguyen registered as clear; the trace was checked because its timing determined whether the fragment belonged to the same emergency call. Causal review gave Gray Meier\u2019s repeater response an open status after analysts followed the failure mark through the damaged relay strip.\n\nAt the northern access hatch, door and route checks placed Sawyer Okada\u2019s beacon sector at stable. Witnesses standing in the corridor put Casey Rossi\u2019s beacon sector at clear. The reconstruction ledger kept Morgan Okada\u2019s relay order at latent, and a close photograph of the recovered token set marked Drew Nguyen\u2019s cipher glyph latent. At the final inventory check, Gray Meier\u2019s cipher glyph remained stable.\n\nThe next bundle had survived inside a sealed map tube. A witness who checked the roster left Drew Nguyen\u2019s team pairing at waking, while clerks wrote latent beside Gray Meier\u2019s team pairing on the sealed worksheet. The panel kept both entries because the witness had seen the roster before the sandstorm, whereas the worksheet had been closed during the evacuation.\n\nClocked entries put Sawyer Okada\u2019s signal interval at dormant. The sequence sheet, checked against the beacon\u2019s internal clock, showed Casey Rossi\u2019s signal interval as waking. Downstream checks tied Morgan Okada to a latent repeater response, a useful comparison because the response was recorded one pylon beyond the first failure.\n\nA movement sketch marked Drew Nguyen\u2019s beacon sector as latent, and the route ledger tied Gray Meier\u2019s beacon sector to dormant. In the ordered log, Sawyer Okada\u2019s relay order appeared as waking; the ordered sheet showed Casey Rossi\u2019s relay order as clear. Finally, inventory counted Morgan Okada\u2019s cipher glyph as dormant.\n\nThe oldest pairing note, recovered beneath a warped instrument case, gave Morgan Okada\u2019s team pairing an open status. The timesheet review then left Drew Nguyen\u2019s signal interval open, while reconciled timing notes kept Gray Meier\u2019s signal interval at latent; the reviewers compared those records because the same burst appeared to cross two damaged clocks.\n\nInstruments tracing Sawyer Okada\u2019s action left the repeater response dormant. When Casey Rossi acted, the repeater response came back waking, a result preserved with the failure trace rather than inferred from anyone\u2019s account. Location review left Morgan Okada\u2019s beacon sector waking.\n\nThe remaining marks concerned order and transmission method. Sequence notes placed Drew Nguyen\u2019s relay order at dormant, while sequence review kept Gray Meier\u2019s relay order stable. Token and seal checks left Sawyer Okada\u2019s cipher glyph clear. The sealed check showed Casey Rossi\u2019s cipher glyph waking.\n\nWith every fragment assigned to its evidence stream, the panel ran the prescribed passes without resetting the tally between them. For this incident, the accepted tally was 58.\n\nThe final definition was strict: the coherent signal bearer was the one person whose six-stream tally equaled the accepted tally. No rank, reputation, conspicuous action, or narrative prominence could substitute for that calculation. The reviewers sealed the reconstructed incident record and left the names to be tested by the checksum.",
+  "template_id": "expedition_signal"
+}

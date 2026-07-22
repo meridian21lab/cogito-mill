@@ -1,0 +1,167 @@
+{
+  "attempt_counts": {
+    "concept": 1,
+    "story": 1
+  },
+  "critics": {
+    "concept": {
+      "decision": "accept",
+      "feedback": "The proposal meets all listed gates. Its locally defined checksum-based target is appropriately treated as the benchmark success condition, with no unnecessary external-title requirement.",
+      "findings": [
+        {
+          "detail": "The stranded desert expedition, relay pylons, emergency beacons, field logs, and signal reconstruction are directly compatible with the expedition_signal family.",
+          "gate": "compatibility with family expedition_signal",
+          "passed": true
+        },
+        {
+          "detail": "The proposal defines the setting, evidence sources, six evidence dimensions, local checksum rule, target concept, and target question without requiring an external role definition.",
+          "gate": "self-containment",
+          "passed": true
+        },
+        {
+          "detail": "A sandstorm-disrupted expedition reconstructing a corrupted distress-call relay chain provides a coherent narrative reason to inspect the evidence.",
+          "gate": "natural narrative premise",
+          "passed": true
+        },
+        {
+          "detail": "No participant is named, privileged by role, or signaled through narrative prominence; the intended answer is explicitly deferred to formalization and deterministic computation.",
+          "gate": "no answer hint",
+          "passed": true
+        },
+        {
+          "detail": "The premise explicitly enumerates all six evidence streams and states that their statuses feed the iterated modular checksum.",
+          "gate": "explicit need to combine relational, temporal, causal, spatial, sequence, and local-protocol evidence",
+          "passed": true
+        },
+        {
+          "detail": "The concept centers on expedition logistics and distributed beacon-failure reconstruction, not a confined crime, inaccessible room, or conventional suspect-deduction trope.",
+          "gate": "low resemblance to a stock locked-room mystery",
+          "passed": true
+        }
+      ]
+    },
+    "final": {
+      "decision": "accept",
+      "feedback": "Accept. The item is self-contained, has no direct reader-facing answer leak, and uses clearly specified answer forms.",
+      "findings": [
+        {
+          "detail": "The story supplies the status scale, all six evidence streams for all five candidates, the tally procedure, accepted tally, and final qualification rule.",
+          "gate": "self-containedness",
+          "passed": true
+        },
+        {
+          "detail": "The evidence is presented as a coherent expedition-reconstruction narrative, while the labels remain sufficiently consistent to identify each required stream.",
+          "gate": "readability",
+          "passed": true
+        },
+        {
+          "detail": "Determining the main result requires collecting each person's relation, temporal, causal, spatial, sequence, and protocol statuses and applying the stated iterative rule; the counterfactual likewise requires changing specified dispersed records.",
+          "gate": "dispersed-evidence reasoning",
+          "passed": true
+        },
+        {
+          "detail": "The reader-facing story does not state which named candidate matches the accepted tally. It gives the accepted tally and the rule, not the qualifying person's identity.",
+          "gate": "direct-leakage check",
+          "passed": true
+        },
+        {
+          "detail": "The main and counterfactual questions explicitly request a full name, the intermediate question requests the exact status word, and the scalar question requests an exact integer.",
+          "gate": "question precision",
+          "passed": true
+        }
+      ]
+    },
+    "story": {
+      "decision": "accept",
+      "feedback": "deterministic, grounding, and model story critics accept",
+      "findings": [
+        {
+          "detail": "paragraphs=14 (min 4)",
+          "gate": "narrative_paragraphs",
+          "passed": true
+        },
+        {
+          "detail": "EMP tokens=0 (max 14)",
+          "gate": "identifier_budget",
+          "passed": true
+        },
+        {
+          "detail": "Personnel index lines=0 (max 2)",
+          "gate": "no_personnel_dump",
+          "passed": true
+        },
+        {
+          "detail": "code\u2192name resolution clauses=0 (max 3)",
+          "gate": "no_id_resolution_wall",
+          "passed": true
+        },
+        {
+          "detail": "scored questions=4 (need 2\u20134)",
+          "gate": "question_count",
+          "passed": true
+        },
+        {
+          "detail": "name questions must request the full name explicitly",
+          "gate": "answer_form_clarity",
+          "passed": true
+        },
+        {
+          "detail": "each question needs 1\u20133 gold_answer_variants",
+          "gate": "answer_variants",
+          "passed": true
+        },
+        {
+          "detail": "opening paragraph must read as narration, not an ID table",
+          "gate": "human_readable_opening",
+          "passed": true
+        },
+        {
+          "detail": "missing required fact realizations: []",
+          "gate": "required_fact_grounding",
+          "passed": true
+        },
+        {
+          "detail": "facts assigned to multiple scenes: []",
+          "gate": "single_fact_realization",
+          "passed": true
+        },
+        {
+          "detail": "unknown scene obligations: []",
+          "gate": "known_scene_obligations",
+          "passed": true
+        },
+        {
+          "detail": "Deterministic grounding reports that all required visible facts are assigned once and sentence-anchored.",
+          "gate": "required_fact_grounding",
+          "passed": true
+        },
+        {
+          "detail": "The material is coherent prose in paragraphs, not an explicit table, bullet ledger, or personnel-index wall.",
+          "gate": "narrative_format",
+          "passed": true
+        },
+        {
+          "detail": "Each named person's status for each of the six streams is stated consistently; the counterfactual changes are clearly framed as hypothetical rather than conflicting record facts.",
+          "gate": "status_consistency",
+          "passed": true
+        },
+        {
+          "detail": "The story supplies the accepted tally and qualification rule but does not assert which named person is the bearer; the reader must reconstruct and compute it.",
+          "gate": "answer_leakage",
+          "passed": true
+        },
+        {
+          "detail": "The main, intermediate, counterfactual, and scalar questions are unambiguous and their required evidence is available in the narration.",
+          "gate": "question_clarity",
+          "passed": true
+        }
+      ]
+    }
+  },
+  "disclosure_answer": "p4",
+  "family_id": "expedition_signal",
+  "n_questions": 4,
+  "n_sentences": 45,
+  "n_steps": 10,
+  "status": "accepted"
+}

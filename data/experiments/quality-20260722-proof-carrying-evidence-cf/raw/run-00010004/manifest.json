@@ -1,0 +1,18 @@
+{
+  "artifact_dir": "data/experiments/quality-20260722-proof-carrying-evidence-cf/processed/run-00010004",
+  "attempts": {
+    "concept": 1,
+    "story": 1
+  },
+  "content_hashes": {},
+  "metadata": {
+    "family_id": "workshop_provenance"
+  },
+  "provider_family": "azure",
+  "recipe_id": "recipe-10004",
+  "run_id": "run-00010004",
+  "schema_version": "pilot.v2",
+  "seed": 10004,
+  "status": "accepted",
+  "terminal_reason": null
+}

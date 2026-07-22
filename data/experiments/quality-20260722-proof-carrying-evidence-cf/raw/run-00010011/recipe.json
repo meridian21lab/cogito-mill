@@ -1,0 +1,23 @@
+{
+  "difficulty_bucket": "very_hard",
+  "forbidden_shortcuts": [
+    "genre_trope_answer",
+    "name_equals_role",
+    "answer_in_first_paragraph"
+  ],
+  "id": "recipe-10011",
+  "max_concept_repairs": 2,
+  "max_stage_repairs": 2,
+  "n_distractors": 6,
+  "n_suspects": 5,
+  "prompt_version": "pilot.v3",
+  "provider_family": "azure",
+  "require_causal": true,
+  "require_relational": true,
+  "require_temporal": true,
+  "schema_version": "pilot.v2",
+  "seed": 10011,
+  "setting_family": "expedition",
+  "target_hops": 5,
+  "template_id": "watch_handover"
+}

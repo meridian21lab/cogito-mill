@@ -1,0 +1,329 @@
+{
+  "candidate_checksums": {
+    "Casey Rossi": 32,
+    "Drew Nguyen": 22,
+    "Gray Meier": 58,
+    "Morgan Okada": 61,
+    "Sawyer Okada": 79
+  },
+  "checkpoints": [
+    {
+      "after_cycles": 0,
+      "person_id": "p0",
+      "person_label": "Sawyer Okada",
+      "value": 6
+    },
+    {
+      "after_cycles": 38,
+      "person_id": "p0",
+      "person_label": "Sawyer Okada",
+      "value": 79
+    },
+    {
+      "after_cycles": 76,
+      "person_id": "p0",
+      "person_label": "Sawyer Okada",
+      "value": 79
+    },
+    {
+      "after_cycles": 115,
+      "person_id": "p0",
+      "person_label": "Sawyer Okada",
+      "value": 79
+    },
+    {
+      "after_cycles": 0,
+      "person_id": "p1",
+      "person_label": "Drew Nguyen",
+      "value": 6
+    },
+    {
+      "after_cycles": 38,
+      "person_id": "p1",
+      "person_label": "Drew Nguyen",
+      "value": 22
+    },
+    {
+      "after_cycles": 76,
+      "person_id": "p1",
+      "person_label": "Drew Nguyen",
+      "value": 22
+    },
+    {
+      "after_cycles": 115,
+      "person_id": "p1",
+      "person_label": "Drew Nguyen",
+      "value": 22
+    }
+  ],
+  "checksum_params": {
+    "branch_order": [
+      "relation",
+      "temporal",
+      "causal",
+      "spatial",
+      "sequence",
+      "protocol"
+    ],
+    "coefficients": [
+      11,
+      13,
+      5,
+      3,
+      2,
+      7
+    ],
+    "cycle_count": 115,
+    "modulus": 97,
+    "pass_order": [
+      "forward",
+      "reverse_with_reversed_coefficients",
+      "forward_with_coefficients_rotated_left"
+    ],
+    "start_value": 6
+  },
+  "evidence_counterfactual": {
+    "answer_label": "Morgan Okada",
+    "branch": "temporal",
+    "fact_id": "f_temporal_p2",
+    "from_status": "stable",
+    "noun": "signal interval",
+    "person_id": "p2",
+    "person_label": "Morgan Okada",
+    "secondary_branch": "relation",
+    "secondary_fact_id": "f_relation_p4",
+    "secondary_from_status": "latent",
+    "secondary_noun": "team pairing",
+    "secondary_person_id": "p4",
+    "secondary_person_label": "Gray Meier",
+    "secondary_to_status": "clear",
+    "to_status": "open"
+  },
+  "falsifier": {
+    "hypothesis": "Morgan Okada already qualifies under the original record",
+    "minimal_evidence": [
+      "f_checksum_key",
+      "f_checksum_formula",
+      "f_relation_p4",
+      "f_temporal_p4",
+      "f_causal_p4",
+      "f_spatial_p4",
+      "f_sequence_p4",
+      "f_protocol_p4",
+      "f_temporal_p2",
+      "f_relation_p4"
+    ]
+  },
+  "gold_steps": [],
+  "id": "lss-concept-010000",
+  "notes": [
+    "Thin Hub items stay story-only; this appendix is a companion audit artifact.",
+    "Narrative family: expedition_signal; setting family: expedition.",
+    "Unaided solvers should struggle; appendix-assisted solvers should recover the answer."
+  ],
+  "schema_version": "appendix.v1",
+  "status_matrix": {
+    "Casey Rossi": {
+      "causal": {
+        "fact_id": "f_causal_p3",
+        "noun": "repeater response",
+        "status": "waking",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p3",
+        "noun": "cipher glyph",
+        "status": "waking",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p3",
+        "noun": "team pairing",
+        "status": "dormant",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p3",
+        "noun": "relay order",
+        "status": "clear",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p3",
+        "noun": "beacon sector",
+        "status": "clear",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p3",
+        "noun": "signal interval",
+        "status": "waking",
+        "stream": "temporal"
+      }
+    },
+    "Drew Nguyen": {
+      "causal": {
+        "fact_id": "f_causal_p1",
+        "noun": "repeater response",
+        "status": "clear",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p1",
+        "noun": "cipher glyph",
+        "status": "latent",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p1",
+        "noun": "team pairing",
+        "status": "waking",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p1",
+        "noun": "relay order",
+        "status": "dormant",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p1",
+        "noun": "beacon sector",
+        "status": "latent",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p1",
+        "noun": "signal interval",
+        "status": "open",
+        "stream": "temporal"
+      }
+    },
+    "Gray Meier": {
+      "causal": {
+        "fact_id": "f_causal_p4",
+        "noun": "repeater response",
+        "status": "open",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p4",
+        "noun": "cipher glyph",
+        "status": "stable",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p4",
+        "noun": "team pairing",
+        "status": "latent",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p4",
+        "noun": "relay order",
+        "status": "stable",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p4",
+        "noun": "beacon sector",
+        "status": "dormant",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p4",
+        "noun": "signal interval",
+        "status": "latent",
+        "stream": "temporal"
+      }
+    },
+    "Morgan Okada": {
+      "causal": {
+        "fact_id": "f_causal_p2",
+        "noun": "repeater response",
+        "status": "latent",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p2",
+        "noun": "cipher glyph",
+        "status": "dormant",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p2",
+        "noun": "team pairing",
+        "status": "open",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p2",
+        "noun": "relay order",
+        "status": "latent",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p2",
+        "noun": "beacon sector",
+        "status": "waking",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p2",
+        "noun": "signal interval",
+        "status": "stable",
+        "stream": "temporal"
+      }
+    },
+    "Sawyer Okada": {
+      "causal": {
+        "fact_id": "f_causal_p0",
+        "noun": "repeater response",
+        "status": "dormant",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p0",
+        "noun": "cipher glyph",
+        "status": "clear",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p0",
+        "noun": "team pairing",
+        "status": "stable",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p0",
+        "noun": "relay order",
+        "status": "waking",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p0",
+        "noun": "beacon sector",
+        "status": "stable",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p0",
+        "noun": "signal interval",
+        "status": "dormant",
+        "stream": "temporal"
+      }
+    }
+  },
+  "supported_conclusions": [
+    "Gray Meier's six-stream tally equals the accepted tally.",
+    "After the evidence edit (Gray Meier's team pairing status had been clear instead of latent and Morgan Okada's signal interval status had been open instead of stable), the unique result is Morgan Okada."
+  ],
+  "weights": {
+    "clear": 0,
+    "dormant": 1,
+    "latent": 4,
+    "open": 5,
+    "stable": 2,
+    "waking": 3
+  }
+}

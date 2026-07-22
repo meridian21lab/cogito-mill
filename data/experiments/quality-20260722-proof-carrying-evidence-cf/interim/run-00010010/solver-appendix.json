@@ -1,0 +1,329 @@
+{
+  "candidate_checksums": {
+    "Eden Rossi": 57,
+    "Finley Brooks": 37,
+    "Kai Dubois": 7,
+    "Winter Novak": 37,
+    "Zion Ortiz": 69
+  },
+  "checkpoints": [
+    {
+      "after_cycles": 0,
+      "person_id": "p0",
+      "person_label": "Zion Ortiz",
+      "value": 16
+    },
+    {
+      "after_cycles": 41,
+      "person_id": "p0",
+      "person_label": "Zion Ortiz",
+      "value": 69
+    },
+    {
+      "after_cycles": 83,
+      "person_id": "p0",
+      "person_label": "Zion Ortiz",
+      "value": 69
+    },
+    {
+      "after_cycles": 125,
+      "person_id": "p0",
+      "person_label": "Zion Ortiz",
+      "value": 69
+    },
+    {
+      "after_cycles": 0,
+      "person_id": "p1",
+      "person_label": "Kai Dubois",
+      "value": 16
+    },
+    {
+      "after_cycles": 41,
+      "person_id": "p1",
+      "person_label": "Kai Dubois",
+      "value": 7
+    },
+    {
+      "after_cycles": 83,
+      "person_id": "p1",
+      "person_label": "Kai Dubois",
+      "value": 7
+    },
+    {
+      "after_cycles": 125,
+      "person_id": "p1",
+      "person_label": "Kai Dubois",
+      "value": 7
+    }
+  ],
+  "checksum_params": {
+    "branch_order": [
+      "relation",
+      "temporal",
+      "causal",
+      "spatial",
+      "sequence",
+      "protocol"
+    ],
+    "coefficients": [
+      2,
+      5,
+      13,
+      3,
+      11,
+      7
+    ],
+    "cycle_count": 125,
+    "modulus": 97,
+    "pass_order": [
+      "forward",
+      "reverse_with_reversed_coefficients",
+      "forward_with_coefficients_rotated_left"
+    ],
+    "start_value": 16
+  },
+  "evidence_counterfactual": {
+    "answer_label": "Zion Ortiz",
+    "branch": "protocol",
+    "fact_id": "f_protocol_p0",
+    "from_status": "stable",
+    "noun": "seal notch",
+    "person_id": "p0",
+    "person_label": "Zion Ortiz",
+    "secondary_branch": "relation",
+    "secondary_fact_id": "f_relation_p1",
+    "secondary_from_status": "dormant",
+    "secondary_noun": "mentor pennant",
+    "secondary_person_id": "p1",
+    "secondary_person_label": "Kai Dubois",
+    "secondary_to_status": "clear",
+    "to_status": "clear"
+  },
+  "falsifier": {
+    "hypothesis": "Zion Ortiz already qualifies under the original record",
+    "minimal_evidence": [
+      "f_checksum_key",
+      "f_checksum_formula",
+      "f_relation_p1",
+      "f_temporal_p1",
+      "f_causal_p1",
+      "f_spatial_p1",
+      "f_sequence_p1",
+      "f_protocol_p1",
+      "f_protocol_p0",
+      "f_relation_p1"
+    ]
+  },
+  "gold_steps": [],
+  "id": "lss-concept-010010",
+  "notes": [
+    "Thin Hub items stay story-only; this appendix is a companion audit artifact.",
+    "Narrative family: watch_handover; setting family: expedition.",
+    "Unaided solvers should struggle; appendix-assisted solvers should recover the answer."
+  ],
+  "schema_version": "appendix.v1",
+  "status_matrix": {
+    "Eden Rossi": {
+      "causal": {
+        "fact_id": "f_causal_p2",
+        "noun": "alarm consequence",
+        "status": "open",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p2",
+        "noun": "seal notch",
+        "status": "clear",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p2",
+        "noun": "mentor pennant",
+        "status": "open",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p2",
+        "noun": "handover order",
+        "status": "clear",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p2",
+        "noun": "assigned station",
+        "status": "waking",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p2",
+        "noun": "watch interval",
+        "status": "clear",
+        "stream": "temporal"
+      }
+    },
+    "Finley Brooks": {
+      "causal": {
+        "fact_id": "f_causal_p3",
+        "noun": "alarm consequence",
+        "status": "dormant",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p3",
+        "noun": "seal notch",
+        "status": "dormant",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p3",
+        "noun": "mentor pennant",
+        "status": "stable",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p3",
+        "noun": "handover order",
+        "status": "latent",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p3",
+        "noun": "assigned station",
+        "status": "dormant",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p3",
+        "noun": "watch interval",
+        "status": "latent",
+        "stream": "temporal"
+      }
+    },
+    "Kai Dubois": {
+      "causal": {
+        "fact_id": "f_causal_p1",
+        "noun": "alarm consequence",
+        "status": "stable",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p1",
+        "noun": "seal notch",
+        "status": "latent",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p1",
+        "noun": "mentor pennant",
+        "status": "dormant",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p1",
+        "noun": "handover order",
+        "status": "waking",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p1",
+        "noun": "assigned station",
+        "status": "stable",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p1",
+        "noun": "watch interval",
+        "status": "waking",
+        "stream": "temporal"
+      }
+    },
+    "Winter Novak": {
+      "causal": {
+        "fact_id": "f_causal_p4",
+        "noun": "alarm consequence",
+        "status": "waking",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p4",
+        "noun": "seal notch",
+        "status": "open",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p4",
+        "noun": "mentor pennant",
+        "status": "clear",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p4",
+        "noun": "handover order",
+        "status": "stable",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p4",
+        "noun": "assigned station",
+        "status": "open",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p4",
+        "noun": "watch interval",
+        "status": "stable",
+        "stream": "temporal"
+      }
+    },
+    "Zion Ortiz": {
+      "causal": {
+        "fact_id": "f_causal_p0",
+        "noun": "alarm consequence",
+        "status": "latent",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p0",
+        "noun": "seal notch",
+        "status": "stable",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p0",
+        "noun": "mentor pennant",
+        "status": "latent",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p0",
+        "noun": "handover order",
+        "status": "open",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p0",
+        "noun": "assigned station",
+        "status": "latent",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p0",
+        "noun": "watch interval",
+        "status": "dormant",
+        "stream": "temporal"
+      }
+    }
+  },
+  "supported_conclusions": [
+    "Kai Dubois's six-stream tally equals the accepted tally.",
+    "After the evidence edit (Kai Dubois's mentor pennant status had been clear instead of dormant and Zion Ortiz's seal notch status had been clear instead of stable), the unique result is Zion Ortiz."
+  ],
+  "weights": {
+    "clear": 5,
+    "dormant": 3,
+    "latent": 4,
+    "open": 1,
+    "stable": 2,
+    "waking": 0
+  }
+}

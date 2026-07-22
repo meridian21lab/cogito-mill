@@ -1,0 +1,167 @@
+{
+  "attempt_counts": {
+    "concept": 2,
+    "story": 2
+  },
+  "critics": {
+    "concept": {
+      "decision": "accept",
+      "feedback": "The proposal cleanly frames a workshop-provenance puzzle and preserves the benchmark\u2019s local checksum-based definition of the target without adding external qualification requirements.",
+      "findings": [
+        {
+          "detail": "The conservation-workshop chain of custody, treatment records, artifact movement, and procedural logs are directly compatible with workshop provenance.",
+          "gate": "compatibility with family workshop_provenance",
+          "passed": true
+        },
+        {
+          "detail": "The proposal defines the setting, participants, evidence streams, checksum selection mechanism, and locally defined target concept without relying on an external role definition.",
+          "gate": "self-containment",
+          "passed": true
+        },
+        {
+          "detail": "Tracing a water-damaged artifact through conservation stages provides a coherent, non-criminal workplace narrative for conflicting records.",
+          "gate": "natural narrative premise",
+          "passed": true
+        },
+        {
+          "detail": "No participant is privileged by name, seniority, location, or an early narrative cue; the intended answer is deferred to deterministic comparison.",
+          "gate": "no answer hint",
+          "passed": true
+        },
+        {
+          "detail": "The premise explicitly requires relational, temporal, causal, spatial, sequence, and protocol evidence statuses for every participant.",
+          "gate": "explicit six-stream evidence combination",
+          "passed": true
+        },
+        {
+          "detail": "The scenario is a provenance and restoration-record reconciliation problem rather than an enclosed-crime or locked-room setup.",
+          "gate": "low resemblance to a stock locked-room mystery",
+          "passed": true
+        }
+      ]
+    },
+    "final": {
+      "decision": "accept",
+      "feedback": "The item is self-contained, narratively readable, and does not reveal the qualifying candidate in reader-facing text. The questions have clear answer formats and are supported by the disclosed evidence and rule.",
+      "findings": [
+        {
+          "detail": "The story supplies the status scale, all six streams and coefficients, the complete iterative tally procedure, the accepted tally, and every participant's six status values.",
+          "gate": "self-contained",
+          "passed": true
+        },
+        {
+          "detail": "The conservation-workshop framing remains coherent while distributing the evidence through distinct records and locations.",
+          "gate": "readability",
+          "passed": true
+        },
+        {
+          "detail": "Answering the main question requires collecting six dispersed statuses for each candidate and applying the disclosed tally protocol; the intermediate and counterfactual questions are also directly grounded in the record.",
+          "gate": "evidence integration",
+          "passed": true
+        },
+        {
+          "detail": "The story identifies neither Parker Meier nor any other candidate as the tally match or certified restoration lead.",
+          "gate": "no direct answer leakage",
+          "passed": true
+        },
+        {
+          "detail": "The main question requests a full name; the intermediate question requires the exact status word; the counterfactual explicitly permits a full name or exactly 'none'; and the scalar question requests the exact integer tally.",
+          "gate": "question precision",
+          "passed": true
+        }
+      ]
+    },
+    "story": {
+      "decision": "accept",
+      "feedback": "deterministic, grounding, and model story critics accept",
+      "findings": [
+        {
+          "detail": "paragraphs=13 (min 4)",
+          "gate": "narrative_paragraphs",
+          "passed": true
+        },
+        {
+          "detail": "EMP tokens=0 (max 14)",
+          "gate": "identifier_budget",
+          "passed": true
+        },
+        {
+          "detail": "Personnel index lines=0 (max 2)",
+          "gate": "no_personnel_dump",
+          "passed": true
+        },
+        {
+          "detail": "code\u2192name resolution clauses=0 (max 3)",
+          "gate": "no_id_resolution_wall",
+          "passed": true
+        },
+        {
+          "detail": "scored questions=4 (need 2\u20134)",
+          "gate": "question_count",
+          "passed": true
+        },
+        {
+          "detail": "name questions must request the full name explicitly",
+          "gate": "answer_form_clarity",
+          "passed": true
+        },
+        {
+          "detail": "each question needs 1\u20133 gold_answer_variants",
+          "gate": "answer_variants",
+          "passed": true
+        },
+        {
+          "detail": "opening paragraph must read as narration, not an ID table",
+          "gate": "human_readable_opening",
+          "passed": true
+        },
+        {
+          "detail": "missing required fact realizations: []",
+          "gate": "required_fact_grounding",
+          "passed": true
+        },
+        {
+          "detail": "facts assigned to multiple scenes: []",
+          "gate": "single_fact_realization",
+          "passed": true
+        },
+        {
+          "detail": "unknown scene obligations: []",
+          "gate": "known_scene_obligations",
+          "passed": true
+        },
+        {
+          "detail": "Deterministic grounding reports no missing required fact realizations, no duplicate scene assignments, and no unknown scene obligations.",
+          "gate": "required_fact_grounding",
+          "passed": true
+        },
+        {
+          "detail": "The evidence is presented as coherent prose paragraphs rather than as tables, bullet ledgers, or a personnel-index wall.",
+          "gate": "narrative_usability",
+          "passed": true
+        },
+        {
+          "detail": "No person is assigned contradictory statuses for the same stream; each of the five participants has a consistent six-stream record.",
+          "gate": "status_consistency",
+          "passed": true
+        },
+        {
+          "detail": "The story states the governing criterion and accepted tally but does not name the qualifying person; it explicitly says the surviving page named no winner.",
+          "gate": "answer_leakage",
+          "passed": true
+        },
+        {
+          "detail": "The main, intermediate, counterfactual, and scalar questions are unambiguous under the disclosed status scale and iterative tally procedure.",
+          "gate": "question_clarity",
+          "passed": true
+        }
+      ]
+    }
+  },
+  "disclosure_answer": "p1",
+  "family_id": "workshop_provenance",
+  "n_questions": 4,
+  "n_sentences": 52,
+  "n_steps": 10,
+  "status": "accepted"
+}

@@ -1,0 +1,370 @@
+{
+  "fact_sentence_map": {
+    "f_causal_p0": [
+      "sent-35"
+    ],
+    "f_causal_p1": [
+      "sent-18"
+    ],
+    "f_causal_p2": [
+      "sent-27"
+    ],
+    "f_causal_p3": [
+      "sent-36"
+    ],
+    "f_causal_p4": [
+      "sent-18"
+    ],
+    "f_checksum_formula": [
+      "sent-12"
+    ],
+    "f_checksum_key": [
+      "sent-43"
+    ],
+    "f_protocol_active": [
+      "sent-6"
+    ],
+    "f_protocol_p0": [
+      "sent-40"
+    ],
+    "f_protocol_p1": [
+      "sent-21"
+    ],
+    "f_protocol_p2": [
+      "sent-30"
+    ],
+    "f_protocol_p3": [
+      "sent-36"
+    ],
+    "f_protocol_p4": [
+      "sent-21"
+    ],
+    "f_relation_p0": [
+      "sent-15"
+    ],
+    "f_relation_p1": [
+      "sent-24"
+    ],
+    "f_relation_p2": [
+      "sent-33"
+    ],
+    "f_relation_p3": [
+      "sent-15"
+    ],
+    "f_relation_p4": [
+      "sent-25"
+    ],
+    "f_rule_final_watch_handover": [
+      "sent-44"
+    ],
+    "f_sequence_p0": [
+      "sent-29"
+    ],
+    "f_sequence_p1": [
+      "sent-39"
+    ],
+    "f_sequence_p2": [
+      "sent-20"
+    ],
+    "f_sequence_p3": [
+      "sent-29"
+    ],
+    "f_sequence_p4": [
+      "sent-39"
+    ],
+    "f_spatial_p0": [
+      "sent-19"
+    ],
+    "f_spatial_p1": [
+      "sent-28"
+    ],
+    "f_spatial_p2": [
+      "sent-37"
+    ],
+    "f_spatial_p3": [
+      "sent-19"
+    ],
+    "f_spatial_p4": [
+      "sent-28"
+    ],
+    "f_status_weights": [
+      "sent-7"
+    ],
+    "f_temporal_p0": [
+      "sent-26"
+    ],
+    "f_temporal_p1": [
+      "sent-34"
+    ],
+    "f_temporal_p2": [
+      "sent-17"
+    ],
+    "f_temporal_p3": [
+      "sent-26"
+    ],
+    "f_temporal_p4": [
+      "sent-34"
+    ]
+  },
+  "full_text": "The Orison lay wedged between pressure ridges while whiteout erased the horizon. During the handover from the night watch to the dawn team, a surge beneath the ice tripped the under-ice sonar and briefly locked the navigation console. No one called it sabotage. Instead, five watchkeepers and a scatter of damaged records, seals, clocks, radios, and route marks had to be reconciled before the vessel entered the ridge field.\n\nThe reviewers began in the chart room, where the incident packet had stayed dry beneath a canvas cover. They read the governing note before weighing anyone's account: for this incident, the board declared the concordant watchkeeper protocol active, and ordinary rank and reputation did not count. A second note fixed one shared status scale for the entire inquiry: waking was 0, open was 1, stable was 2, dormant was 3, latent was 4, and clear was 5.\n\nBeside the notes, the clerk copied the local tally procedure onto the slate. The tally began at 16. Its six streams, in order, were relation, temporal, causal, spatial, sequence, and protocol, with coefficients 2, 5, 13, 3, 11, and 7. For each stream, the panel squared the current tally, added that stream's coefficient multiplied by its status value, and retained the remainder modulo 97. They would make three passes: first in the stated order, then in reverse order with the coefficients reversed, and then again in the stated order with the coefficient list rotated one place to the left. Without resetting the tally, they would repeat that complete three-pass cycle 125 times.\n\nThe first bundle came from the pairing desk and the corridor outside navigation. A recovered pairing sheet showed Zion Ortiz's mentor pennant at latent; beside it, the damaged roster still marked Finley Brooks's mentor pennant as stable. The clerk set both sheets under the same lamp rather than trusting the torn edges.\n\nA clock-backed entry gave Eden Rossi's watch interval a clear reading. That timing mattered because the alarm consequence following Kai Dubois registered as stable, while the causal review assigned Winter Novak's alarm consequence waking. At the doorway, route marks placed Zion Ortiz's assigned station at latent, and corridor witnesses put Finley Brooks's assigned station at dormant.\n\nThe handover reconstruction kept Eden Rossi's handover order at clear. Later, a close photograph of the token set fixed Kai Dubois's seal notch at latent; the final physical count left Winter Novak's seal notch open. Each mark was photographed before the packet was moved, preserving the distinction between a damaged paper trail and a checked object.\n\nThe next reconstruction followed the people who had passed through the watch corridor. A roster witness left Kai Dubois's mentor pennant dormant after checking the surviving names. On the sealed worksheet, clerks wrote clear beside Winter Novak's mentor pennant, the seal remaining unbroken while they read it.\n\nThe clocked entries put Zion Ortiz's watch interval at dormant, whereas the sequence sheet gave Finley Brooks's watch interval a latent reading. Downstream checks tied Eden Rossi to an open alarm consequence. Her movement through the machinery space was then compared with the station sketch, which marked Kai Dubois's assigned station as stable; the route ledger placed Winter Novak's assigned station at open.\n\nFor the handover itself, the ordered log showed Zion Ortiz's handover order as open, while the ordered sheet showed Finley Brooks's as latent. Inventory closed the bundle by counting Eden Rossi's seal notch as clear. The clerk kept the worksheet, route ledger, and inventory card in separate sleeves so that sequence evidence would not be mistaken for access evidence.\n\nThe final working bundle concerned the moments nearest the console lock. In an earlier pairing note, Eden Rossi carried an open mentor pennant. The timesheet review left Kai Dubois's watch interval waking, while reconciled timing notes kept Winter Novak's watch interval stable.\n\nInstrument traces followed Zion Ortiz's action and left the alarm consequence latent. A separate check of Finley Brooks's action brought that consequence back to dormant. These entries were read beside the location review, which left Eden Rossi's assigned station waking. Nothing was inferred from the storm itself; the panel stayed with the marks attached to the people and equipment.\n\nSequence notes placed Kai Dubois's handover order at waking, and the sequence review kept Winter Novak's handover order stable. At the end of the table, token and seal checks left Zion Ortiz's seal notch stable, while the sealed check showed Finley Brooks's seal notch dormant. The evidence bundles were now complete, though the calculation still waited on the board's final line.\n\nSnow rasped against the chart-room glass as the panel compared its computed result with the incident packet. For this incident, the accepted tally was 7.\n\nThe definition was deliberately strict: the concordant watchkeeper was the one person whose six-stream tally equaled the accepted tally. No reputation, rank, or persuasive recollection could alter that rule. The reviewers sealed the worksheets and left the names unannounced until the navigation console was ready to receive the dawn team's control.",
+  "id": "story-10010",
+  "scenes": [
+    {
+      "id": "sc1",
+      "obligated_fact_ids": [
+        "f_protocol_active",
+        "f_status_weights",
+        "f_checksum_formula"
+      ],
+      "prose": "The reviewers began in the chart room, where the incident packet had stayed dry beneath a canvas cover. They read the governing note before weighing anyone's account: for this incident, the board declared the concordant watchkeeper protocol active, and ordinary rank and reputation did not count. A second note fixed one shared status scale for the entire inquiry: waking was 0, open was 1, stable was 2, dormant was 3, latent was 4, and clear was 5.\n\nBeside the notes, the clerk copied the local tally procedure onto the slate. The tally began at 16. Its six streams, in order, were relation, temporal, causal, spatial, sequence, and protocol, with coefficients 2, 5, 13, 3, 11, and 7. For each stream, the panel squared the current tally, added that stream's coefficient multiplied by its status value, and retained the remainder modulo 97. They would make three passes: first in the stated order, then in reverse order with the coefficients reversed, and then again in the stated order with the coefficient list rotated one place to the left. Without resetting the tally, they would repeat that complete three-pass cycle 125 times.",
+      "title": "The Ruleboard in the Chart Room"
+    },
+    {
+      "id": "sc2",
+      "obligated_fact_ids": [
+        "f_relation_p0",
+        "f_relation_p3",
+        "f_temporal_p2",
+        "f_causal_p1",
+        "f_causal_p4",
+        "f_spatial_p0",
+        "f_spatial_p3",
+        "f_sequence_p2",
+        "f_protocol_p1",
+        "f_protocol_p4"
+      ],
+      "prose": "The first bundle came from the pairing desk and the corridor outside navigation. A recovered pairing sheet showed Zion Ortiz's mentor pennant at latent; beside it, the damaged roster still marked Finley Brooks's mentor pennant as stable. The clerk set both sheets under the same lamp rather than trusting the torn edges.\n\nA clock-backed entry gave Eden Rossi's watch interval a clear reading. That timing mattered because the alarm consequence following Kai Dubois registered as stable, while the causal review assigned Winter Novak's alarm consequence waking. At the doorway, route marks placed Zion Ortiz's assigned station at latent, and corridor witnesses put Finley Brooks's assigned station at dormant.\n\nThe handover reconstruction kept Eden Rossi's handover order at clear. Later, a close photograph of the token set fixed Kai Dubois's seal notch at latent; the final physical count left Winter Novak's seal notch open. Each mark was photographed before the packet was moved, preserving the distinction between a damaged paper trail and a checked object.",
+      "title": "Pennants, Doors, and the First Reconstruction"
+    },
+    {
+      "id": "sc3",
+      "obligated_fact_ids": [
+        "f_relation_p1",
+        "f_relation_p4",
+        "f_temporal_p0",
+        "f_temporal_p3",
+        "f_causal_p2",
+        "f_spatial_p1",
+        "f_spatial_p4",
+        "f_sequence_p0",
+        "f_sequence_p3",
+        "f_protocol_p2"
+      ],
+      "prose": "The next reconstruction followed the people who had passed through the watch corridor. A roster witness left Kai Dubois's mentor pennant dormant after checking the surviving names. On the sealed worksheet, clerks wrote clear beside Winter Novak's mentor pennant, the seal remaining unbroken while they read it.\n\nThe clocked entries put Zion Ortiz's watch interval at dormant, whereas the sequence sheet gave Finley Brooks's watch interval a latent reading. Downstream checks tied Eden Rossi to an open alarm consequence. Her movement through the machinery space was then compared with the station sketch, which marked Kai Dubois's assigned station as stable; the route ledger placed Winter Novak's assigned station at open.\n\nFor the handover itself, the ordered log showed Zion Ortiz's handover order as open, while the ordered sheet showed Finley Brooks's as latent. Inventory closed the bundle by counting Eden Rossi's seal notch as clear. The clerk kept the worksheet, route ledger, and inventory card in separate sleeves so that sequence evidence would not be mistaken for access evidence.",
+      "title": "The Sealed Worksheet"
+    },
+    {
+      "id": "sc4",
+      "obligated_fact_ids": [
+        "f_relation_p2",
+        "f_temporal_p1",
+        "f_temporal_p4",
+        "f_causal_p0",
+        "f_causal_p3",
+        "f_spatial_p2",
+        "f_sequence_p1",
+        "f_sequence_p4",
+        "f_protocol_p0",
+        "f_protocol_p3"
+      ],
+      "prose": "The final working bundle concerned the moments nearest the console lock. In an earlier pairing note, Eden Rossi carried an open mentor pennant. The timesheet review left Kai Dubois's watch interval waking, while reconciled timing notes kept Winter Novak's watch interval stable.\n\nInstrument traces followed Zion Ortiz's action and left the alarm consequence latent. A separate check of Finley Brooks's action brought that consequence back to dormant. These entries were read beside the location review, which left Eden Rossi's assigned station waking. Nothing was inferred from the storm itself; the panel stayed with the marks attached to the people and equipment.\n\nSequence notes placed Kai Dubois's handover order at waking, and the sequence review kept Winter Novak's handover order stable. At the end of the table, token and seal checks left Zion Ortiz's seal notch stable, while the sealed check showed Finley Brooks's seal notch dormant. The evidence bundles were now complete, though the calculation still waited on the board's final line.",
+      "title": "Timing the Last Exchange"
+    },
+    {
+      "id": "sc5",
+      "obligated_fact_ids": [
+        "f_checksum_key",
+        "f_rule_final_watch_handover"
+      ],
+      "prose": "Snow rasped against the chart-room glass as the panel compared its computed result with the incident packet. For this incident, the accepted tally was 7.\n\nThe definition was deliberately strict: the concordant watchkeeper was the one person whose six-stream tally equaled the accepted tally. No reputation, rank, or persuasive recollection could alter that rule. The reviewers sealed the worksheets and left the names unannounced until the navigation console was ready to receive the dawn team's control.",
+      "title": "The Unopened Result"
+    }
+  ],
+  "sentences": [
+    {
+      "id": "sent-1",
+      "text": "The Orison lay wedged between pressure ridges while whiteout erased the horizon."
+    },
+    {
+      "id": "sent-2",
+      "text": "During the handover from the night watch to the dawn team, a surge beneath the ice tripped the under-ice sonar and briefly locked the navigation console."
+    },
+    {
+      "id": "sent-3",
+      "text": "No one called it sabotage."
+    },
+    {
+      "id": "sent-4",
+      "text": "Instead, five watchkeepers and a scatter of damaged records, seals, clocks, radios, and route marks had to be reconciled before the vessel entered the ridge field."
+    },
+    {
+      "id": "sent-5",
+      "text": "The reviewers began in the chart room, where the incident packet had stayed dry beneath a canvas cover."
+    },
+    {
+      "id": "sent-6",
+      "text": "They read the governing note before weighing anyone's account: for this incident, the board declared the concordant watchkeeper protocol active, and ordinary rank and reputation did not count."
+    },
+    {
+      "id": "sent-7",
+      "text": "A second note fixed one shared status scale for the entire inquiry: waking was 0, open was 1, stable was 2, dormant was 3, latent was 4, and clear was 5."
+    },
+    {
+      "id": "sent-8",
+      "text": "Beside the notes, the clerk copied the local tally procedure onto the slate."
+    },
+    {
+      "id": "sent-9",
+      "text": "The tally began at 16."
+    },
+    {
+      "id": "sent-10",
+      "text": "Its six streams, in order, were relation, temporal, causal, spatial, sequence, and protocol, with coefficients 2, 5, 13, 3, 11, and 7."
+    },
+    {
+      "id": "sent-11",
+      "text": "For each stream, the panel squared the current tally, added that stream's coefficient multiplied by its status value, and retained the remainder modulo 97."
+    },
+    {
+      "id": "sent-12",
+      "text": "They would make three passes: first in the stated order, then in reverse order with the coefficients reversed, and then again in the stated order with the coefficient list rotated one place to the left."
+    },
+    {
+      "id": "sent-13",
+      "text": "Without resetting the tally, they would repeat that complete three-pass cycle 125 times."
+    },
+    {
+      "id": "sent-14",
+      "text": "The first bundle came from the pairing desk and the corridor outside navigation."
+    },
+    {
+      "id": "sent-15",
+      "text": "A recovered pairing sheet showed Zion Ortiz's mentor pennant at latent; beside it, the damaged roster still marked Finley Brooks's mentor pennant as stable."
+    },
+    {
+      "id": "sent-16",
+      "text": "The clerk set both sheets under the same lamp rather than trusting the torn edges."
+    },
+    {
+      "id": "sent-17",
+      "text": "A clock-backed entry gave Eden Rossi's watch interval a clear reading."
+    },
+    {
+      "id": "sent-18",
+      "text": "That timing mattered because the alarm consequence following Kai Dubois registered as stable, while the causal review assigned Winter Novak's alarm consequence waking."
+    },
+    {
+      "id": "sent-19",
+      "text": "At the doorway, route marks placed Zion Ortiz's assigned station at latent, and corridor witnesses put Finley Brooks's assigned station at dormant."
+    },
+    {
+      "id": "sent-20",
+      "text": "The handover reconstruction kept Eden Rossi's handover order at clear."
+    },
+    {
+      "id": "sent-21",
+      "text": "Later, a close photograph of the token set fixed Kai Dubois's seal notch at latent; the final physical count left Winter Novak's seal notch open."
+    },
+    {
+      "id": "sent-22",
+      "text": "Each mark was photographed before the packet was moved, preserving the distinction between a damaged paper trail and a checked object."
+    },
+    {
+      "id": "sent-23",
+      "text": "The next reconstruction followed the people who had passed through the watch corridor."
+    },
+    {
+      "id": "sent-24",
+      "text": "A roster witness left Kai Dubois's mentor pennant dormant after checking the surviving names."
+    },
+    {
+      "id": "sent-25",
+      "text": "On the sealed worksheet, clerks wrote clear beside Winter Novak's mentor pennant, the seal remaining unbroken while they read it."
+    },
+    {
+      "id": "sent-26",
+      "text": "The clocked entries put Zion Ortiz's watch interval at dormant, whereas the sequence sheet gave Finley Brooks's watch interval a latent reading."
+    },
+    {
+      "id": "sent-27",
+      "text": "Downstream checks tied Eden Rossi to an open alarm consequence."
+    },
+    {
+      "id": "sent-28",
+      "text": "Her movement through the machinery space was then compared with the station sketch, which marked Kai Dubois's assigned station as stable; the route ledger placed Winter Novak's assigned station at open."
+    },
+    {
+      "id": "sent-29",
+      "text": "For the handover itself, the ordered log showed Zion Ortiz's handover order as open, while the ordered sheet showed Finley Brooks's as latent."
+    },
+    {
+      "id": "sent-30",
+      "text": "Inventory closed the bundle by counting Eden Rossi's seal notch as clear."
+    },
+    {
+      "id": "sent-31",
+      "text": "The clerk kept the worksheet, route ledger, and inventory card in separate sleeves so that sequence evidence would not be mistaken for access evidence."
+    },
+    {
+      "id": "sent-32",
+      "text": "The final working bundle concerned the moments nearest the console lock."
+    },
+    {
+      "id": "sent-33",
+      "text": "In an earlier pairing note, Eden Rossi carried an open mentor pennant."
+    },
+    {
+      "id": "sent-34",
+      "text": "The timesheet review left Kai Dubois's watch interval waking, while reconciled timing notes kept Winter Novak's watch interval stable."
+    },
+    {
+      "id": "sent-35",
+      "text": "Instrument traces followed Zion Ortiz's action and left the alarm consequence latent."
+    },
+    {
+      "id": "sent-36",
+      "text": "A separate check of Finley Brooks's action brought that consequence back to dormant."
+    },
+    {
+      "id": "sent-37",
+      "text": "These entries were read beside the location review, which left Eden Rossi's assigned station waking."
+    },
+    {
+      "id": "sent-38",
+      "text": "Nothing was inferred from the storm itself; the panel stayed with the marks attached to the people and equipment."
+    },
+    {
+      "id": "sent-39",
+      "text": "Sequence notes placed Kai Dubois's handover order at waking, and the sequence review kept Winter Novak's handover order stable."
+    },
+    {
+      "id": "sent-40",
+      "text": "At the end of the table, token and seal checks left Zion Ortiz's seal notch stable, while the sealed check showed Finley Brooks's seal notch dormant."
+    },
+    {
+      "id": "sent-41",
+      "text": "The evidence bundles were now complete, though the calculation still waited on the board's final line."
+    },
+    {
+      "id": "sent-42",
+      "text": "Snow rasped against the chart-room glass as the panel compared its computed result with the incident packet."
+    },
+    {
+      "id": "sent-43",
+      "text": "For this incident, the accepted tally was 7."
+    },
+    {
+      "id": "sent-44",
+      "text": "The definition was deliberately strict: the concordant watchkeeper was the one person whose six-stream tally equaled the accepted tally."
+    },
+    {
+      "id": "sent-45",
+      "text": "No reputation, rank, or persuasive recollection could alter that rule."
+    },
+    {
+      "id": "sent-46",
+      "text": "The reviewers sealed the worksheets and left the names unannounced until the navigation console was ready to receive the dawn team's control."
+    }
+  ],
+  "title": "Concordant Watchkeeper \u2014 Case 10010"
+}

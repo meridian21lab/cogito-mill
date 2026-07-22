@@ -1,0 +1,329 @@
+{
+  "candidate_checksums": {
+    "Morgan Kline": 20,
+    "Oakley Dubois": 36,
+    "Parker Kline": 94,
+    "Tatum Meier": 12,
+    "Yael Ibrahim": 88
+  },
+  "checkpoints": [
+    {
+      "after_cycles": 0,
+      "person_id": "p0",
+      "person_label": "Morgan Kline",
+      "value": 10
+    },
+    {
+      "after_cycles": 39,
+      "person_id": "p0",
+      "person_label": "Morgan Kline",
+      "value": 20
+    },
+    {
+      "after_cycles": 79,
+      "person_id": "p0",
+      "person_label": "Morgan Kline",
+      "value": 20
+    },
+    {
+      "after_cycles": 119,
+      "person_id": "p0",
+      "person_label": "Morgan Kline",
+      "value": 20
+    },
+    {
+      "after_cycles": 0,
+      "person_id": "p1",
+      "person_label": "Tatum Meier",
+      "value": 10
+    },
+    {
+      "after_cycles": 39,
+      "person_id": "p1",
+      "person_label": "Tatum Meier",
+      "value": 12
+    },
+    {
+      "after_cycles": 79,
+      "person_id": "p1",
+      "person_label": "Tatum Meier",
+      "value": 12
+    },
+    {
+      "after_cycles": 119,
+      "person_id": "p1",
+      "person_label": "Tatum Meier",
+      "value": 12
+    }
+  ],
+  "checksum_params": {
+    "branch_order": [
+      "relation",
+      "temporal",
+      "causal",
+      "spatial",
+      "sequence",
+      "protocol"
+    ],
+    "coefficients": [
+      13,
+      7,
+      5,
+      3,
+      11,
+      2
+    ],
+    "cycle_count": 119,
+    "modulus": 97,
+    "pass_order": [
+      "forward",
+      "reverse_with_reversed_coefficients",
+      "forward_with_coefficients_rotated_left"
+    ],
+    "start_value": 10
+  },
+  "evidence_counterfactual": {
+    "answer_label": "Tatum Meier",
+    "branch": "relation",
+    "fact_id": "f_relation_p1",
+    "from_status": "latent",
+    "noun": "apprentice lineage",
+    "person_id": "p1",
+    "person_label": "Tatum Meier",
+    "secondary_branch": "relation",
+    "secondary_fact_id": "f_relation_p2",
+    "secondary_from_status": "stable",
+    "secondary_noun": "apprentice lineage",
+    "secondary_person_id": "p2",
+    "secondary_person_label": "Oakley Dubois",
+    "secondary_to_status": "clear",
+    "to_status": "waking"
+  },
+  "falsifier": {
+    "hypothesis": "Tatum Meier already qualifies under the original record",
+    "minimal_evidence": [
+      "f_checksum_key",
+      "f_checksum_formula",
+      "f_relation_p2",
+      "f_temporal_p2",
+      "f_causal_p2",
+      "f_spatial_p2",
+      "f_sequence_p2",
+      "f_protocol_p2",
+      "f_relation_p1",
+      "f_relation_p2"
+    ]
+  },
+  "gold_steps": [],
+  "id": "lss-concept-010004",
+  "notes": [
+    "Thin Hub items stay story-only; this appendix is a companion audit artifact.",
+    "Narrative family: workshop_provenance; setting family: workplace.",
+    "Unaided solvers should struggle; appendix-assisted solvers should recover the answer."
+  ],
+  "schema_version": "appendix.v1",
+  "status_matrix": {
+    "Morgan Kline": {
+      "causal": {
+        "fact_id": "f_causal_p0",
+        "noun": "chemical response",
+        "status": "waking",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p0",
+        "noun": "tool stamp",
+        "status": "stable",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p0",
+        "noun": "apprentice lineage",
+        "status": "open",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p0",
+        "noun": "treatment order",
+        "status": "clear",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p0",
+        "noun": "workshop room",
+        "status": "stable",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p0",
+        "noun": "work interval",
+        "status": "latent",
+        "stream": "temporal"
+      }
+    },
+    "Oakley Dubois": {
+      "causal": {
+        "fact_id": "f_causal_p2",
+        "noun": "chemical response",
+        "status": "dormant",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p2",
+        "noun": "tool stamp",
+        "status": "waking",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p2",
+        "noun": "apprentice lineage",
+        "status": "stable",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p2",
+        "noun": "treatment order",
+        "status": "stable",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p2",
+        "noun": "workshop room",
+        "status": "waking",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p2",
+        "noun": "work interval",
+        "status": "open",
+        "stream": "temporal"
+      }
+    },
+    "Parker Kline": {
+      "causal": {
+        "fact_id": "f_causal_p4",
+        "noun": "chemical response",
+        "status": "clear",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p4",
+        "noun": "tool stamp",
+        "status": "latent",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p4",
+        "noun": "apprentice lineage",
+        "status": "waking",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p4",
+        "noun": "treatment order",
+        "status": "waking",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p4",
+        "noun": "workshop room",
+        "status": "open",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p4",
+        "noun": "work interval",
+        "status": "dormant",
+        "stream": "temporal"
+      }
+    },
+    "Tatum Meier": {
+      "causal": {
+        "fact_id": "f_causal_p1",
+        "noun": "chemical response",
+        "status": "stable",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p1",
+        "noun": "tool stamp",
+        "status": "dormant",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p1",
+        "noun": "apprentice lineage",
+        "status": "latent",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p1",
+        "noun": "treatment order",
+        "status": "latent",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p1",
+        "noun": "workshop room",
+        "status": "latent",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p1",
+        "noun": "work interval",
+        "status": "waking",
+        "stream": "temporal"
+      }
+    },
+    "Yael Ibrahim": {
+      "causal": {
+        "fact_id": "f_causal_p3",
+        "noun": "chemical response",
+        "status": "open",
+        "stream": "causal"
+      },
+      "protocol": {
+        "fact_id": "f_protocol_p3",
+        "noun": "tool stamp",
+        "status": "clear",
+        "stream": "protocol"
+      },
+      "relation": {
+        "fact_id": "f_relation_p3",
+        "noun": "apprentice lineage",
+        "status": "dormant",
+        "stream": "relation"
+      },
+      "sequence": {
+        "fact_id": "f_sequence_p3",
+        "noun": "treatment order",
+        "status": "dormant",
+        "stream": "sequence"
+      },
+      "spatial": {
+        "fact_id": "f_spatial_p3",
+        "noun": "workshop room",
+        "status": "dormant",
+        "stream": "spatial"
+      },
+      "temporal": {
+        "fact_id": "f_temporal_p3",
+        "noun": "work interval",
+        "status": "stable",
+        "stream": "temporal"
+      }
+    }
+  },
+  "supported_conclusions": [
+    "Oakley Dubois's six-stream tally equals the accepted tally.",
+    "After the evidence edit (Oakley Dubois's apprentice lineage status had been clear instead of stable and Tatum Meier's apprentice lineage status had been waking instead of latent), the unique result is Tatum Meier."
+  ],
+  "weights": {
+    "clear": 2,
+    "dormant": 0,
+    "latent": 1,
+    "open": 5,
+    "stable": 4,
+    "waking": 3
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "causal_trace": [
+    "e_resolution"
+  ],
+  "derived_facts": [
+    "key_action"
+  ],
+  "satisfiable": true,
+  "target_truth": "p0",
+  "violations": []
+}

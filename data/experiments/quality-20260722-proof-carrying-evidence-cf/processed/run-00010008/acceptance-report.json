@@ -1,0 +1,162 @@
+{
+  "attempt_counts": {
+    "concept": 1,
+    "story": 1
+  },
+  "critics": {
+    "concept": {
+      "decision": "accept",
+      "feedback": "The concept meets all listed gates. The local checksum definition is treated as the complete target condition, with no unnecessary external job-title requirement.",
+      "findings": [
+        {
+          "detail": "The premise centers on an emergency watch change, overlapping incoming and off-going personnel, signed handover records, and local handover procedure.",
+          "gate": "compatibility with family watch_handover",
+          "passed": true
+        },
+        {
+          "detail": "The proposal supplies its setting, participants, evidence sources, six status dimensions, and locally defined checksum success condition without requiring an external role definition.",
+          "gate": "self-containment",
+          "passed": true
+        },
+        {
+          "detail": "A whiteout, equipment fault, delayed alarm, and constrained vessel passages provide a coherent operational reason for a difficult handover review.",
+          "gate": "natural narrative premise",
+          "passed": true
+        },
+        {
+          "detail": "No participant is named as favored, and the text explicitly avoids seniority, first-speaker, fault-noticer, name, and genre shortcuts.",
+          "gate": "no answer hint",
+          "passed": true
+        },
+        {
+          "detail": "It expressly requires relational, temporal, causal, spatial, sequence, and protocol statuses, with corresponding operational trace types.",
+          "gate": "explicit six-stream evidence need",
+          "passed": true
+        },
+        {
+          "detail": "This is an incident-reconciliation and watch-handover scenario on a research vessel, not a sealed-space crime or conventional locked-room setup.",
+          "gate": "low resemblance to a stock locked-room mystery",
+          "passed": true
+        }
+      ]
+    },
+    "final": {
+      "decision": "accept",
+      "feedback": "Accept. The item is self-contained and its narrative evidence supports the requested calculations without directly disclosing the qualifying candidate.",
+      "findings": [
+        {
+          "detail": "The story supplies the status scale, all six evidence values for each candidate, the tally procedure, the accepted tally, and the final qualification rule.",
+          "gate": "self-contained",
+          "passed": true
+        },
+        {
+          "detail": "The maritime emergency framing is coherent, and the evidence is organized into readable narrative packets despite the deliberately distributed clues.",
+          "gate": "readability",
+          "passed": true
+        },
+        {
+          "detail": "Answering the main and counterfactual questions requires assembling six statuses for a person and applying the stated multi-pass iterative procedure; the answer is not obtainable from a single clue.",
+          "gate": "requires_combining_evidence",
+          "passed": true
+        },
+        {
+          "detail": "The reader-facing story does not identify any named candidate as satisfying the accepted tally or otherwise reveal the concordant watchkeeper.",
+          "gate": "no_direct_leakage",
+          "passed": true
+        },
+        {
+          "detail": "The main, intermediate, counterfactual, and scalar questions specify the requested answer forms clearly.",
+          "gate": "question_precision",
+          "passed": true
+        }
+      ]
+    },
+    "story": {
+      "decision": "accept",
+      "feedback": "deterministic, grounding, and model story critics accept",
+      "findings": [
+        {
+          "detail": "paragraphs=14 (min 4)",
+          "gate": "narrative_paragraphs",
+          "passed": true
+        },
+        {
+          "detail": "EMP tokens=0 (max 14)",
+          "gate": "identifier_budget",
+          "passed": true
+        },
+        {
+          "detail": "Personnel index lines=0 (max 2)",
+          "gate": "no_personnel_dump",
+          "passed": true
+        },
+        {
+          "detail": "code\u2192name resolution clauses=0 (max 3)",
+          "gate": "no_id_resolution_wall",
+          "passed": true
+        },
+        {
+          "detail": "scored questions=4 (need 2\u20134)",
+          "gate": "question_count",
+          "passed": true
+        },
+        {
+          "detail": "name questions must request the full name explicitly",
+          "gate": "answer_form_clarity",
+          "passed": true
+        },
+        {
+          "detail": "each question needs 1\u20133 gold_answer_variants",
+          "gate": "answer_variants",
+          "passed": true
+        },
+        {
+          "detail": "opening paragraph must read as narration, not an ID table",
+          "gate": "human_readable_opening",
+          "passed": true
+        },
+        {
+          "detail": "missing required fact realizations: []",
+          "gate": "required_fact_grounding",
+          "passed": true
+        },
+        {
+          "detail": "facts assigned to multiple scenes: []",
+          "gate": "single_fact_realization",
+          "passed": true
+        },
+        {
+          "detail": "unknown scene obligations: []",
+          "gate": "known_scene_obligations",
+          "passed": true
+        },
+        {
+          "detail": "Deterministic grounding reports that all required facts are present, assigned once, and sentence-anchored.",
+          "gate": "required_fact_grounding",
+          "passed": true
+        },
+        {
+          "detail": "The evidence is conveyed in coherent prose paragraphs rather than a table, bullet ledger, or personnel-index wall.",
+          "gate": "narrative_usability",
+          "passed": true
+        },
+        {
+          "detail": "The story states the selection rule and accepted tally but does not assert the winning watchkeeper's identity.",
+          "gate": "answer_leakage",
+          "passed": true
+        },
+        {
+          "detail": "Status assignments are presented consistently by person and stream, and the main, intermediate, counterfactual, and scalar questions are unambiguous.",
+          "gate": "consistency_and_questions",
+          "passed": true
+        }
+      ]
+    }
+  },
+  "disclosure_answer": "p2",
+  "family_id": "watch_handover",
+  "n_questions": 4,
+  "n_sentences": 43,
+  "n_steps": 10,
+  "status": "accepted"
+}

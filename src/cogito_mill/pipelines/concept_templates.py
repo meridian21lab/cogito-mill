@@ -173,7 +173,8 @@ class ConceptPuzzle:
 
 
 def family_for_seed(seed: int) -> FamilySpec:
-    return FAMILIES[(seed // len(FAMILIES)) % len(FAMILIES)]
+    """Rotate families on consecutive seeds so calibration packs stay balanced."""
+    return FAMILIES[seed % len(FAMILIES)]
 
 
 def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:

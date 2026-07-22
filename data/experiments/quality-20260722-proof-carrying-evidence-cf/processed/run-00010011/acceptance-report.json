@@ -1,0 +1,167 @@
+{
+  "attempt_counts": {
+    "concept": 1,
+    "story": 2
+  },
+  "critics": {
+    "concept": {
+      "decision": "accept",
+      "feedback": "The concept satisfies all listed gates. It uses the locally defined checksum success condition appropriately and does not add an unnecessary external job-title criterion.",
+      "findings": [
+        {
+          "detail": "The premise centers on a midnight-to-dawn watch change, handover board, roster, task order, and handover protocol.",
+          "gate": "Compatibility with family watch_handover",
+          "passed": true
+        },
+        {
+          "detail": "It locally defines the target as the unique participant selected by the six-stream iterated modular checksum under the incident's rules, without relying on an external role definition.",
+          "gate": "Self-containment",
+          "passed": true
+        },
+        {
+          "detail": "The whiteout, icebound vessel, disrupted equipment, conflicting records, and urgent watch transition provide a coherent operational reason to reconcile evidence.",
+          "gate": "Natural narrative premise",
+          "passed": true
+        },
+        {
+          "detail": "No participant, name, title, narrative prominence, or early placement identifies the intended answer; selection is explicitly deferred to deterministic evaluation.",
+          "gate": "No answer hint",
+          "passed": true
+        },
+        {
+          "detail": "The proposal explicitly requires relational, temporal, causal, spatial, sequence, and protocol statuses and ties each to vessel records and operations.",
+          "gate": "Explicit six-stream evidence requirement",
+          "passed": true
+        },
+        {
+          "detail": "This is an operational handover and data-integrity reconciliation aboard a research vessel, not a confinement, impossible-entry, or conventional locked-room setup.",
+          "gate": "Low stock locked-room resemblance",
+          "passed": true
+        }
+      ]
+    },
+    "final": {
+      "decision": "accept",
+      "feedback": "The item meets the stated validation criteria.",
+      "findings": [
+        {
+          "detail": "The story supplies the candidate-specific status facts, the common status-to-integer scale, the accepted tally, and an unambiguous per-candidate checksum procedure, including the reset rule for the counterfactual.",
+          "gate": "Self-contained evidence and procedure",
+          "passed": true
+        },
+        {
+          "detail": "The reader-facing story never identifies any named candidate as satisfying the final concordant-watchkeeper criterion. It discloses only the target tally and the qualification rule.",
+          "gate": "No direct answer leakage",
+          "passed": true
+        },
+        {
+          "detail": "Each candidate's six statuses are distributed across multiple record paragraphs and evidence types, so the main and counterfactual questions require assembling records rather than relying on a single stated conclusion.",
+          "gate": "Dispersed-evidence requirement",
+          "passed": true
+        },
+        {
+          "detail": "The main and counterfactual questions explicitly request a full name, the intermediate question requests the exact status word, and the scalar question requests the exact integer tally.",
+          "gate": "Question precision",
+          "passed": true
+        },
+        {
+          "detail": "Despite the deliberately technical checksum protocol, the Arctic-vessel reconstruction framing makes the records and their categories understandable as part of a coherent story.",
+          "gate": "Narrative readability",
+          "passed": true
+        }
+      ]
+    },
+    "story": {
+      "decision": "accept",
+      "feedback": "deterministic, grounding, and model story critics accept",
+      "findings": [
+        {
+          "detail": "paragraphs=6 (min 4)",
+          "gate": "narrative_paragraphs",
+          "passed": true
+        },
+        {
+          "detail": "EMP tokens=0 (max 14)",
+          "gate": "identifier_budget",
+          "passed": true
+        },
+        {
+          "detail": "Personnel index lines=0 (max 2)",
+          "gate": "no_personnel_dump",
+          "passed": true
+        },
+        {
+          "detail": "code\u2192name resolution clauses=0 (max 3)",
+          "gate": "no_id_resolution_wall",
+          "passed": true
+        },
+        {
+          "detail": "scored questions=4 (need 2\u20134)",
+          "gate": "question_count",
+          "passed": true
+        },
+        {
+          "detail": "name questions must request the full name explicitly",
+          "gate": "answer_form_clarity",
+          "passed": true
+        },
+        {
+          "detail": "each question needs 1\u20133 gold_answer_variants",
+          "gate": "answer_variants",
+          "passed": true
+        },
+        {
+          "detail": "opening paragraph must read as narration, not an ID table",
+          "gate": "human_readable_opening",
+          "passed": true
+        },
+        {
+          "detail": "missing required fact realizations: []",
+          "gate": "required_fact_grounding",
+          "passed": true
+        },
+        {
+          "detail": "facts assigned to multiple scenes: []",
+          "gate": "single_fact_realization",
+          "passed": true
+        },
+        {
+          "detail": "unknown scene obligations: []",
+          "gate": "known_scene_obligations",
+          "passed": true
+        },
+        {
+          "detail": "Deterministic grounding reports all required facts realized exactly once, with no unknown scene obligations.",
+          "gate": "required_fact_grounding",
+          "passed": true
+        },
+        {
+          "detail": "The evidence is presented as coherent prose paragraphs rather than a table, bullet ledger, or personnel-index wall.",
+          "gate": "narrative_usability",
+          "passed": true
+        },
+        {
+          "detail": "Each candidate receives one nonconflicting status for each of the six named streams.",
+          "gate": "status_consistency",
+          "passed": true
+        },
+        {
+          "detail": "The main, intermediate, counterfactual, and scalar questions have clear referents and explicitly stated response requirements.",
+          "gate": "question_clarity",
+          "passed": true
+        },
+        {
+          "detail": "The story states the accepted tally and decision rule but does not directly assert the named main-answer candidate or the counterfactual result.",
+          "gate": "answer_leakage",
+          "passed": true
+        }
+      ]
+    }
+  },
+  "disclosure_answer": "p0",
+  "family_id": "watch_handover",
+  "n_questions": 4,
+  "n_sentences": 40,
+  "n_steps": 10,
+  "status": "accepted"
+}

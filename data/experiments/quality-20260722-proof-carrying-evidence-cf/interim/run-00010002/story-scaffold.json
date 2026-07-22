@@ -1,0 +1,76 @@
+{
+  "opening": "The record concerns a conservation workshop tracing a damaged artifact through several rooms. By the time investigators reconstructed the treatment that stabilized the artifact, casual impressions had produced several plausible candidates. The reviewers therefore used only the local rules stated in the surviving record.",
+  "scenes": [
+    {
+      "id": "sc1",
+      "obligated_fact_ids": [
+        "f_protocol_active",
+        "f_status_weights",
+        "f_checksum_formula"
+      ],
+      "prose": "Before comparing names, the panel read the governing notes aloud. For this incident, the board declared the certified restoration lead protocol active; ordinary rank and reputation did not count. The panel fixed one shared status scale for the whole inquiry: dormant counted as 0; clear counted as 1; open counted as 2; waking counted as 3; latent counted as 4; stable counted as 5. The local tally began at 8. In order it used relation, temporal, causal, spatial, sequence, and protocol statuses with coefficients 13, 3, 2, 5, 11, 7. At each stream, the panel squared the current tally, added that stream's coefficient times its status value, and kept the remainder modulo 97. It made three passes: first in the stated order, then in reverse order with the coefficients reversed, then once more in the stated order with the coefficient list rotated one place left. Without resetting the tally, it repeated that complete three-pass cycle 117 times.",
+      "title": "Reconstruction 1"
+    },
+    {
+      "id": "sc2",
+      "obligated_fact_ids": [
+        "f_relation_p0",
+        "f_relation_p3",
+        "f_temporal_p2",
+        "f_causal_p1",
+        "f_causal_p4",
+        "f_spatial_p0",
+        "f_spatial_p3",
+        "f_sequence_p2",
+        "f_protocol_p1",
+        "f_protocol_p4"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. When the pairing sheet was recovered, Sawyer Okada's apprentice lineage stood at waking. Even the damaged roster still marked Quinn Dubois's apprentice lineage as clear. A clock-backed entry listed Gray Rossi's work interval as open. The chemical response that followed Val Dubois registered as waking. Causal review marked Harper Novak's chemical response stable. Door and route checks placed Sawyer Okada's workshop room at latent. Witnesses in the corridor put Quinn Dubois's workshop room at stable. Reconstruction kept Gray Rossi's treatment order at clear. A close photograph of the token set Val Dubois's tool stamp to latent. At final count, Harper Novak's tool stamp remained open.",
+      "title": "Reconstruction 2"
+    },
+    {
+      "id": "sc3",
+      "obligated_fact_ids": [
+        "f_relation_p1",
+        "f_relation_p4",
+        "f_temporal_p0",
+        "f_temporal_p3",
+        "f_causal_p2",
+        "f_spatial_p1",
+        "f_spatial_p4",
+        "f_sequence_p0",
+        "f_sequence_p3",
+        "f_protocol_p2"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. A witness who checked the roster left Val Dubois with a latent apprentice lineage. On the sealed worksheet, clerks wrote stable beside Harper Novak's apprentice lineage. Clocked entries put Sawyer Okada's work interval at latent. The sequence sheet showed Quinn Dubois's work interval as clear. Downstream checks tied Gray Rossi to a latent chemical response. A movement sketch marked Val Dubois's workshop room as dormant. The route ledger tied Harper Novak's workshop room to open. In the ordered log, Sawyer Okada's treatment order appeared as latent. The ordered sheet showed Quinn Dubois's treatment order as dormant. Inventory counted Gray Rossi's tool stamp as stable.",
+      "title": "Reconstruction 3"
+    },
+    {
+      "id": "sc4",
+      "obligated_fact_ids": [
+        "f_relation_p2",
+        "f_temporal_p1",
+        "f_temporal_p4",
+        "f_causal_p0",
+        "f_causal_p3",
+        "f_spatial_p2",
+        "f_sequence_p1",
+        "f_sequence_p4",
+        "f_protocol_p0",
+        "f_protocol_p3"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. In the earlier pairing note, Gray Rossi carried a dormant apprentice lineage. After the timesheet review, Val Dubois's work interval stayed waking. Reconciled timing notes kept Harper Novak's work interval at stable. Instruments tracing Sawyer Okada's action left the chemical response open. When Quinn Dubois acted, the chemical response came back dormant. Location review left Gray Rossi's workshop room waking. Sequence notes placed Val Dubois's treatment order at stable. At sequence review, Harper Novak's treatment order stayed open. Token and seal checks left Sawyer Okada's tool stamp at waking. The sealed check showed Quinn Dubois's tool stamp as clear.",
+      "title": "Reconstruction 4"
+    },
+    {
+      "id": "sc5",
+      "obligated_fact_ids": [
+        "f_checksum_key",
+        "f_rule_final_workshop_provenance"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. For this incident, the accepted tally was 11. The final definition was strict: the certified restoration lead was the one person whose six-stream tally equaled the accepted tally.",
+      "title": "Reconstruction 5"
+    }
+  ],
+  "title": "Certified Restoration Lead \u2014 Case 10002"
+}

@@ -6,6 +6,7 @@ import re
 
 from cogito_mill.domain.recipe import DifficultyBucket, GenerationRecipe
 from cogito_mill.pipelines.concept_templates import (
+    FAMILIES,
     build_concept_puzzle,
     family_for_seed,
     iterated_checksum,
@@ -99,3 +100,12 @@ def test_weight_facts_are_not_six_separate_ledger_lines() -> None:
     weight_facts = [fact for fact in puzzle.visible.facts if fact.id.startswith("f_weight_")]
     assert weight_facts == []
     assert any(fact.id == "f_status_weights" for fact in puzzle.visible.facts)
+
+
+def test_consecutive_seeds_cover_all_families() -> None:
+    from collections import Counter
+
+    families = [family_for_seed(seed).id for seed in range(10000, 10012)]
+    assert len(set(families)) == len(FAMILIES)
+    counts = Counter(families)
+    assert max(counts.values()) <= 2

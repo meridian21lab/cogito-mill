@@ -1,0 +1,370 @@
+{
+  "counterfactual": {
+    "answer": "Morgan Kline",
+    "intervention": "Tatum Silva's mentor pennant status had been clear instead of dormant and Morgan Kline's alarm consequence status had been dormant instead of waking",
+    "question": "If Tatum Silva's mentor pennant status had been clear instead of dormant and Morgan Kline's alarm consequence status had been dormant instead of waking, while every other record stayed fixed, who would become the concordant watchkeeper? Give the full name, or answer exactly none."
+  },
+  "difficulty_bucket": "very_hard",
+  "falsifier": {
+    "hypothesis": "Morgan Kline already qualifies under the original record",
+    "minimal_evidence": [
+      "f_checksum_key",
+      "f_checksum_formula",
+      "f_relation_p0",
+      "f_temporal_p0",
+      "f_causal_p0",
+      "f_spatial_p0",
+      "f_sequence_p0",
+      "f_protocol_p0",
+      "f_causal_p1",
+      "f_relation_p0"
+    ]
+  },
+  "gold_answer": "Tatum Silva",
+  "gold_answer_variants": [
+    "Tatum Silva",
+    "Silva, Tatum"
+  ],
+  "gold_steps": [
+    {
+      "conclusion": "derived_status:relation:p0:dormant",
+      "evidence_fact_ids": [
+        "f_relation_p0"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s1",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:temporal:p0:waking",
+      "evidence_fact_ids": [
+        "f_temporal_p0"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s2",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:causal:p0:clear",
+      "evidence_fact_ids": [
+        "f_causal_p0"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s3",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:spatial:p0:stable",
+      "evidence_fact_ids": [
+        "f_spatial_p0"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s4",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:sequence:p0:clear",
+      "evidence_fact_ids": [
+        "f_sequence_p0"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s5",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:protocol:p0:waking",
+      "evidence_fact_ids": [
+        "f_protocol_p0"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s6",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "checksum:p0:4",
+      "evidence_fact_ids": [],
+      "evidence_sentence_ids": [],
+      "explanation": "Apply the disclosed iterated modulo-97 tally to p0.",
+      "id": "s7",
+      "inference_type": "conclusion",
+      "prior_step_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ]
+    },
+    {
+      "conclusion": "checksum_key:4",
+      "evidence_fact_ids": [
+        "f_checksum_key"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s8",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "protocol_active",
+      "evidence_fact_ids": [
+        "f_protocol_active"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s9",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "qualifies:p0",
+      "evidence_fact_ids": [
+        "f_rule_final_watch_handover"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "The title concordant watchkeeper belongs to the person whose tally matches the key.",
+      "id": "s10",
+      "inference_type": "conclusion",
+      "prior_step_ids": [
+        "s7",
+        "s8",
+        "s9"
+      ]
+    }
+  ],
+  "id": "lss-concept-010011",
+  "n_hops": 33,
+  "provenance": {
+    "judge_deployment": null,
+    "provider_family": "azure",
+    "recipe_id": "recipe-10011",
+    "seed": 10011,
+    "template_id": "watch_handover",
+    "writer_deployment": null
+  },
+  "question": "Whose combined record makes that person the concordant watchkeeper? Give the full name.",
+  "questions": [
+    {
+      "gold_answer": "Tatum Silva",
+      "gold_answer_variants": [
+        "Tatum Silva",
+        "Silva, Tatum"
+      ],
+      "id": "q_main",
+      "question": "Whose combined record makes that person the concordant watchkeeper? Give the full name.",
+      "question_type": "main"
+    },
+    {
+      "gold_answer": "dormant",
+      "gold_answer_variants": [
+        "dormant"
+      ],
+      "id": "q_near_match",
+      "question": "According to the surviving record, what status was assigned to Tatum Okada's handover order? Answer with the exact status word.",
+      "question_type": "intermediate"
+    },
+    {
+      "gold_answer": "Morgan Kline",
+      "gold_answer_variants": [
+        "Morgan Kline",
+        "Kline, Morgan"
+      ],
+      "id": "q_counterfactual",
+      "question": "If Tatum Silva's mentor pennant status had been clear instead of dormant and Morgan Kline's alarm consequence status had been dormant instead of waking, while every other record stayed fixed, who would become the concordant watchkeeper? Give the full name, or answer exactly none.",
+      "question_type": "counterfactual"
+    },
+    {
+      "gold_answer": "4",
+      "gold_answer_variants": [
+        "4"
+      ],
+      "id": "q_protocol_key",
+      "question": "What exact integer tally did the board accept?",
+      "question_type": "scalar"
+    }
+  ],
+  "run_id": "run-00010011",
+  "schema_version": "pilot.v2",
+  "sentences": [
+    {
+      "id": "sent-1",
+      "text": "The Asterion shuddered as pack ice scraped along her hull, and the whiteout erased every horizon beyond the bridge windows."
+    },
+    {
+      "id": "sent-2",
+      "text": "During the change from the midnight watch to the dawn watch, interference scrambled the handover board, briefly severed the remote winch, and left the meteorology station displaying contradictory timestamps."
+    },
+    {
+      "id": "sent-3",
+      "text": "No one was hurt, but the vessel\u2019s records could no longer be trusted at a glance."
+    },
+    {
+      "id": "sent-4",
+      "text": "The chief officer ordered a formal reconstruction from the roster, access records, instrument logs, radio traffic, cable routes, task order, and handover notes."
+    },
+    {
+      "id": "sent-5",
+      "text": "The reviewers were warned not to choose by rank, confidence, or narrative prominence: only the stated evidence and checksum could decide the matter."
+    },
+    {
+      "id": "sent-6",
+      "text": "Before comparing names, the panel read the governing notes aloud."
+    },
+    {
+      "id": "sent-7",
+      "text": "For this incident, the board declared the concordant watchkeeper protocol active; ordinary rank and reputation did not count."
+    },
+    {
+      "id": "sent-8",
+      "text": "The panel fixed one shared status scale for the whole inquiry: clear counted as 0; open counted as 1; dormant counted as 2; waking counted as 3; stable counted as 4; latent counted as 5."
+    },
+    {
+      "id": "sent-9",
+      "text": "The local tally began at 17."
+    },
+    {
+      "id": "sent-10",
+      "text": "For each person, the reviewers had to begin a separate tally at 17 using that person\u2019s six status values; they were not to carry a tally from one person to another."
+    },
+    {
+      "id": "sent-11",
+      "text": "In order, the six streams were relation, temporal, causal, spatial, sequence, and protocol, with coefficients 13, 11, 2, 3, 5, and 7."
+    },
+    {
+      "id": "sent-12",
+      "text": "At each stream, the panel squared the current tally, added that stream\u2019s coefficient times its status value, and kept the remainder modulo 97."
+    },
+    {
+      "id": "sent-13",
+      "text": "It made three passes: first in the stated order, then in reverse order with the coefficients reversed, then once more in the stated order with the coefficient list rotated one place left."
+    },
+    {
+      "id": "sent-14",
+      "text": "Without resetting the tally, it repeated that complete three-pass cycle 126 times independently for every candidate."
+    },
+    {
+      "id": "sent-15",
+      "text": "If the reviewers later made counterfactual edits to test a record, they began a fresh tally and performed the 126 complete cycles independently again for that edited candidate."
+    },
+    {
+      "id": "sent-16",
+      "text": "The first bundle of records came from the cramped chart room, where a recovered pairing sheet had dried beneath a magnet."
+    },
+    {
+      "id": "sent-17",
+      "text": "Its mentor-pennant mark left Tatum Silva at dormant, while the damaged roster still marked Eden Okada\u2019s mentor pennant as stable."
+    },
+    {
+      "id": "sent-18",
+      "text": "The timekeeper then compared the surviving clock-backed entries and listed Tatum Okada\u2019s watch interval as stable."
+    },
+    {
+      "id": "sent-19",
+      "text": "In the alarm file, the consequence that followed Morgan Kline registered as waking; a separate causal review marked Morgan Andersen\u2019s alarm consequence dormant."
+    },
+    {
+      "id": "sent-20",
+      "text": "To settle location rather than rely on recollection, the officer followed the door and cable routes: they placed Tatum Silva\u2019s assigned station at stable, while corridor witnesses put Eden Okada\u2019s assigned station at latent."
+    },
+    {
+      "id": "sent-21",
+      "text": "The handover sequence reconstruction kept Tatum Okada\u2019s order at dormant."
+    },
+    {
+      "id": "sent-22",
+      "text": "Finally, a close photograph of the token set made Morgan Kline\u2019s seal notch clear, whereas the final physical count left Morgan Andersen\u2019s seal notch open."
+    },
+    {
+      "id": "sent-23",
+      "text": "In the passage outside the meteorology station, a witness checked the surviving roster and left Morgan Kline with a latent mentor pennant."
+    },
+    {
+      "id": "sent-24",
+      "text": "The clerks, working from the sealed worksheet rather than the witness\u2019s memory, wrote clear beside Morgan Andersen\u2019s mentor pennant."
+    },
+    {
+      "id": "sent-25",
+      "text": "Clocked entries put Tatum Silva\u2019s watch interval at waking, while the sequence sheet showed Eden Okada\u2019s watch interval as latent."
+    },
+    {
+      "id": "sent-26",
+      "text": "The downstream instrument checks tied Tatum Okada to a latent alarm consequence."
+    },
+    {
+      "id": "sent-27",
+      "text": "A movement sketch made during the winch interruption marked Morgan Kline\u2019s assigned station as clear, and the route ledger tied Morgan Andersen\u2019s assigned station to open."
+    },
+    {
+      "id": "sent-28",
+      "text": "At the handover desk, the ordered log showed Tatum Silva\u2019s handover order as clear; the ordered sheet showed Eden Okada\u2019s as open."
+    },
+    {
+      "id": "sent-29",
+      "text": "Inventory then counted Tatum Okada\u2019s seal notch as stable."
+    },
+    {
+      "id": "sent-30",
+      "text": "The remaining discrepancies were checked against earlier notes and the physical path through the watch station."
+    },
+    {
+      "id": "sent-31",
+      "text": "In the earlier pairing note, Tatum Okada carried an open mentor pennant."
+    },
+    {
+      "id": "sent-32",
+      "text": "After the timesheet review, Morgan Kline\u2019s watch interval stayed clear, while reconciled timing notes kept Morgan Andersen\u2019s watch interval at dormant."
+    },
+    {
+      "id": "sent-33",
+      "text": "Instruments tracing Tatum Silva\u2019s action left the alarm consequence clear; when Eden Okada acted, the alarm consequence came back stable."
+    },
+    {
+      "id": "sent-34",
+      "text": "Location review left Tatum Okada\u2019s assigned station waking."
+    },
+    {
+      "id": "sent-35",
+      "text": "The sequence notes placed Morgan Kline\u2019s handover order at latent, and the sequence review kept Morgan Andersen\u2019s handover order at stable."
+    },
+    {
+      "id": "sent-36",
+      "text": "Token and seal checks left Tatum Silva\u2019s seal notch at waking, while the sealed check showed Eden Okada\u2019s seal notch as dormant."
+    },
+    {
+      "id": "sent-37",
+      "text": "At the final board meeting, the chief officer wrote the accepted tally in the margin: for this incident, it was 4."
+    },
+    {
+      "id": "sent-38",
+      "text": "The definition was deliberately strict."
+    },
+    {
+      "id": "sent-39",
+      "text": "The concordant watchkeeper was the one person whose six-stream tally equaled that accepted tally, after the separate per-person calculation and its prescribed repeated cycles."
+    },
+    {
+      "id": "sent-40",
+      "text": "The records had supplied the statuses; the checksum alone would determine which account the storm had left fully supported."
+    }
+  ],
+  "setting_family": "expedition",
+  "story": "The Asterion shuddered as pack ice scraped along her hull, and the whiteout erased every horizon beyond the bridge windows. During the change from the midnight watch to the dawn watch, interference scrambled the handover board, briefly severed the remote winch, and left the meteorology station displaying contradictory timestamps. No one was hurt, but the vessel\u2019s records could no longer be trusted at a glance. The chief officer ordered a formal reconstruction from the roster, access records, instrument logs, radio traffic, cable routes, task order, and handover notes. The reviewers were warned not to choose by rank, confidence, or narrative prominence: only the stated evidence and checksum could decide the matter.\n\nBefore comparing names, the panel read the governing notes aloud. For this incident, the board declared the concordant watchkeeper protocol active; ordinary rank and reputation did not count. The panel fixed one shared status scale for the whole inquiry: clear counted as 0; open counted as 1; dormant counted as 2; waking counted as 3; stable counted as 4; latent counted as 5. The local tally began at 17. For each person, the reviewers had to begin a separate tally at 17 using that person\u2019s six status values; they were not to carry a tally from one person to another. In order, the six streams were relation, temporal, causal, spatial, sequence, and protocol, with coefficients 13, 11, 2, 3, 5, and 7. At each stream, the panel squared the current tally, added that stream\u2019s coefficient times its status value, and kept the remainder modulo 97. It made three passes: first in the stated order, then in reverse order with the coefficients reversed, then once more in the stated order with the coefficient list rotated one place left. Without resetting the tally, it repeated that complete three-pass cycle 126 times independently for every candidate. If the reviewers later made counterfactual edits to test a record, they began a fresh tally and performed the 126 complete cycles independently again for that edited candidate.\n\nThe first bundle of records came from the cramped chart room, where a recovered pairing sheet had dried beneath a magnet. Its mentor-pennant mark left Tatum Silva at dormant, while the damaged roster still marked Eden Okada\u2019s mentor pennant as stable. The timekeeper then compared the surviving clock-backed entries and listed Tatum Okada\u2019s watch interval as stable. In the alarm file, the consequence that followed Morgan Kline registered as waking; a separate causal review marked Morgan Andersen\u2019s alarm consequence dormant. To settle location rather than rely on recollection, the officer followed the door and cable routes: they placed Tatum Silva\u2019s assigned station at stable, while corridor witnesses put Eden Okada\u2019s assigned station at latent. The handover sequence reconstruction kept Tatum Okada\u2019s order at dormant. Finally, a close photograph of the token set made Morgan Kline\u2019s seal notch clear, whereas the final physical count left Morgan Andersen\u2019s seal notch open.\n\nIn the passage outside the meteorology station, a witness checked the surviving roster and left Morgan Kline with a latent mentor pennant. The clerks, working from the sealed worksheet rather than the witness\u2019s memory, wrote clear beside Morgan Andersen\u2019s mentor pennant. Clocked entries put Tatum Silva\u2019s watch interval at waking, while the sequence sheet showed Eden Okada\u2019s watch interval as latent. The downstream instrument checks tied Tatum Okada to a latent alarm consequence. A movement sketch made during the winch interruption marked Morgan Kline\u2019s assigned station as clear, and the route ledger tied Morgan Andersen\u2019s assigned station to open. At the handover desk, the ordered log showed Tatum Silva\u2019s handover order as clear; the ordered sheet showed Eden Okada\u2019s as open. Inventory then counted Tatum Okada\u2019s seal notch as stable.\n\nThe remaining discrepancies were checked against earlier notes and the physical path through the watch station. In the earlier pairing note, Tatum Okada carried an open mentor pennant. After the timesheet review, Morgan Kline\u2019s watch interval stayed clear, while reconciled timing notes kept Morgan Andersen\u2019s watch interval at dormant. Instruments tracing Tatum Silva\u2019s action left the alarm consequence clear; when Eden Okada acted, the alarm consequence came back stable. Location review left Tatum Okada\u2019s assigned station waking. The sequence notes placed Morgan Kline\u2019s handover order at latent, and the sequence review kept Morgan Andersen\u2019s handover order at stable. Token and seal checks left Tatum Silva\u2019s seal notch at waking, while the sealed check showed Eden Okada\u2019s seal notch as dormant.\n\nAt the final board meeting, the chief officer wrote the accepted tally in the margin: for this incident, it was 4. The definition was deliberately strict. The concordant watchkeeper was the one person whose six-stream tally equaled that accepted tally, after the separate per-person calculation and its prescribed repeated cycles. The records had supplied the statuses; the checksum alone would determine which account the storm had left fully supported.",
+  "supported_conclusions": [
+    "Tatum Silva's six-stream tally equals the accepted tally.",
+    "After the evidence edit (Tatum Silva's mentor pennant status had been clear instead of dormant and Morgan Kline's alarm consequence status had been dormant instead of waking), the unique result is Morgan Kline."
+  ]
+}

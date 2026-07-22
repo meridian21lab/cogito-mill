@@ -1,0 +1,990 @@
+{
+  "facts": [
+    {
+      "channel": "record",
+      "formal": "atom:protocol_active",
+      "id": "f_protocol_active",
+      "reveal_order": 1,
+      "role": "required",
+      "scene_id": "sc1",
+      "sentence_ids": [],
+      "text": "For this incident, the board declared the certified restoration lead protocol active; ordinary rank and reputation did not count."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:relation:p0:open",
+      "id": "f_relation_p0",
+      "reveal_order": 2,
+      "role": "required",
+      "scene_id": "sc2",
+      "sentence_ids": [],
+      "text": "When the pairing sheet was recovered, Val Sato's apprentice lineage stood at open."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:relation:p1:clear",
+      "id": "f_relation_p1",
+      "reveal_order": 3,
+      "role": "required",
+      "scene_id": "sc3",
+      "sentence_ids": [],
+      "text": "A witness who checked the roster left Parker Meier with a clear apprentice lineage."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:relation:p2:waking",
+      "id": "f_relation_p2",
+      "reveal_order": 4,
+      "role": "required",
+      "scene_id": "sc4",
+      "sentence_ids": [],
+      "text": "In the earlier pairing note, Finley Meier carried a waking apprentice lineage."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:relation:p3:latent",
+      "id": "f_relation_p3",
+      "reveal_order": 5,
+      "role": "required",
+      "scene_id": "sc2",
+      "sentence_ids": [],
+      "text": "Even the damaged roster still marked Winter Cohen's apprentice lineage as latent."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:relation:p4:dormant",
+      "id": "f_relation_p4",
+      "reveal_order": 6,
+      "role": "required",
+      "scene_id": "sc3",
+      "sentence_ids": [],
+      "text": "On the sealed worksheet, clerks wrote dormant beside Oakley Brooks's apprentice lineage."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:temporal:p0:stable",
+      "id": "f_temporal_p0",
+      "reveal_order": 7,
+      "role": "required",
+      "scene_id": "sc3",
+      "sentence_ids": [],
+      "text": "Clocked entries put Val Sato's work interval at stable."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:temporal:p1:open",
+      "id": "f_temporal_p1",
+      "reveal_order": 8,
+      "role": "required",
+      "scene_id": "sc4",
+      "sentence_ids": [],
+      "text": "After the timesheet review, Parker Meier's work interval stayed open."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:temporal:p2:latent",
+      "id": "f_temporal_p2",
+      "reveal_order": 9,
+      "role": "required",
+      "scene_id": "sc2",
+      "sentence_ids": [],
+      "text": "A clock-backed entry listed Finley Meier's work interval as latent."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:temporal:p3:waking",
+      "id": "f_temporal_p3",
+      "reveal_order": 10,
+      "role": "required",
+      "scene_id": "sc3",
+      "sentence_ids": [],
+      "text": "The sequence sheet showed Winter Cohen's work interval as waking."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:temporal:p4:clear",
+      "id": "f_temporal_p4",
+      "reveal_order": 11,
+      "role": "required",
+      "scene_id": "sc4",
+      "sentence_ids": [],
+      "text": "Reconciled timing notes kept Oakley Brooks's work interval at clear."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:causal:p0:dormant",
+      "id": "f_causal_p0",
+      "reveal_order": 12,
+      "role": "required",
+      "scene_id": "sc4",
+      "sentence_ids": [],
+      "text": "Instruments tracing Val Sato's action left the chemical response dormant."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:causal:p1:stable",
+      "id": "f_causal_p1",
+      "reveal_order": 13,
+      "role": "required",
+      "scene_id": "sc2",
+      "sentence_ids": [],
+      "text": "The chemical response that followed Parker Meier registered as stable."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:causal:p2:open",
+      "id": "f_causal_p2",
+      "reveal_order": 14,
+      "role": "required",
+      "scene_id": "sc3",
+      "sentence_ids": [],
+      "text": "Downstream checks tied Finley Meier to a open chemical response."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:causal:p3:clear",
+      "id": "f_causal_p3",
+      "reveal_order": 15,
+      "role": "required",
+      "scene_id": "sc4",
+      "sentence_ids": [],
+      "text": "When Winter Cohen acted, the chemical response came back clear."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:causal:p4:latent",
+      "id": "f_causal_p4",
+      "reveal_order": 16,
+      "role": "required",
+      "scene_id": "sc2",
+      "sentence_ids": [],
+      "text": "Causal review marked Oakley Brooks's chemical response latent."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:spatial:p0:waking",
+      "id": "f_spatial_p0",
+      "reveal_order": 17,
+      "role": "required",
+      "scene_id": "sc2",
+      "sentence_ids": [],
+      "text": "Door and route checks placed Val Sato's workshop room at waking."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:spatial:p1:open",
+      "id": "f_spatial_p1",
+      "reveal_order": 18,
+      "role": "required",
+      "scene_id": "sc3",
+      "sentence_ids": [],
+      "text": "A movement sketch marked Parker Meier's workshop room as open."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:spatial:p2:stable",
+      "id": "f_spatial_p2",
+      "reveal_order": 19,
+      "role": "required",
+      "scene_id": "sc4",
+      "sentence_ids": [],
+      "text": "Location review left Finley Meier's workshop room stable."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:spatial:p3:clear",
+      "id": "f_spatial_p3",
+      "reveal_order": 20,
+      "role": "required",
+      "scene_id": "sc2",
+      "sentence_ids": [],
+      "text": "Witnesses in the corridor put Winter Cohen's workshop room at clear."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:spatial:p4:latent",
+      "id": "f_spatial_p4",
+      "reveal_order": 21,
+      "role": "required",
+      "scene_id": "sc3",
+      "sentence_ids": [],
+      "text": "The route ledger tied Oakley Brooks's workshop room to latent."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:sequence:p0:open",
+      "id": "f_sequence_p0",
+      "reveal_order": 22,
+      "role": "required",
+      "scene_id": "sc3",
+      "sentence_ids": [],
+      "text": "In the ordered log, Val Sato's treatment order appeared as open."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:sequence:p1:stable",
+      "id": "f_sequence_p1",
+      "reveal_order": 23,
+      "role": "required",
+      "scene_id": "sc4",
+      "sentence_ids": [],
+      "text": "Sequence notes placed Parker Meier's treatment order at stable."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:sequence:p2:waking",
+      "id": "f_sequence_p2",
+      "reveal_order": 24,
+      "role": "required",
+      "scene_id": "sc2",
+      "sentence_ids": [],
+      "text": "Reconstruction kept Finley Meier's treatment order at waking."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:sequence:p3:dormant",
+      "id": "f_sequence_p3",
+      "reveal_order": 25,
+      "role": "required",
+      "scene_id": "sc3",
+      "sentence_ids": [],
+      "text": "The ordered sheet showed Winter Cohen's treatment order as dormant."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:sequence:p4:clear",
+      "id": "f_sequence_p4",
+      "reveal_order": 26,
+      "role": "required",
+      "scene_id": "sc4",
+      "sentence_ids": [],
+      "text": "At sequence review, Oakley Brooks's treatment order stayed clear."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:protocol:p0:clear",
+      "id": "f_protocol_p0",
+      "reveal_order": 27,
+      "role": "required",
+      "scene_id": "sc4",
+      "sentence_ids": [],
+      "text": "Token and seal checks left Val Sato's tool stamp at clear."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:protocol:p1:waking",
+      "id": "f_protocol_p1",
+      "reveal_order": 28,
+      "role": "required",
+      "scene_id": "sc2",
+      "sentence_ids": [],
+      "text": "A close photograph of the token set Parker Meier's tool stamp to waking."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:protocol:p2:stable",
+      "id": "f_protocol_p2",
+      "reveal_order": 29,
+      "role": "required",
+      "scene_id": "sc3",
+      "sentence_ids": [],
+      "text": "Inventory counted Finley Meier's tool stamp as stable."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:protocol:p3:open",
+      "id": "f_protocol_p3",
+      "reveal_order": 30,
+      "role": "required",
+      "scene_id": "sc4",
+      "sentence_ids": [],
+      "text": "The sealed check showed Winter Cohen's tool stamp as open."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:derived_status:protocol:p4:dormant",
+      "id": "f_protocol_p4",
+      "reveal_order": 31,
+      "role": "required",
+      "scene_id": "sc2",
+      "sentence_ids": [],
+      "text": "At final count, Oakley Brooks's tool stamp remained dormant."
+    },
+    {
+      "channel": "rule_application",
+      "formal": "rule:status_weights",
+      "id": "f_status_weights",
+      "reveal_order": 32,
+      "role": "required",
+      "scene_id": "sc1",
+      "sentence_ids": [],
+      "text": "The panel fixed one shared status scale for the whole inquiry: dormant counted as 0; waking counted as 1; clear counted as 2; stable counted as 3; latent counted as 4; open counted as 5."
+    },
+    {
+      "channel": "rule_application",
+      "formal": "rule:checksum_formula",
+      "id": "f_checksum_formula",
+      "reveal_order": 33,
+      "role": "required",
+      "scene_id": "sc1",
+      "sentence_ids": [],
+      "text": "The local tally began at 12. In order it used relation, temporal, causal, spatial, sequence, and protocol statuses with coefficients 13, 2, 3, 7, 5, 11. At each stream, the panel squared the current tally, added that stream's coefficient times its status value, and kept the remainder modulo 97. It made three passes: first in the stated order, then in reverse order with the coefficients reversed, then once more in the stated order with the coefficient list rotated one place left. Without resetting the tally, it repeated that complete three-pass cycle 121 times."
+    },
+    {
+      "channel": "record",
+      "formal": "atom:checksum_key:67",
+      "id": "f_checksum_key",
+      "reveal_order": 34,
+      "role": "required",
+      "scene_id": "sc5",
+      "sentence_ids": [],
+      "text": "For this incident, the accepted tally was 67."
+    },
+    {
+      "channel": "rule_application",
+      "formal": "rule:final_workshop_provenance",
+      "id": "f_rule_final_workshop_provenance",
+      "reveal_order": 35,
+      "role": "required",
+      "scene_id": "sc5",
+      "sentence_ids": [],
+      "text": "The final definition was strict: the certified restoration lead was the one person whose six-stream tally equaled the accepted tally."
+    }
+  ],
+  "hidden_fact_ids": [],
+  "id": "vis-10006",
+  "logic": {
+    "facts": [
+      {
+        "arguments": [],
+        "predicate": "protocol_active"
+      },
+      {
+        "arguments": [
+          "relation",
+          "p0",
+          "open"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "relation",
+          "p1",
+          "clear"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "relation",
+          "p2",
+          "waking"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "relation",
+          "p3",
+          "latent"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "relation",
+          "p4",
+          "dormant"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "temporal",
+          "p0",
+          "stable"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "temporal",
+          "p1",
+          "open"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "temporal",
+          "p2",
+          "latent"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "temporal",
+          "p3",
+          "waking"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "temporal",
+          "p4",
+          "clear"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "causal",
+          "p0",
+          "dormant"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "causal",
+          "p1",
+          "stable"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "causal",
+          "p2",
+          "open"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "causal",
+          "p3",
+          "clear"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "causal",
+          "p4",
+          "latent"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "spatial",
+          "p0",
+          "waking"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "spatial",
+          "p1",
+          "open"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "spatial",
+          "p2",
+          "stable"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "spatial",
+          "p3",
+          "clear"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "spatial",
+          "p4",
+          "latent"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "sequence",
+          "p0",
+          "open"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "sequence",
+          "p1",
+          "stable"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "sequence",
+          "p2",
+          "waking"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "sequence",
+          "p3",
+          "dormant"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "sequence",
+          "p4",
+          "clear"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "protocol",
+          "p0",
+          "clear"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "protocol",
+          "p1",
+          "waking"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "protocol",
+          "p2",
+          "stable"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "protocol",
+          "p3",
+          "open"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "protocol",
+          "p4",
+          "dormant"
+        ],
+        "predicate": "derived_status"
+      },
+      {
+        "arguments": [
+          "dormant",
+          "0"
+        ],
+        "predicate": "status_weight"
+      },
+      {
+        "arguments": [
+          "waking",
+          "1"
+        ],
+        "predicate": "status_weight"
+      },
+      {
+        "arguments": [
+          "clear",
+          "2"
+        ],
+        "predicate": "status_weight"
+      },
+      {
+        "arguments": [
+          "stable",
+          "3"
+        ],
+        "predicate": "status_weight"
+      },
+      {
+        "arguments": [
+          "latent",
+          "4"
+        ],
+        "predicate": "status_weight"
+      },
+      {
+        "arguments": [
+          "open",
+          "5"
+        ],
+        "predicate": "status_weight"
+      },
+      {
+        "arguments": [
+          "67"
+        ],
+        "predicate": "checksum_key"
+      }
+    ],
+    "goal_predicate": "qualifies",
+    "rules": [
+      {
+        "conclusion": {
+          "arguments": [
+            "p0",
+            "29"
+          ],
+          "predicate": "checksum"
+        },
+        "explanation": "Apply the disclosed iterated modulo-97 tally to p0.",
+        "id": "checksum_p0",
+        "premises": [
+          {
+            "arguments": [
+              "relation",
+              "p0",
+              "open"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "temporal",
+              "p0",
+              "stable"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "causal",
+              "p0",
+              "dormant"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "spatial",
+              "p0",
+              "waking"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "sequence",
+              "p0",
+              "open"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "protocol",
+              "p0",
+              "clear"
+            ],
+            "predicate": "derived_status"
+          }
+        ]
+      },
+      {
+        "conclusion": {
+          "arguments": [
+            "p1",
+            "67"
+          ],
+          "predicate": "checksum"
+        },
+        "explanation": "Apply the disclosed iterated modulo-97 tally to p1.",
+        "id": "checksum_p1",
+        "premises": [
+          {
+            "arguments": [
+              "relation",
+              "p1",
+              "clear"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "temporal",
+              "p1",
+              "open"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "causal",
+              "p1",
+              "stable"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "spatial",
+              "p1",
+              "open"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "sequence",
+              "p1",
+              "stable"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "protocol",
+              "p1",
+              "waking"
+            ],
+            "predicate": "derived_status"
+          }
+        ]
+      },
+      {
+        "conclusion": {
+          "arguments": [
+            "p2",
+            "61"
+          ],
+          "predicate": "checksum"
+        },
+        "explanation": "Apply the disclosed iterated modulo-97 tally to p2.",
+        "id": "checksum_p2",
+        "premises": [
+          {
+            "arguments": [
+              "relation",
+              "p2",
+              "waking"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "temporal",
+              "p2",
+              "latent"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "causal",
+              "p2",
+              "open"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "spatial",
+              "p2",
+              "stable"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "sequence",
+              "p2",
+              "waking"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "protocol",
+              "p2",
+              "stable"
+            ],
+            "predicate": "derived_status"
+          }
+        ]
+      },
+      {
+        "conclusion": {
+          "arguments": [
+            "p3",
+            "81"
+          ],
+          "predicate": "checksum"
+        },
+        "explanation": "Apply the disclosed iterated modulo-97 tally to p3.",
+        "id": "checksum_p3",
+        "premises": [
+          {
+            "arguments": [
+              "relation",
+              "p3",
+              "latent"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "temporal",
+              "p3",
+              "waking"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "causal",
+              "p3",
+              "clear"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "spatial",
+              "p3",
+              "clear"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "sequence",
+              "p3",
+              "dormant"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "protocol",
+              "p3",
+              "open"
+            ],
+            "predicate": "derived_status"
+          }
+        ]
+      },
+      {
+        "conclusion": {
+          "arguments": [
+            "p4",
+            "53"
+          ],
+          "predicate": "checksum"
+        },
+        "explanation": "Apply the disclosed iterated modulo-97 tally to p4.",
+        "id": "checksum_p4",
+        "premises": [
+          {
+            "arguments": [
+              "relation",
+              "p4",
+              "dormant"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "temporal",
+              "p4",
+              "clear"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "causal",
+              "p4",
+              "latent"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "spatial",
+              "p4",
+              "latent"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "sequence",
+              "p4",
+              "clear"
+            ],
+            "predicate": "derived_status"
+          },
+          {
+            "arguments": [
+              "protocol",
+              "p4",
+              "dormant"
+            ],
+            "predicate": "derived_status"
+          }
+        ]
+      },
+      {
+        "conclusion": {
+          "arguments": [
+            "?person"
+          ],
+          "predicate": "qualifies"
+        },
+        "explanation": "The title certified restoration lead belongs to the person whose tally matches the key.",
+        "id": "final_workshop_provenance",
+        "premises": [
+          {
+            "arguments": [
+              "?person",
+              "?value"
+            ],
+            "predicate": "checksum"
+          },
+          {
+            "arguments": [
+              "?value"
+            ],
+            "predicate": "checksum_key"
+          },
+          {
+            "arguments": [],
+            "predicate": "protocol_active"
+          }
+        ]
+      }
+    ]
+  },
+  "world_id": "world-10006"
+}

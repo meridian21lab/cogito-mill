@@ -1,0 +1,36 @@
+{
+  "decision": "accept",
+  "feedback": "The proposal satisfies all listed gates. The checksum-defined target is stated locally and crisply without imposing an external role or extra success condition.",
+  "findings": [
+    {
+      "detail": "The desert expedition, recovered emergency beacons, signal fragments, field logs, and radio records are central to the premise.",
+      "gate": "compatibility with family expedition_signal",
+      "passed": true
+    },
+    {
+      "detail": "The premise defines the local target concept and explains that the accepted iterated modular checksum is the operative success condition.",
+      "gate": "self-containment",
+      "passed": true
+    },
+    {
+      "detail": "Recovering and decoding buried beacons along an abandoned route provides a coherent expedition incident and a plausible reason for distributed records.",
+      "gate": "natural narrative premise",
+      "passed": true
+    },
+    {
+      "detail": "No participant is named, privileged, or otherwise implied as the answer; rank, ownership, and narrative prominence are explicitly excluded as shortcuts.",
+      "gate": "no answer hint",
+      "passed": true
+    },
+    {
+      "detail": "The proposal explicitly requires relational, temporal, causal, spatial, sequence, and protocol-status evidence to be combined.",
+      "gate": "explicit six-stream evidence requirement",
+      "passed": true
+    },
+    {
+      "detail": "The scenario is an open-route expedition signal reconstruction rather than a confined-crime or locked-room setup.",
+      "gate": "low resemblance to stock locked-room mystery",
+      "passed": true
+    }
+  ]
+}

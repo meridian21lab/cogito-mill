@@ -1,0 +1,76 @@
+{
+  "opening": "The Asterion groaned beneath the whiteout as pack ice rasped along her hull. Between the midnight and dawn watches, interference had scrambled the handover board, interrupted the remote winch, and left the meteorology station displaying contradictory times. With the vessel still safe but its records compromised, the chief officer convened a cold-room inquiry. Plausible stories were set aside; only the surviving evidence and the rules written beside it would decide the matter.",
+  "scenes": [
+    {
+      "id": "sc1",
+      "obligated_fact_ids": [
+        "f_protocol_active",
+        "f_status_weights",
+        "f_checksum_formula"
+      ],
+      "prose": "Before anyone argued from rank, experience, or a familiar face on the roster, the panel read the governing notice aloud: for this incident, the board had declared the concordant watchkeeper protocol active, and ordinary rank and reputation did not count. A second note fixed one shared status scale for the entire inquiry: clear counted as 0, open as 1, dormant as 2, waking as 3, stable as 4, and latent as 5.\n\nThe clerk then traced the tallying method on a fogged glass panel. The local tally began at 17. The six evidence streams were taken in the order relation, temporal, causal, spatial, sequence, and protocol, with coefficients 13, 11, 2, 3, 5, and 7. At each stream, the panel squared the current tally, added that stream's coefficient multiplied by its status value, and kept the remainder modulo 97. They would make three passes: first in the stated order, then in reverse order with the coefficients reversed, and then once more in the stated order with the coefficient list rotated one place to the left. Without resetting the tally, they would repeat that complete three-pass cycle 126 times. Outside the porthole, the ice boomed; inside, the rule left no room for instinct.",
+      "title": "The Rule in the Cold Room"
+    },
+    {
+      "id": "sc2",
+      "obligated_fact_ids": [
+        "f_relation_p0",
+        "f_relation_p3",
+        "f_temporal_p2",
+        "f_causal_p1",
+        "f_causal_p4",
+        "f_spatial_p0",
+        "f_spatial_p3",
+        "f_sequence_p2",
+        "f_protocol_p1",
+        "f_protocol_p4"
+      ],
+      "prose": "The first recovered packet was the pairing sheet, its corners stiff with frozen spray. Under the inspection lamp, Tatum Silva's mentor pennant stood at dormant. Beside it, though a tear ran through the roster, Eden Okada's mentor pennant was still marked stable.\n\nThe timekeepers next compared the surviving entries with the watch clocks. One clock-backed entry listed Tatum Okada's watch interval as stable. In the alarm file, the consequence that followed Morgan Kline registered as waking, while the causal review assigned Morgan Andersen's alarm consequence dormant. No one trusted the board's old arrows, so the door team walked the routes: Tatum Silva's assigned station was placed at stable, and corridor witnesses put Eden Okada's assigned station at latent.\n\nAt the token table, reconstruction kept Tatum Okada's handover order at dormant. A close photograph of the set showed Morgan Kline's seal notch as clear; at the final physical count, Morgan Andersen's notch remained open. Each mark entered the ledger only after the artifact or witness that motivated it had been checked.",
+      "title": "Pennants, Doors, and Tokens"
+    },
+    {
+      "id": "sc3",
+      "obligated_fact_ids": [
+        "f_relation_p1",
+        "f_relation_p4",
+        "f_temporal_p0",
+        "f_temporal_p3",
+        "f_causal_p2",
+        "f_spatial_p1",
+        "f_spatial_p4",
+        "f_sequence_p0",
+        "f_sequence_p3",
+        "f_protocol_p2"
+      ],
+      "prose": "A witness returned from the lee-side corridor carrying a roster fragment. After checking it against the names he had actually seen, the witness left Morgan Kline with a latent mentor pennant. The clerks, working from a separate sealed worksheet, wrote clear beside Morgan Andersen's mentor pennant.\n\nThe chronometer team found clocked entries that put Tatum Silva's watch interval at waking, while the sequence sheet placed Eden Okada's watch interval at latent. The downstream alarm checks then tied Tatum Okada to a latent alarm consequence. These were not recollections: the team followed the instrument trail and initialed the result.\n\nA movement sketch marked Morgan Kline's assigned station as clear. The route ledger, with its torn edge aligned to the door log, tied Morgan Andersen's assigned station to open. Finally, the ordered log showed Tatum Silva's handover order as clear, and the ordered sheet showed Eden Okada's handover order as open. At inventory, Tatum Okada's seal notch was counted as stable.",
+      "title": "The Second Packet"
+    },
+    {
+      "id": "sc4",
+      "obligated_fact_ids": [
+        "f_relation_p2",
+        "f_temporal_p1",
+        "f_temporal_p4",
+        "f_causal_p0",
+        "f_causal_p3",
+        "f_spatial_p2",
+        "f_sequence_p1",
+        "f_sequence_p4",
+        "f_protocol_p0",
+        "f_protocol_p3"
+      ],
+      "prose": "The earlier pairing note surfaced from beneath the radio console. Its entry gave Tatum Okada a mentor pennant status of open. The timesheet review, meanwhile, left Morgan Kline's watch interval clear, while reconciled timing notes kept Morgan Andersen's watch interval at dormant.\n\nTo settle the alarm dispute, investigators traced the cable route and instrument marks. The action attributed to Tatum Silva left the alarm consequence clear; when they followed the record of Eden Okada's action, the consequence came back stable. Location review placed Tatum Okada's assigned station at waking.\n\nThe remaining sequence marks came from the handover packet: notes placed Morgan Kline's handover order at latent, while sequence review kept Morgan Andersen's handover order at stable. At the seal bench, token checks left Tatum Silva's seal notch at waking, and the sealed check showed Eden Okada's seal notch as dormant. The chief officer closed the folders only after every surviving stream had a witnessed source.",
+      "title": "The Last Cross-Checks"
+    },
+    {
+      "id": "sc5",
+      "obligated_fact_ids": [
+        "f_checksum_key",
+        "f_rule_final_watch_handover"
+      ],
+      "prose": "The clerk ran the prescribed passes without resetting the tally, letting the storm rattle the instruments while the repeated modular calculation worked through its cycles. For this incident, the accepted tally was 4.\n\nThe final definition was deliberately strict: the concordant watchkeeper was the one person whose six-stream tally equaled the accepted tally. No title, confident testimony, or dramatic place in the reconstruction could substitute for that result. The panel sealed the computation with the names still face down.",
+      "title": "The Unopened Name"
+    }
+  ],
+  "title": "Concordant Watchkeeper \u2014 Case 10011"
+}

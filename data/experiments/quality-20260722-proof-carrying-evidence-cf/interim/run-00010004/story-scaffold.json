@@ -1,0 +1,76 @@
+{
+  "opening": "The record concerns a conservation workshop tracing a damaged artifact through several rooms. By the time investigators reconstructed the treatment that stabilized the artifact, casual impressions had produced several plausible candidates. The reviewers therefore used only the local rules stated in the surviving record.",
+  "scenes": [
+    {
+      "id": "sc1",
+      "obligated_fact_ids": [
+        "f_protocol_active",
+        "f_status_weights",
+        "f_checksum_formula"
+      ],
+      "prose": "Before comparing names, the panel read the governing notes aloud. For this incident, the board declared the certified restoration lead protocol active; ordinary rank and reputation did not count. The panel fixed one shared status scale for the whole inquiry: dormant counted as 0; latent counted as 1; clear counted as 2; waking counted as 3; stable counted as 4; open counted as 5. The local tally began at 10. In order it used relation, temporal, causal, spatial, sequence, and protocol statuses with coefficients 13, 7, 5, 3, 11, 2. At each stream, the panel squared the current tally, added that stream's coefficient times its status value, and kept the remainder modulo 97. It made three passes: first in the stated order, then in reverse order with the coefficients reversed, then once more in the stated order with the coefficient list rotated one place left. Without resetting the tally, it repeated that complete three-pass cycle 119 times.",
+      "title": "Reconstruction 1"
+    },
+    {
+      "id": "sc2",
+      "obligated_fact_ids": [
+        "f_relation_p0",
+        "f_relation_p3",
+        "f_temporal_p2",
+        "f_causal_p1",
+        "f_causal_p4",
+        "f_spatial_p0",
+        "f_spatial_p3",
+        "f_sequence_p2",
+        "f_protocol_p1",
+        "f_protocol_p4"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. When the pairing sheet was recovered, Morgan Kline's apprentice lineage stood at open. Even the damaged roster still marked Yael Ibrahim's apprentice lineage as dormant. A clock-backed entry listed Oakley Dubois's work interval as open. The chemical response that followed Tatum Meier registered as stable. Causal review marked Parker Kline's chemical response clear. Door and route checks placed Morgan Kline's workshop room at stable. Witnesses in the corridor put Yael Ibrahim's workshop room at dormant. Reconstruction kept Oakley Dubois's treatment order at stable. A close photograph of the token set Tatum Meier's tool stamp to dormant. At final count, Parker Kline's tool stamp remained latent.",
+      "title": "Reconstruction 2"
+    },
+    {
+      "id": "sc3",
+      "obligated_fact_ids": [
+        "f_relation_p1",
+        "f_relation_p4",
+        "f_temporal_p0",
+        "f_temporal_p3",
+        "f_causal_p2",
+        "f_spatial_p1",
+        "f_spatial_p4",
+        "f_sequence_p0",
+        "f_sequence_p3",
+        "f_protocol_p2"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. A witness who checked the roster left Tatum Meier with a latent apprentice lineage. On the sealed worksheet, clerks wrote waking beside Parker Kline's apprentice lineage. Clocked entries put Morgan Kline's work interval at latent. The sequence sheet showed Yael Ibrahim's work interval as stable. Downstream checks tied Oakley Dubois to a dormant chemical response. A movement sketch marked Tatum Meier's workshop room as latent. The route ledger tied Parker Kline's workshop room to open. In the ordered log, Morgan Kline's treatment order appeared as clear. The ordered sheet showed Yael Ibrahim's treatment order as dormant. Inventory counted Oakley Dubois's tool stamp as waking.",
+      "title": "Reconstruction 3"
+    },
+    {
+      "id": "sc4",
+      "obligated_fact_ids": [
+        "f_relation_p2",
+        "f_temporal_p1",
+        "f_temporal_p4",
+        "f_causal_p0",
+        "f_causal_p3",
+        "f_spatial_p2",
+        "f_sequence_p1",
+        "f_sequence_p4",
+        "f_protocol_p0",
+        "f_protocol_p3"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. In the earlier pairing note, Oakley Dubois carried a stable apprentice lineage. After the timesheet review, Tatum Meier's work interval stayed waking. Reconciled timing notes kept Parker Kline's work interval at dormant. Instruments tracing Morgan Kline's action left the chemical response waking. When Yael Ibrahim acted, the chemical response came back open. Location review left Oakley Dubois's workshop room waking. Sequence notes placed Tatum Meier's treatment order at latent. At sequence review, Parker Kline's treatment order stayed waking. Token and seal checks left Morgan Kline's tool stamp at stable. The sealed check showed Yael Ibrahim's tool stamp as clear.",
+      "title": "Reconstruction 4"
+    },
+    {
+      "id": "sc5",
+      "obligated_fact_ids": [
+        "f_checksum_key",
+        "f_rule_final_workshop_provenance"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. For this incident, the accepted tally was 36. The final definition was strict: the certified restoration lead was the one person whose six-stream tally equaled the accepted tally.",
+      "title": "Reconstruction 5"
+    }
+  ],
+  "title": "Certified Restoration Lead \u2014 Case 10004"
+}

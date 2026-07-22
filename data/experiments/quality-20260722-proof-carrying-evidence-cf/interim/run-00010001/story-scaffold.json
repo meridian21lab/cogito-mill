@@ -1,0 +1,76 @@
+{
+  "opening": "The record concerns a desert expedition decoding a chain of emergency beacons. By the time investigators reconstructed the transmission that redirected the rescue convoy, casual impressions had produced several plausible candidates. The reviewers therefore used only the local rules stated in the surviving record.",
+  "scenes": [
+    {
+      "id": "sc1",
+      "obligated_fact_ids": [
+        "f_protocol_active",
+        "f_status_weights",
+        "f_checksum_formula"
+      ],
+      "prose": "Before comparing names, the panel read the governing notes aloud. For this incident, the board declared the coherent signal bearer protocol active; ordinary rank and reputation did not count. The panel fixed one shared status scale for the whole inquiry: waking counted as 0; open counted as 1; clear counted as 2; latent counted as 3; stable counted as 4; dormant counted as 5. The local tally began at 7. In order it used relation, temporal, causal, spatial, sequence, and protocol statuses with coefficients 2, 5, 11, 13, 3, 7. At each stream, the panel squared the current tally, added that stream's coefficient times its status value, and kept the remainder modulo 97. It made three passes: first in the stated order, then in reverse order with the coefficients reversed, then once more in the stated order with the coefficient list rotated one place left. Without resetting the tally, it repeated that complete three-pass cycle 116 times.",
+      "title": "Reconstruction 1"
+    },
+    {
+      "id": "sc2",
+      "obligated_fact_ids": [
+        "f_relation_p0",
+        "f_relation_p3",
+        "f_temporal_p2",
+        "f_causal_p1",
+        "f_causal_p4",
+        "f_spatial_p0",
+        "f_spatial_p3",
+        "f_sequence_p2",
+        "f_protocol_p1",
+        "f_protocol_p4"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. When the pairing sheet was recovered, Harper Okada's team pairing stood at dormant. Even the damaged roster still marked Harper Ortiz's team pairing as waking. A clock-backed entry listed Sawyer Patel's signal interval as stable. The repeater response that followed Winter Meier registered as waking. Causal review marked Tatum Novak's repeater response open. Door and route checks placed Harper Okada's beacon sector at dormant. Witnesses in the corridor put Harper Ortiz's beacon sector at open. Reconstruction kept Sawyer Patel's relay order at waking. A close photograph of the token set Winter Meier's cipher glyph to latent. At final count, Tatum Novak's cipher glyph remained clear.",
+      "title": "Reconstruction 2"
+    },
+    {
+      "id": "sc3",
+      "obligated_fact_ids": [
+        "f_relation_p1",
+        "f_relation_p4",
+        "f_temporal_p0",
+        "f_temporal_p3",
+        "f_causal_p2",
+        "f_spatial_p1",
+        "f_spatial_p4",
+        "f_sequence_p0",
+        "f_sequence_p3",
+        "f_protocol_p2"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. A witness who checked the roster left Winter Meier with a stable team pairing. On the sealed worksheet, clerks wrote latent beside Tatum Novak's team pairing. Clocked entries put Harper Okada's signal interval at waking. The sequence sheet showed Harper Ortiz's signal interval as dormant. Downstream checks tied Sawyer Patel to a latent repeater response. A movement sketch marked Winter Meier's beacon sector as latent. The route ledger tied Tatum Novak's beacon sector to clear. In the ordered log, Harper Okada's relay order appeared as clear. The ordered sheet showed Harper Ortiz's relay order as stable. Inventory counted Sawyer Patel's cipher glyph as dormant.",
+      "title": "Reconstruction 3"
+    },
+    {
+      "id": "sc4",
+      "obligated_fact_ids": [
+        "f_relation_p2",
+        "f_temporal_p1",
+        "f_temporal_p4",
+        "f_causal_p0",
+        "f_causal_p3",
+        "f_spatial_p2",
+        "f_sequence_p1",
+        "f_sequence_p4",
+        "f_protocol_p0",
+        "f_protocol_p3"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. In the earlier pairing note, Sawyer Patel carried a open team pairing. After the timesheet review, Winter Meier's signal interval stayed clear. Reconciled timing notes kept Tatum Novak's signal interval at latent. Instruments tracing Harper Okada's action left the repeater response clear. When Harper Ortiz acted, the repeater response came back stable. Location review left Sawyer Patel's beacon sector stable. Sequence notes placed Winter Meier's relay order at dormant. At sequence review, Tatum Novak's relay order stayed latent. Token and seal checks left Harper Okada's cipher glyph at stable. The sealed check showed Harper Ortiz's cipher glyph as open.",
+      "title": "Reconstruction 4"
+    },
+    {
+      "id": "sc5",
+      "obligated_fact_ids": [
+        "f_checksum_key",
+        "f_rule_final_expedition_signal"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. For this incident, the accepted tally was 64. The final definition was strict: the coherent signal bearer was the one person whose six-stream tally equaled the accepted tally.",
+      "title": "Reconstruction 5"
+    }
+  ],
+  "title": "Coherent Signal Bearer \u2014 Case 10001"
+}

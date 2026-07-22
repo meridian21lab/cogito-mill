@@ -1,0 +1,81 @@
+{
+  "decision": "accept",
+  "feedback": "deterministic, grounding, and model story critics accept",
+  "findings": [
+    {
+      "detail": "paragraphs=6 (min 4)",
+      "gate": "narrative_paragraphs",
+      "passed": true
+    },
+    {
+      "detail": "EMP tokens=0 (max 14)",
+      "gate": "identifier_budget",
+      "passed": true
+    },
+    {
+      "detail": "Personnel index lines=0 (max 2)",
+      "gate": "no_personnel_dump",
+      "passed": true
+    },
+    {
+      "detail": "code\u2192name resolution clauses=0 (max 3)",
+      "gate": "no_id_resolution_wall",
+      "passed": true
+    },
+    {
+      "detail": "scored questions=4 (need 2\u20134)",
+      "gate": "question_count",
+      "passed": true
+    },
+    {
+      "detail": "name questions must request the full name explicitly",
+      "gate": "answer_form_clarity",
+      "passed": true
+    },
+    {
+      "detail": "each question needs 1\u20133 gold_answer_variants",
+      "gate": "answer_variants",
+      "passed": true
+    },
+    {
+      "detail": "opening paragraph must read as narration, not an ID table",
+      "gate": "human_readable_opening",
+      "passed": true
+    },
+    {
+      "detail": "missing required fact realizations: []",
+      "gate": "required_fact_grounding",
+      "passed": true
+    },
+    {
+      "detail": "facts assigned to multiple scenes: []",
+      "gate": "single_fact_realization",
+      "passed": true
+    },
+    {
+      "detail": "unknown scene obligations: []",
+      "gate": "known_scene_obligations",
+      "passed": true
+    },
+    {
+      "detail": "The supplied deterministic grounding report accepts all required facts and their single, known scene assignments.",
+      "gate": "deterministic_grounding",
+      "passed": true
+    },
+    {
+      "detail": "The evidence is presented in coherent prose paragraphs rather than as an explicit table, bullet ledger, or personnel-index wall.",
+      "gate": "narrative_usability",
+      "passed": true
+    },
+    {
+      "detail": "The story defines the qualifying calculation but does not explicitly state which named participant is the certified restoration lead.",
+      "gate": "answer_leakage",
+      "passed": true
+    },
+    {
+      "detail": "The main, intermediate, counterfactual, and scalar questions are answerable from the stated statuses and procedure.",
+      "gate": "question_clarity",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,382 @@
+{
+  "counterfactual": {
+    "answer": "Finley Silva",
+    "intervention": "Yael Novak's mentor pennant status had been clear instead of latent and Finley Silva's seal notch status had been stable instead of clear",
+    "question": "If Yael Novak's mentor pennant status had been clear instead of latent and Finley Silva's seal notch status had been stable instead of clear, while every other record stayed fixed, who would become the concordant watchkeeper? Give the full name, or answer exactly none."
+  },
+  "difficulty_bucket": "very_hard",
+  "falsifier": {
+    "hypothesis": "Finley Silva already qualifies under the original record",
+    "minimal_evidence": [
+      "f_checksum_key",
+      "f_checksum_formula",
+      "f_relation_p2",
+      "f_temporal_p2",
+      "f_causal_p2",
+      "f_spatial_p2",
+      "f_sequence_p2",
+      "f_protocol_p2",
+      "f_protocol_p4",
+      "f_relation_p2"
+    ]
+  },
+  "gold_answer": "Yael Novak",
+  "gold_answer_variants": [
+    "Yael Novak",
+    "Novak, Yael"
+  ],
+  "gold_steps": [
+    {
+      "conclusion": "derived_status:relation:p2:latent",
+      "evidence_fact_ids": [
+        "f_relation_p2"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s1",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:temporal:p2:open",
+      "evidence_fact_ids": [
+        "f_temporal_p2"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s2",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:causal:p2:latent",
+      "evidence_fact_ids": [
+        "f_causal_p2"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s3",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:spatial:p2:stable",
+      "evidence_fact_ids": [
+        "f_spatial_p2"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s4",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:sequence:p2:open",
+      "evidence_fact_ids": [
+        "f_sequence_p2"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s5",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:protocol:p2:dormant",
+      "evidence_fact_ids": [
+        "f_protocol_p2"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s6",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "checksum:p2:9",
+      "evidence_fact_ids": [],
+      "evidence_sentence_ids": [],
+      "explanation": "Apply the disclosed iterated modulo-97 tally to p2.",
+      "id": "s7",
+      "inference_type": "conclusion",
+      "prior_step_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ]
+    },
+    {
+      "conclusion": "checksum_key:9",
+      "evidence_fact_ids": [
+        "f_checksum_key"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s8",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "protocol_active",
+      "evidence_fact_ids": [
+        "f_protocol_active"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s9",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "qualifies:p2",
+      "evidence_fact_ids": [
+        "f_rule_final_watch_handover"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "The title concordant watchkeeper belongs to the person whose tally matches the key.",
+      "id": "s10",
+      "inference_type": "conclusion",
+      "prior_step_ids": [
+        "s7",
+        "s8",
+        "s9"
+      ]
+    }
+  ],
+  "id": "lss-concept-010008",
+  "n_hops": 33,
+  "provenance": {
+    "judge_deployment": null,
+    "provider_family": "azure",
+    "recipe_id": "recipe-10008",
+    "seed": 10008,
+    "template_id": "watch_handover",
+    "writer_deployment": null
+  },
+  "question": "Under the local rules, who alone became the concordant watchkeeper? Give the full name.",
+  "questions": [
+    {
+      "gold_answer": "Yael Novak",
+      "gold_answer_variants": [
+        "Yael Novak",
+        "Novak, Yael"
+      ],
+      "id": "q_main",
+      "question": "Under the local rules, who alone became the concordant watchkeeper? Give the full name.",
+      "question_type": "main"
+    },
+    {
+      "gold_answer": "open",
+      "gold_answer_variants": [
+        "open"
+      ],
+      "id": "q_near_match",
+      "question": "According to the surviving record, what status was assigned to Parker Nguyen's assigned station? Answer with the exact status word.",
+      "question_type": "intermediate"
+    },
+    {
+      "gold_answer": "Finley Silva",
+      "gold_answer_variants": [
+        "Finley Silva",
+        "Silva, Finley"
+      ],
+      "id": "q_counterfactual",
+      "question": "If Yael Novak's mentor pennant status had been clear instead of latent and Finley Silva's seal notch status had been stable instead of clear, while every other record stayed fixed, who would become the concordant watchkeeper? Give the full name, or answer exactly none.",
+      "question_type": "counterfactual"
+    },
+    {
+      "gold_answer": "9",
+      "gold_answer_variants": [
+        "9"
+      ],
+      "id": "q_protocol_key",
+      "question": "What exact integer tally did the board accept?",
+      "question_type": "scalar"
+    }
+  ],
+  "run_id": "run-00010008",
+  "schema_version": "pilot.v2",
+  "sentences": [
+    {
+      "id": "sent-1",
+      "text": "The Nereid lay locked in blue-white ice while a whiteout erased the horizon and drove the watch teams toward an emergency handover."
+    },
+    {
+      "id": "sent-2",
+      "text": "A heater fault had frozen one sensor stream, delayed a pressure alarm, and briefly robbed the vessel of its agreed ice-clearance margin."
+    },
+    {
+      "id": "sent-3",
+      "text": "Bridge, engine room, and ice-observation lab were separated by passages the storm was steadily closing."
+    },
+    {
+      "id": "sent-4",
+      "text": "Five watchkeepers left overlapping traces in logs, route diagrams, timestamps, instrument states, and spoken handover phrases."
+    },
+    {
+      "id": "sent-5",
+      "text": "Since rank, confidence, and the order in which someone noticed the fault could mislead, the review board resolved to trust only the vessel\u2019s stated reconstruction procedure."
+    },
+    {
+      "id": "sent-6",
+      "text": "In the chart-room emergency, the board declared the concordant watchkeeper protocol active for this incident; ordinary rank and reputation did not count."
+    },
+    {
+      "id": "sent-7",
+      "text": "Before opening the damaged records, the panel fixed one status scale for every evidence stream: waking was 0, clear 1, latent 2, stable 3, dormant 4, and open 5."
+    },
+    {
+      "id": "sent-8",
+      "text": "The local tally began at 14."
+    },
+    {
+      "id": "sent-9",
+      "text": "The six streams would be read as relation, temporal, causal, spatial, sequence, and protocol, carrying coefficients 3, 7, 5, 11, 13, and 2 respectively."
+    },
+    {
+      "id": "sent-10",
+      "text": "For each stream, the panel would square the current tally, add that stream\u2019s coefficient multiplied by its status value, and retain the remainder modulo 97."
+    },
+    {
+      "id": "sent-11",
+      "text": "It would make three passes: first in the stated order, then in reverse order with the coefficients reversed, and then once more in the stated order with the coefficient list rotated one place left."
+    },
+    {
+      "id": "sent-12",
+      "text": "The tally would not be reset; that complete three-pass cycle would be repeated 123 times."
+    },
+    {
+      "id": "sent-13",
+      "text": "The first packet came from the pairing desk, where saltwater had warped the edges of the recovered sheet."
+    },
+    {
+      "id": "sent-14",
+      "text": "Even so, Quinn Nguyen\u2019s mentor pennant stood at open, while the damaged roster still marked Parker Nguyen\u2019s mentor pennant as clear."
+    },
+    {
+      "id": "sent-15",
+      "text": "The contrast made the clerk call for the original notation rather than trust the surviving ink alone."
+    },
+    {
+      "id": "sent-16",
+      "text": "A clock-backed entry then listed Yael Novak\u2019s watch interval as open."
+    },
+    {
+      "id": "sent-17",
+      "text": "In the alarm file, the consequence that followed Jules Nguyen registered as open, whereas the causal review marked Finley Silva\u2019s alarm consequence stable."
+    },
+    {
+      "id": "sent-18",
+      "text": "Those entries were checked against the vessel\u2019s movements: door and route checks placed Quinn Nguyen\u2019s assigned station at dormant, while corridor witnesses put Parker Nguyen\u2019s assigned station at open."
+    },
+    {
+      "id": "sent-19",
+      "text": "The handover reconstruction kept Yael Novak\u2019s handover order at open."
+    },
+    {
+      "id": "sent-20",
+      "text": "Nearby, a close photograph of the token set Jules Nguyen\u2019s seal notch to stable."
+    },
+    {
+      "id": "sent-21",
+      "text": "At the final physical count, Finley Silva\u2019s seal notch remained clear."
+    },
+    {
+      "id": "sent-22",
+      "text": "A second bundle was opened beneath the chart table, its pages sealed against the damp."
+    },
+    {
+      "id": "sent-23",
+      "text": "A witness who checked the roster left Jules Nguyen with a dormant mentor pennant, and clerks wrote stable beside Finley Silva\u2019s mentor pennant on the sealed worksheet."
+    },
+    {
+      "id": "sent-24",
+      "text": "Timekeepers compared their entries with the bridge clock: Quinn Nguyen\u2019s watch interval was waking, while the sequence sheet showed Parker Nguyen\u2019s watch interval as stable."
+    },
+    {
+      "id": "sent-25",
+      "text": "Downstream checks tied Yael Novak to a latent alarm consequence."
+    },
+    {
+      "id": "sent-26",
+      "text": "A movement sketch, made while the passages were still passable, marked Jules Nguyen\u2019s assigned station as latent; the route ledger tied Finley Silva\u2019s assigned station to clear."
+    },
+    {
+      "id": "sent-27",
+      "text": "The ordered log gave Quinn Nguyen\u2019s handover order as clear."
+    },
+    {
+      "id": "sent-28",
+      "text": "Parker Nguyen\u2019s handover order appeared as waking on the ordered sheet."
+    },
+    {
+      "id": "sent-29",
+      "text": "At the inventory bench, Yael Novak\u2019s seal notch was counted as dormant."
+    },
+    {
+      "id": "sent-30",
+      "text": "By the time the panel reached the route diagrams, frost had filmed the bridge windows and the Nereid\u2019s passages were nearly closed."
+    },
+    {
+      "id": "sent-31",
+      "text": "An earlier pairing note showed Yael Novak carrying a latent mentor pennant."
+    },
+    {
+      "id": "sent-32",
+      "text": "The timesheet review left Jules Nguyen\u2019s watch interval clear, while reconciled timing notes kept Finley Silva\u2019s watch interval at dormant."
+    },
+    {
+      "id": "sent-33",
+      "text": "Instrument traces followed the emergency response without relying on who had spoken first."
+    },
+    {
+      "id": "sent-34",
+      "text": "They left Quinn Nguyen\u2019s alarm consequence clear."
+    },
+    {
+      "id": "sent-35",
+      "text": "When Parker Nguyen acted, the alarm consequence came back dormant."
+    },
+    {
+      "id": "sent-36",
+      "text": "Location review placed Yael Novak\u2019s assigned station at stable."
+    },
+    {
+      "id": "sent-37",
+      "text": "The sequence notes placed Jules Nguyen\u2019s handover order at dormant; at sequence review, Finley Silva\u2019s handover order stayed stable."
+    },
+    {
+      "id": "sent-38",
+      "text": "Finally, token and seal checks left Quinn Nguyen\u2019s seal notch at latent, while the sealed check showed Parker Nguyen\u2019s seal notch as open."
+    },
+    {
+      "id": "sent-39",
+      "text": "The storm pressed against the hull as the panel finished transcribing the six streams for each watchkeeper."
+    },
+    {
+      "id": "sent-40",
+      "text": "For this incident, the accepted tally was 9."
+    },
+    {
+      "id": "sent-41",
+      "text": "No impression from the bridge, engine room, or laboratory could replace the arithmetic."
+    },
+    {
+      "id": "sent-42",
+      "text": "The final definition was strict: the concordant watchkeeper was the one person whose six-stream tally equaled the accepted tally."
+    },
+    {
+      "id": "sent-43",
+      "text": "The panel closed the narrative accounts, preserved the records, and left the result to the prescribed calculation."
+    }
+  ],
+  "setting_family": "expedition",
+  "story": "The Nereid lay locked in blue-white ice while a whiteout erased the horizon and drove the watch teams toward an emergency handover. A heater fault had frozen one sensor stream, delayed a pressure alarm, and briefly robbed the vessel of its agreed ice-clearance margin. Bridge, engine room, and ice-observation lab were separated by passages the storm was steadily closing. Five watchkeepers left overlapping traces in logs, route diagrams, timestamps, instrument states, and spoken handover phrases. Since rank, confidence, and the order in which someone noticed the fault could mislead, the review board resolved to trust only the vessel\u2019s stated reconstruction procedure.\n\nIn the chart-room emergency, the board declared the concordant watchkeeper protocol active for this incident; ordinary rank and reputation did not count. Before opening the damaged records, the panel fixed one status scale for every evidence stream: waking was 0, clear 1, latent 2, stable 3, dormant 4, and open 5.\n\nThe local tally began at 14. The six streams would be read as relation, temporal, causal, spatial, sequence, and protocol, carrying coefficients 3, 7, 5, 11, 13, and 2 respectively. For each stream, the panel would square the current tally, add that stream\u2019s coefficient multiplied by its status value, and retain the remainder modulo 97. It would make three passes: first in the stated order, then in reverse order with the coefficients reversed, and then once more in the stated order with the coefficient list rotated one place left. The tally would not be reset; that complete three-pass cycle would be repeated 123 times.\n\nThe first packet came from the pairing desk, where saltwater had warped the edges of the recovered sheet. Even so, Quinn Nguyen\u2019s mentor pennant stood at open, while the damaged roster still marked Parker Nguyen\u2019s mentor pennant as clear. The contrast made the clerk call for the original notation rather than trust the surviving ink alone.\n\nA clock-backed entry then listed Yael Novak\u2019s watch interval as open. In the alarm file, the consequence that followed Jules Nguyen registered as open, whereas the causal review marked Finley Silva\u2019s alarm consequence stable. Those entries were checked against the vessel\u2019s movements: door and route checks placed Quinn Nguyen\u2019s assigned station at dormant, while corridor witnesses put Parker Nguyen\u2019s assigned station at open.\n\nThe handover reconstruction kept Yael Novak\u2019s handover order at open. Nearby, a close photograph of the token set Jules Nguyen\u2019s seal notch to stable. At the final physical count, Finley Silva\u2019s seal notch remained clear.\n\nA second bundle was opened beneath the chart table, its pages sealed against the damp. A witness who checked the roster left Jules Nguyen with a dormant mentor pennant, and clerks wrote stable beside Finley Silva\u2019s mentor pennant on the sealed worksheet.\n\nTimekeepers compared their entries with the bridge clock: Quinn Nguyen\u2019s watch interval was waking, while the sequence sheet showed Parker Nguyen\u2019s watch interval as stable. Downstream checks tied Yael Novak to a latent alarm consequence. A movement sketch, made while the passages were still passable, marked Jules Nguyen\u2019s assigned station as latent; the route ledger tied Finley Silva\u2019s assigned station to clear.\n\nThe ordered log gave Quinn Nguyen\u2019s handover order as clear. Parker Nguyen\u2019s handover order appeared as waking on the ordered sheet. At the inventory bench, Yael Novak\u2019s seal notch was counted as dormant.\n\nBy the time the panel reached the route diagrams, frost had filmed the bridge windows and the Nereid\u2019s passages were nearly closed. An earlier pairing note showed Yael Novak carrying a latent mentor pennant. The timesheet review left Jules Nguyen\u2019s watch interval clear, while reconciled timing notes kept Finley Silva\u2019s watch interval at dormant.\n\nInstrument traces followed the emergency response without relying on who had spoken first. They left Quinn Nguyen\u2019s alarm consequence clear. When Parker Nguyen acted, the alarm consequence came back dormant. Location review placed Yael Novak\u2019s assigned station at stable.\n\nThe sequence notes placed Jules Nguyen\u2019s handover order at dormant; at sequence review, Finley Silva\u2019s handover order stayed stable. Finally, token and seal checks left Quinn Nguyen\u2019s seal notch at latent, while the sealed check showed Parker Nguyen\u2019s seal notch as open.\n\nThe storm pressed against the hull as the panel finished transcribing the six streams for each watchkeeper. For this incident, the accepted tally was 9. No impression from the bridge, engine room, or laboratory could replace the arithmetic.\n\nThe final definition was strict: the concordant watchkeeper was the one person whose six-stream tally equaled the accepted tally. The panel closed the narrative accounts, preserved the records, and left the result to the prescribed calculation.",
+  "supported_conclusions": [
+    "Yael Novak's six-stream tally equals the accepted tally.",
+    "After the evidence edit (Yael Novak's mentor pennant status had been clear instead of latent and Finley Silva's seal notch status had been stable instead of clear), the unique result is Finley Silva."
+  ]
+}

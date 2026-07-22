@@ -1,0 +1,187 @@
+{
+  "counterfactual": {
+    "answer": "none",
+    "intervention": "Parker Meier's apprentice lineage status had been dormant instead of clear",
+    "question": "If Parker Meier's apprentice lineage status had been dormant instead of clear, while every other record stayed fixed, who would become the certified restoration lead? Give the full name, or answer exactly none."
+  },
+  "falsifier": {
+    "hypothesis": "Parker Meier already qualifies under the original record",
+    "minimal_evidence": [
+      "f_checksum_key",
+      "f_checksum_formula",
+      "f_relation_p1",
+      "f_temporal_p1",
+      "f_causal_p1",
+      "f_spatial_p1",
+      "f_sequence_p1",
+      "f_protocol_p1",
+      "f_relation_p1"
+    ]
+  },
+  "gold_answer": "Parker Meier",
+  "main_question": "Which full name belongs to the only person who meets the definition of certified restoration lead?",
+  "questions": [
+    {
+      "gold_answer": "Parker Meier",
+      "gold_answer_variants": [
+        "Parker Meier",
+        "Meier, Parker"
+      ],
+      "id": "q_main",
+      "question": "Which full name belongs to the only person who meets the definition of certified restoration lead?",
+      "question_type": "main"
+    },
+    {
+      "gold_answer": "waking",
+      "gold_answer_variants": [
+        "waking"
+      ],
+      "id": "q_near_match",
+      "question": "According to the surviving record, what status was assigned to Finley Meier's apprentice lineage? Answer with the exact status word.",
+      "question_type": "intermediate"
+    },
+    {
+      "gold_answer": "none",
+      "gold_answer_variants": [
+        "none"
+      ],
+      "id": "q_counterfactual",
+      "question": "If Parker Meier's apprentice lineage status had been dormant instead of clear, while every other record stayed fixed, who would become the certified restoration lead? Give the full name, or answer exactly none.",
+      "question_type": "counterfactual"
+    },
+    {
+      "gold_answer": "67",
+      "gold_answer_variants": [
+        "67"
+      ],
+      "id": "q_protocol_key",
+      "question": "What exact integer tally did the board accept?",
+      "question_type": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "conclusion": "derived_status:relation:p1:clear",
+      "evidence_fact_ids": [
+        "f_relation_p1"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s1",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:temporal:p1:open",
+      "evidence_fact_ids": [
+        "f_temporal_p1"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s2",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:causal:p1:stable",
+      "evidence_fact_ids": [
+        "f_causal_p1"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s3",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:spatial:p1:open",
+      "evidence_fact_ids": [
+        "f_spatial_p1"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s4",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:sequence:p1:stable",
+      "evidence_fact_ids": [
+        "f_sequence_p1"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s5",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "derived_status:protocol:p1:waking",
+      "evidence_fact_ids": [
+        "f_protocol_p1"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s6",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "checksum:p1:67",
+      "evidence_fact_ids": [],
+      "evidence_sentence_ids": [],
+      "explanation": "Apply the disclosed iterated modulo-97 tally to p1.",
+      "id": "s7",
+      "inference_type": "conclusion",
+      "prior_step_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ]
+    },
+    {
+      "conclusion": "checksum_key:67",
+      "evidence_fact_ids": [
+        "f_checksum_key"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s8",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "protocol_active",
+      "evidence_fact_ids": [
+        "f_protocol_active"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "Observe a disclosed premise.",
+      "id": "s9",
+      "inference_type": "lookup",
+      "prior_step_ids": []
+    },
+    {
+      "conclusion": "qualifies:p1",
+      "evidence_fact_ids": [
+        "f_rule_final_workshop_provenance"
+      ],
+      "evidence_sentence_ids": [],
+      "explanation": "The title certified restoration lead belongs to the person whose tally matches the key.",
+      "id": "s10",
+      "inference_type": "conclusion",
+      "prior_step_ids": [
+        "s7",
+        "s8",
+        "s9"
+      ]
+    }
+  ],
+  "supported_conclusions": [
+    "Parker Meier's six-stream tally equals the accepted tally.",
+    "After the evidence edit (Parker Meier's apprentice lineage status had been dormant instead of clear), the unique result is none."
+  ]
+}

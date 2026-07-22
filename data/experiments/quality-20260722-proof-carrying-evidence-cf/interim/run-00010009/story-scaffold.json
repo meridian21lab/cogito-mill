@@ -1,0 +1,76 @@
+{
+  "opening": "The record concerns an icebound research vessel changing watches during a storm. By the time investigators reconstructed the emergency ballast release, casual impressions had produced several plausible candidates. The reviewers therefore used only the local rules stated in the surviving record.",
+  "scenes": [
+    {
+      "id": "sc1",
+      "obligated_fact_ids": [
+        "f_protocol_active",
+        "f_status_weights",
+        "f_checksum_formula"
+      ],
+      "prose": "Before comparing names, the panel read the governing notes aloud. For this incident, the board declared the concordant watchkeeper protocol active; ordinary rank and reputation did not count. The panel fixed one shared status scale for the whole inquiry: stable counted as 0; latent counted as 1; dormant counted as 2; waking counted as 3; open counted as 4; clear counted as 5. The local tally began at 15. In order it used relation, temporal, causal, spatial, sequence, and protocol statuses with coefficients 5, 7, 11, 2, 13, 3. At each stream, the panel squared the current tally, added that stream's coefficient times its status value, and kept the remainder modulo 97. It made three passes: first in the stated order, then in reverse order with the coefficients reversed, then once more in the stated order with the coefficient list rotated one place left. Without resetting the tally, it repeated that complete three-pass cycle 124 times.",
+      "title": "Reconstruction 1"
+    },
+    {
+      "id": "sc2",
+      "obligated_fact_ids": [
+        "f_relation_p0",
+        "f_relation_p3",
+        "f_temporal_p2",
+        "f_causal_p1",
+        "f_causal_p4",
+        "f_spatial_p0",
+        "f_spatial_p3",
+        "f_sequence_p2",
+        "f_protocol_p1",
+        "f_protocol_p4"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. When the pairing sheet was recovered, Zion Brooks's mentor pennant stood at clear. Even the damaged roster still marked Noel Ortiz's mentor pennant as dormant. A clock-backed entry listed Parker Sato's watch interval as open. The alarm consequence that followed Avery Novak registered as clear. Causal review marked Morgan Sato's alarm consequence stable. Door and route checks placed Zion Brooks's assigned station at waking. Witnesses in the corridor put Noel Ortiz's assigned station at stable. Reconstruction kept Parker Sato's handover order at waking. A close photograph of the token set Avery Novak's seal notch to clear. At final count, Morgan Sato's seal notch remained open.",
+      "title": "Reconstruction 2"
+    },
+    {
+      "id": "sc3",
+      "obligated_fact_ids": [
+        "f_relation_p1",
+        "f_relation_p4",
+        "f_temporal_p0",
+        "f_temporal_p3",
+        "f_causal_p2",
+        "f_spatial_p1",
+        "f_spatial_p4",
+        "f_sequence_p0",
+        "f_sequence_p3",
+        "f_protocol_p2"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. A witness who checked the roster left Avery Novak with a open mentor pennant. On the sealed worksheet, clerks wrote waking beside Morgan Sato's mentor pennant. Clocked entries put Zion Brooks's watch interval at dormant. The sequence sheet showed Noel Ortiz's watch interval as stable. Downstream checks tied Parker Sato to a open alarm consequence. A movement sketch marked Avery Novak's assigned station as dormant. The route ledger tied Morgan Sato's assigned station to latent. In the ordered log, Zion Brooks's handover order appeared as clear. The ordered sheet showed Noel Ortiz's handover order as dormant. Inventory counted Parker Sato's seal notch as dormant.",
+      "title": "Reconstruction 3"
+    },
+    {
+      "id": "sc4",
+      "obligated_fact_ids": [
+        "f_relation_p2",
+        "f_temporal_p1",
+        "f_temporal_p4",
+        "f_causal_p0",
+        "f_causal_p3",
+        "f_spatial_p2",
+        "f_sequence_p1",
+        "f_sequence_p4",
+        "f_protocol_p0",
+        "f_protocol_p3"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. In the earlier pairing note, Parker Sato carried a stable mentor pennant. After the timesheet review, Avery Novak's watch interval stayed latent. Reconciled timing notes kept Morgan Sato's watch interval at waking. Instruments tracing Zion Brooks's action left the alarm consequence latent. When Noel Ortiz acted, the alarm consequence came back dormant. Location review left Parker Sato's assigned station clear. Sequence notes placed Avery Novak's handover order at stable. At sequence review, Morgan Sato's handover order stayed latent. Token and seal checks left Zion Brooks's seal notch at stable. The sealed check showed Noel Ortiz's seal notch as latent.",
+      "title": "Reconstruction 4"
+    },
+    {
+      "id": "sc5",
+      "obligated_fact_ids": [
+        "f_checksum_key",
+        "f_rule_final_watch_handover"
+      ],
+      "prose": "The inquiry moved from recollection to checked records. For this incident, the accepted tally was 79. The final definition was strict: the concordant watchkeeper was the one person whose six-stream tally equaled the accepted tally.",
+      "title": "Reconstruction 5"
+    }
+  ],
+  "title": "Concordant Watchkeeper \u2014 Case 10009"
+}
