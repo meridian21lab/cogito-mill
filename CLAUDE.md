@@ -26,6 +26,7 @@ Project skills live in `.agents/skills/` and are surfaced to Claude through
 - `/to-spec` — turn settled discussion into a spec
 - `/tdd`, `/codebase-design`, `/domain-modeling` — engineering discipline
 - `/langgraph` — LangGraph patterns for the mill pipeline
+- `/azure-usage` — Azure Foundry/OpenAI usage and costs via `az` (no secrets in skill)
 
 > `huggingface-datasets` is listed in `skills-lock.json` but **not present on
 > disk**. For Hub work, use the `hf` CLI and `huggingface_hub` directly (auth via

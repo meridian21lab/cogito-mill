@@ -37,6 +37,7 @@ Installed under `.agents/skills/` (also discovered by Cursor):
 - `/to-spec` — turn settled discussion into a spec
 - `/tdd`, `/codebase-design`, `/domain-modeling` — engineering discipline
 - `langgraph` — LangGraph patterns
+- `/azure-usage` — Azure Foundry/OpenAI usage and costs via `az` (no secrets in skill)
 - `huggingface-datasets` — Dataset Viewer / Hub upload (lightweight; not the marketplace HF plugin)
 
 ## Specs
