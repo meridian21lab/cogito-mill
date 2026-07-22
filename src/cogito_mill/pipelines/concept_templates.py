@@ -450,19 +450,13 @@ def _build_timelines(
                     place_a,
                     crime_start - 50,
                     leave_prior,
-                    (
-                        f"{first} left the {place_a} around "
-                        f"{minutes_to_clock(leave_prior)}."
-                    ),
+                    (f"{first} left the {place_a} around {minutes_to_clock(leave_prior)}."),
                 ),
                 Segment(
                     place_b,
                     arrive_elsewhere,
                     arrive_elsewhere + 20,
-                    (
-                        f"{first} was seen at the {place_b} at "
-                        f"{minutes_to_clock(arrive_elsewhere)}."
-                    ),
+                    (f"{first} was seen at the {place_b} at {minutes_to_clock(arrive_elsewhere)}."),
                 ),
             ]
         else:
@@ -488,10 +482,7 @@ def _build_timelines(
                         place_b,
                         leave - 35,
                         leave,
-                        (
-                            f"{first} was still at the {place_b} at "
-                            f"{minutes_to_clock(leave)}."
-                        ),
+                        (f"{first} was still at the {place_b} at {minutes_to_clock(leave)}."),
                     )
                 ]
             else:
@@ -502,10 +493,7 @@ def _build_timelines(
                         place_a,
                         nxt,
                         nxt + 30,
-                        (
-                            f"{first} had to be at the {place_a} by "
-                            f"{minutes_to_clock(nxt)}."
-                        ),
+                        (f"{first} had to be at the {place_a} by {minutes_to_clock(nxt)}."),
                     )
                 ]
         for seg_i, segment in enumerate(segments):
@@ -772,7 +760,9 @@ def _find_evidence_intervention(
         ),
         fact_id=runner.segments[-1].fact_id,
     )
-    trial_answer = [answer_block if seg.fact_id == answer_block.fact_id else seg for seg in answer.segments]
+    trial_answer = [
+        answer_block if seg.fact_id == answer_block.fact_id else seg for seg in answer.segments
+    ]
     if all(seg.fact_id != answer_block.fact_id for seg in trial_answer):
         trial_answer = [*answer.segments, answer_block]
     trial_runner = [
@@ -809,9 +799,7 @@ def _questions(
     crime_end: int,
     intervention: EvidenceIntervention,
 ) -> QuestionBundle:
-    main = MAIN_STEMS[_pick(recipe.seed, "stem", len(MAIN_STEMS))].format(
-        incident=family.incident
-    )
+    main = MAIN_STEMS[_pick(recipe.seed, "stem", len(MAIN_STEMS))].format(incident=family.incident)
     runner_timeline = next(item for item in timelines.values() if item.label == runner)
     probe = runner_timeline.segments[-1]
     questions = [
@@ -1038,9 +1026,7 @@ def _offline_draft(
     people = [fact for fact in required if fact.id.startswith("f_seg_")]
     rule = [fact for fact in required if fact.id.startswith("f_rule")]
     other = [
-        fact
-        for fact in required
-        if fact not in spine and fact not in people and fact not in rule
+        fact for fact in required if fact not in spine and fact not in people and fact not in rule
     ]
 
     early = people[: max(1, len(people) // 3)]
@@ -1065,8 +1051,7 @@ def _offline_draft(
             early + other,
             (
                 "Earlier in the afternoon, ordinary errands and appointments began to "
-                "cross. "
-                + " ".join(fact.text for fact in early + other)
+                "cross. " + " ".join(fact.text for fact in early + other)
             ),
         ),
         (
@@ -1150,10 +1135,23 @@ def re_sub(text: str) -> str:
     return "".join(ch.lower() if ch.isalnum() else "_" for ch in text).strip("_")
 
 
+build_timeline_puzzle = build_concept_puzzle
+
+
+def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
+    """Dispatch to the versioned structural mechanism without changing Hub schemas."""
+    if recipe.prompt_version == "pilot.v5":
+        from cogito_mill.pipelines.provenance_templates import build_provenance_puzzle
+
+        return build_provenance_puzzle(recipe)
+    return build_timeline_puzzle(recipe)
+
+
 __all__ = [
     "ConceptPuzzle",
     "FAMILIES",
     "build_concept_puzzle",
+    "build_timeline_puzzle",
     "family_for_seed",
     "has_opportunity",
     "minutes_to_clock",

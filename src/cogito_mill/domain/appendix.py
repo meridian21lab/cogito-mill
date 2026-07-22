@@ -49,6 +49,16 @@ class EvidenceIntervention(BaseModel):
         return ids
 
 
+class ProvenanceState(BaseModel):
+    """One auditable state in a custody-provenance chain."""
+
+    step: int
+    token_container: str
+    carriers: dict[str, str] = Field(default_factory=dict)
+    event_fact_id: str | None = None
+    summary: str = ""
+
+
 class SolverAppendix(BaseModel):
     """Proof-carrying sidecar for external solvers and human audit."""
 
@@ -60,6 +70,7 @@ class SolverAppendix(BaseModel):
     timelines: dict[str, list[TimelineSegment]] = Field(default_factory=dict)
     opportunity: dict[str, bool] = Field(default_factory=dict)
     eliminations: list[EliminationNote] = Field(default_factory=list)
+    provenance_states: list[ProvenanceState] = Field(default_factory=list)
     gold_steps: list[DeductionStep] = Field(default_factory=list)
     supported_conclusions: list[str] = Field(default_factory=list)
     evidence_counterfactual: EvidenceIntervention | None = None
@@ -107,13 +118,23 @@ class SolverAppendix(BaseModel):
                 evidence = ", ".join(note.fact_ids) or "timeline"
                 lines.append(f"- {note.person_label}: {note.reason} [{evidence}]")
             lines.append("")
+        if self.provenance_states:
+            lines.append("Custody provenance:")
+            for state in self.provenance_states:
+                evidence = f" [{state.event_fact_id}]" if state.event_fact_id else ""
+                carriers = "; ".join(
+                    f"{container} → {person}" for container, person in state.carriers.items()
+                )
+                lines.append(
+                    f"- step {state.step}: token in {state.token_container}; {carriers}{evidence}"
+                )
+            lines.append("")
         if self.gold_steps:
             lines.append("Gold deduction steps:")
             for step in self.gold_steps:
                 evidence = ", ".join(step.evidence_fact_ids) or "prior"
                 lines.append(
-                    f"- {step.id} ({step.inference_type}): {step.conclusion} "
-                    f"[evidence: {evidence}]"
+                    f"- {step.id} ({step.inference_type}): {step.conclusion} [evidence: {evidence}]"
                 )
             lines.append("")
         if self.evidence_counterfactual is not None:
@@ -131,8 +152,7 @@ class SolverAppendix(BaseModel):
             lines.extend(
                 [
                     f"Falsifier hypothesis: {self.falsifier.hypothesis}",
-                    "Minimal contradicting evidence: "
-                    + ", ".join(self.falsifier.minimal_evidence),
+                    "Minimal contradicting evidence: " + ", ".join(self.falsifier.minimal_evidence),
                     "",
                 ]
             )

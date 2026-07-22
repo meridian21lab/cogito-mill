@@ -37,7 +37,7 @@ class MillNodes:
             n_distractors=int(state.get("meta", {}).get("n_distractors", 4)),
             target_hops=int(state.get("meta", {}).get("target_hops", 10)),
             schema_version="pilot.v2",
-            prompt_version="pilot.v4",
+            prompt_version="pilot.v5",
         )
         run_id = new_run_id(seed)
         return {
@@ -195,21 +195,13 @@ class MillNodes:
         failed = [report for report in code_reports if report.decision != "accept"]
         combined = CriticReport(
             decision="revise" if failed else "accept",
-            findings=[
-                finding
-                for report in (*code_reports, model)
-                for finding in report.findings
-            ],
+            findings=[finding for report in (*code_reports, model) for finding in report.findings],
             feedback=(
                 "; ".join(report.feedback for report in failed)
                 if failed
                 else (
                     "deterministic and grounding gates accept"
-                    + (
-                        f"; model advisory: {model.feedback}"
-                        if model.decision != "accept"
-                        else ""
-                    )
+                    + (f"; model advisory: {model.feedback}" if model.decision != "accept" else "")
                 )
             ),
         )
