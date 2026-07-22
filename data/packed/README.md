@@ -15,9 +15,17 @@ Historical pilot log: `docs/engineering/assessments/pilot-quality-iterations.md`
 | `pilot_v2.jsonl` | 12-item live-agent calibration pack (six concept families, nonlinear local rules) |
 | `pilot_v2_integrity_metrics.json` | Schema, unique-ID, dataset, and schema hashes for `pilot_v2` |
 | `pilot_v2_quality_metrics.json` | Narration and pack-level diversity gates for `pilot_v2` |
+| `pilot_v3_balanced.jsonl` | 12-item calibration pack with evidence-edit CFs + structural hops |
+| `pilot_v3_balanced_appendix.jsonl` | Companion solver appendix (not Hub thin schema) |
+| `pilot_v3_balanced_integrity_metrics.json` | Integrity hashes for `pilot_v3_balanced` |
+| `pilot_v3_balanced_quality_metrics.json` | Narration/diversity gates for `pilot_v3_balanced` |
 | `luna_eval_metrics.json` | Luna eval on `pilot_v0` |
 | `luna_eval_metrics_v1.json` | Luna eval sample on `pilot_v1` |
 | `luna_eval_metrics_v2.json` | Luna main-question eval on `pilot_v2` |
+| `luna_eval_metrics_v3_balanced_story.json` | Story-only Luna main eval on `pilot_v3_balanced` |
+| `luna_eval_metrics_v3_balanced_appendix.json` | Appendix-assisted Luna main eval |
+| `luna_eval_metrics_v3_balanced_story_cf.json` | Story-only counterfactual eval |
+| `luna_eval_metrics_v3_balanced_appendix_cf.json` | Appendix-assisted counterfactual eval |
 | `luna_eval_predictions_sample.jsonl` | `pilot_v0` prediction sample |
 | `luna_eval_predictions_v1_sample.jsonl` | `pilot_v1` prediction sample |
 
