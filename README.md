@@ -139,18 +139,31 @@ Cogito Mill is currently an **early MVP under active development**.
 - [x] Agent architecture and implementation flow
 - [x] Azure OpenAI and GLM provider factories
 - [x] Local and Cursor Cloud development environment
-- [ ] Typed domain schemas and fixture world
-- [ ] Z3 relational/temporal compiler and causal simulator
-- [ ] LangGraph planning and repair flow
-- [ ] Hierarchical long-story generation
-- [ ] End-to-end accepted item
+- [x] Typed domain schemas and fixture world
+- [x] Z3 relational/temporal compiler and causal simulator (pilot)
+- [x] Explicit LangGraph planner/critic/formalizer/storyteller/verification flow
+- [x] 150-item baseline packs plus live-agent calibration pack (`pilot_v2.jsonl`)
+- [x] Narration/diversity gates and blind Luna hardness evaluation
 - [ ] Controlled variant families
-- [ ] 100–200-world quality pilot
-- [ ] Hugging Face packaging and gated evaluation release
+- [ ] Hugging Face public/gated release (blocked on write-capable `HF_TOKEN`)
+- [ ] Full LLM-authored worlds at novel length
 
-The immediate milestone is **one complete, inspectable item**, not dataset scale. See the
-[agent implementation flow](docs/engineering/02-agent-flow.md) for phase-by-phase exit
-criteria.
+### Pilot CLI
+
+```bash
+uv run cogito-mill generate-batch \
+  --n 12 --difficulty very_hard --agent-mode live
+uv run cogito-mill publish --dry-run --input data/processed --config pilot_v2
+uv run cogito-mill assess --local-dir data/packed/pilot_v2.jsonl
+uv run cogito-mill evaluate \
+  --local-dir data/packed/pilot_v2.jsonl --solver-provider azure --main-only
+```
+
+Thin Hub schema columns include `id`, `story`, `question`, `gold_answer`,
+`questions`, `n_hops`, `setting_family`, `difficulty_bucket`, and `template_id`.
+
+The immediate milestone remains inspectable verification; the pilot slice adds batch
+generation plus a Luna hardness gate (target ≤30% exact-answer accuracy).
 
 ## 🚀 Quick start
 

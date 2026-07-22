@@ -30,14 +30,11 @@ def build_azure_chat(
         else cfg.azure_openai_judge_deployment
     )
     env_name = (
-        "AZURE_OPENAI_WRITER_DEPLOYMENT"
-        if role == "writer"
-        else "AZURE_OPENAI_JUDGE_DEPLOYMENT"
+        "AZURE_OPENAI_WRITER_DEPLOYMENT" if role == "writer" else "AZURE_OPENAI_JUDGE_DEPLOYMENT"
     )
     if not api_key or not endpoint or not deployment:
         raise ValueError(
-            "Azure OpenAI requires AZURE_OPENAI_API_KEY, AZURE_OPENAI_ENDPOINT, "
-            f"and {env_name}"
+            f"Azure OpenAI requires AZURE_OPENAI_API_KEY, AZURE_OPENAI_ENDPOINT, and {env_name}"
         )
     return AzureChatOpenAI(
         api_key=SecretStr(api_key),
@@ -54,12 +51,8 @@ def build_glm_chat(
     """GLM via OpenAI-compatible HTTP API (role-specific model ids)."""
     cfg = settings or get_settings()
     api_key = cfg.glm_api_key
-    model = (
-        cfg.glm_writer_deployment if role == "writer" else cfg.glm_judge_deployment
-    )
-    env_name = (
-        "GLM_WRITER_DEPLOYMENT" if role == "writer" else "GLM_JUDGE_DEPLOYMENT"
-    )
+    model = cfg.glm_writer_deployment if role == "writer" else cfg.glm_judge_deployment
+    env_name = "GLM_WRITER_DEPLOYMENT" if role == "writer" else "GLM_JUDGE_DEPLOYMENT"
     if not api_key:
         raise ValueError("GLM requires GLM_API_KEY")
     if not model:
