@@ -64,10 +64,10 @@ def test_counterfactual_changes_only_final_recipient() -> None:
     )
 
     assert intervention is not None
-    assert intervention.fact_id == "f_event_12"
+    assert intervention.fact_id == "f_event_21"
     assert counterfactual.gold_answer == intervention.answer_label
     assert counterfactual.gold_answer != puzzle.questions.gold_answer
-    assert "every earlier handoff and repacking stayed fixed" in counterfactual.question
+    assert "every earlier handoff and contents transfer stayed fixed" in counterfactual.question
 
 
 def test_appendix_exposes_auditable_state_trace() -> None:
@@ -75,11 +75,11 @@ def test_appendix_exposes_auditable_state_trace() -> None:
     states = puzzle.appendix.provenance_states
     text = puzzle.appendix.to_solver_text()
 
-    assert len(states) == 13
-    assert [state.step for state in states] == list(range(13))
+    assert len(states) == 22
+    assert [state.step for state in states] == list(range(22))
     assert "Custody provenance:" in text
     assert "critical_fact_ids" in puzzle.appendix.incident
-    assert puzzle.appendix.incident["final_step"] == 12
+    assert puzzle.appendix.incident["final_step"] == 21
 
 
 def test_offline_story_passes_item_gates_without_formula_ledger_or_answer_leak() -> None:

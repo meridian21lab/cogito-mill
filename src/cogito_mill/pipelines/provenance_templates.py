@@ -118,7 +118,7 @@ MAIN_STEMS = (
     "Which full name belongs to the final custodian of the {token} at the time of the incident?",
     "The {token} authorized the incident. Who had custody of it at that moment? "
     "Give the full name.",
-    "After following every witnessed handoff and repacking, who carried the {token} at the "
+    "After following every witnessed handoff and contents transfer, who carried the {token} at the "
     "final checkpoint? Give the full name.",
     "Who signed for the container that held the {token} when the authorization was recorded? "
     "Give the full name.",
@@ -266,7 +266,7 @@ def build_provenance_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
                 return candidate
         raise ValueError("provenance puzzle needs at least two people")
 
-    for cycle in range(4):
+    for cycle in range(7):
         current_holder = carriers[current_container]
         destinations = [
             container_id
@@ -311,13 +311,12 @@ def build_provenance_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
         )
 
         step += 1
-        event = _repack_event(
+        event = _contents_transfer_event(
             step=step,
             minute=start_minute + step * 7,
             source_container_id=current_container,
             destination_container_id=destination,
             actor_id=current_holder,
-            token=flavor.token,
             container_labels=container_labels,
             labels=labels,
             minutes_to_clock=minutes_to_clock,
@@ -549,6 +548,38 @@ def _handoff_event(
     clock = minutes_to_clock(minute)
     from_first = labels[from_person_id].split()[0]
     to_first = labels[to_person_id].split()[0]
+    frames = (
+        (
+            "At {clock}, {sender} set the {container} beside {recipient}'s work; "
+            "{recipient} signed the receipt before carrying it away."
+        ),
+        (
+            "{recipient} took custody of the {container} from {sender} at {clock}, as the "
+            "witness noted beside the container's seam number."
+        ),
+        (
+            "The {clock} entry records {sender} surrendering the {container} to {recipient}; "
+            "the recipient's mark appears on that same entry."
+        ),
+        (
+            "A witness watched {recipient} accept the {container} from {sender} at {clock} "
+            "and carry it toward the next ordinary task."
+        ),
+        (
+            "When the clock showed {clock}, {sender} passed custody of the {container} to "
+            "{recipient}, who checked the seam and signed."
+        ),
+        (
+            "{sender}'s responsibility for the {container} ended at {clock}, when {recipient} "
+            "accepted it under the witness's eye."
+        ),
+    )
+    text = frames[step % len(frames)].format(
+        clock=clock,
+        sender=from_first,
+        recipient=to_first,
+        container=container_labels[container_id],
+    )
     return CustodyEvent(
         id=f"e_{step:02d}",
         kind="handoff",
@@ -560,30 +591,51 @@ def _handoff_event(
         from_person_id=from_person_id,
         to_person_id=to_person_id,
         fact_id=f"f_event_{step:02d}",
-        text=(
-            f"At {clock}, {from_first} handed the {container_labels[container_id]} to "
-            f"{to_first}, and both initialed the same custody line."
-        ),
+        text=text,
     )
 
 
-def _repack_event(
+def _contents_transfer_event(
     *,
     step: int,
     minute: int,
     source_container_id: str,
     destination_container_id: str,
     actor_id: str,
-    token: str,
     container_labels: dict[str, str],
     labels: dict[str, str],
     minutes_to_clock: Callable[[int], str],
 ) -> CustodyEvent:
     clock = minutes_to_clock(minute)
     actor_first = labels[actor_id].split()[0]
+    frames = (
+        (
+            "At {clock}, {actor} broke the two witness tapes and tipped everything from the "
+            "{source} into the {destination}; nobody inventoried the contents before the new "
+            "seam was closed."
+        ),
+        (
+            "During the {clock} check, {actor} emptied the {source} into the {destination} "
+            "without taking out or naming any individual object, then sealed the destination."
+        ),
+        (
+            "The receipt marked {clock}: {actor} transferred the complete, unexamined contents "
+            "of the {source} to the {destination}, leaving the source empty."
+        ),
+        (
+            "Witnesses at {clock} saw {actor} pour the still-unlisted contents of the {source} "
+            "into the {destination} and fasten the destination's numbered seam."
+        ),
+    )
+    text = frames[step % len(frames)].format(
+        clock=clock,
+        actor=actor_first,
+        source=container_labels[source_container_id],
+        destination=container_labels[destination_container_id],
+    )
     return CustodyEvent(
         id=f"e_{step:02d}",
-        kind="repack",
+        kind="contents_transfer",
         minute=minute,
         actor_id=actor_id,
         container_id=None,
@@ -592,11 +644,7 @@ def _repack_event(
         from_person_id=None,
         to_person_id=None,
         fact_id=f"f_event_{step:02d}",
-        text=(
-            f"At {clock}, with both seams in view, {actor_first} moved the {token} from the "
-            f"{container_labels[source_container_id]} into the "
-            f"{container_labels[destination_container_id]} and closed the new seam."
-        ),
+        text=text,
     )
 
 
@@ -617,7 +665,7 @@ def _apply_event(
     before_container = token_container
     event_atom = LogicAtom(predicate="observed_event", arguments=[event.id])
     logic_facts.append(event_atom)
-    scene_id = f"sc{min(4, 1 + (int(current_index) - 1) // 3)}"
+    scene_id = f"sc{min(4, 2 + (int(current_index) - 1) // 7)}"
     add_fact(
         event.fact_id,
         event.text,
@@ -634,17 +682,17 @@ def _apply_event(
             raise ValueError("handoff source does not carry the container")
         carriers = dict(carriers)
         carriers[event.container_id] = event.to_person_id
-    elif event.kind == "repack":
+    elif event.kind == "contents_transfer":
         assert event.source_container_id is not None
         assert event.destination_container_id is not None
         if token_container != event.source_container_id:
-            raise ValueError("repack source does not contain the token")
+            raise ValueError("content-transfer source does not contain the token")
         actor = event.actor_id
         if (
             carriers[event.source_container_id] != actor
             or carriers[event.destination_container_id] != actor
         ):
-            raise ValueError("repack containers are not co-located with the actor")
+            raise ValueError("content-transfer containers are not co-located with the actor")
         token_container = event.destination_container_id
     else:
         raise ValueError(f"unknown custody event kind: {event.kind}")
@@ -765,8 +813,8 @@ def _questions(
         token=flavor.token,
         checkpoint=flavor.checkpoint,
     )
-    repacks = [event for event in events if event.kind == "repack"]
-    probe = repacks[1]
+    transfers = [event for event in events if event.kind == "contents_transfer"]
+    probe = transfers[1]
     probe_state = snapshots[int(probe.id.removeprefix("e_"))]
     questions = [
         ScoredQuestion(
@@ -779,7 +827,8 @@ def _questions(
         ScoredQuestion(
             id="q_provenance_checkpoint",
             question=(
-                f"Immediately after the second witnessed repacking, which container held the "
+                f"Immediately after the second witnessed contents transfer, which container "
+                f"held the "
                 f"{flavor.token}? Answer with the container description only."
             ),
             gold_answer=probe_state.token_container,
@@ -789,8 +838,8 @@ def _questions(
         ScoredQuestion(
             id="q_counterfactual",
             question=(
-                f"If {intervention.description}, while every earlier handoff and repacking "
-                f"stayed fixed, who would hold the {flavor.token} at the checkpoint? "
+                f"If {intervention.description}, while every earlier handoff and contents "
+                f"transfer stayed fixed, who would hold the {flavor.token} at the checkpoint? "
                 "Give the full name."
             ),
             gold_answer=counterfactual_label,

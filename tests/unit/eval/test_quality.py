@@ -59,6 +59,39 @@ def test_formulaic_ledger_pack_fails() -> None:
     assert not report["gates"]["no_formulaic_ledger"]
 
 
+def test_direct_token_transfer_shortcut_fails() -> None:
+    rows = []
+    for index in range(12):
+        row = _row(index)
+        row["story"] = (
+            row["story"] + "\n\nAt 2:10 PM, Avery moved the brass relay cipher from the blue pouch "
+            "into the cedar case."
+        )
+        rows.append(row)
+
+    report = assess_dataset(rows)
+
+    assert not report["passed"]
+    assert not report["gates"]["no_direct_token_transfer_reset"]
+    assert report["narration"]["direct_token_transfer_failures"] == 12
+
+
+def test_repeated_custody_boilerplate_is_formulaic() -> None:
+    rows = []
+    for index in range(12):
+        row = _row(index)
+        row["story"] = (
+            row["story"] + "\n\nAt 2:10 PM, Avery handed over the blue pouch, and both initialed "
+            "the same custody line."
+        )
+        rows.append(row)
+
+    report = assess_dataset(rows)
+
+    assert not report["passed"]
+    assert not report["gates"]["no_formulaic_ledger"]
+
+
 def test_duplicate_and_template_monopoly_fail() -> None:
     row = _row(0)
     rows = [{**row, "id": f"copy-{index}"} for index in range(12)]

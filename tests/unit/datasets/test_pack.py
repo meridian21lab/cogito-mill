@@ -27,7 +27,7 @@ def test_pack_after_generate(tmp_path: Path) -> None:
     }
     assert 2 <= len(rows[0]["questions"]) <= 4
     assert 1 <= len(rows[0]["gold_answer_variants"]) <= 3
-    assert 10 <= rows[0]["n_hops"] <= 80
+    assert 10 <= rows[0]["n_hops"] <= 160
     assert not any(re.search(r"-\d+$", q["gold_answer"]) for q in rows[0]["questions"])
     # json serializable
     json.dumps(rows[0])
@@ -35,6 +35,6 @@ def test_pack_after_generate(tmp_path: Path) -> None:
     assert len(appendices) == 1
     assert appendices[0]["id"] == rows[0]["id"]
     assert appendices[0]["mechanism"] == "provenance_custody_dag"
-    assert len(appendices[0]["provenance_states"]) == 13
+    assert len(appendices[0]["provenance_states"]) == 22
     assert set(appendices[0]["opportunity"].values()) == {True}
     assert (tmp_path / "processed" / result["run_id"] / "reasoning-appendix.json").exists()

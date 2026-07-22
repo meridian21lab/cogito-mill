@@ -142,9 +142,10 @@ class LiveAgentSuite:
         mechanism = (
             """The mystery is a connected custody-provenance puzzle. Every named person has
 local access, so opportunity alone cannot answer it. A uniquely numbered authorization object
-moves inside sealed containers through witnessed handoffs and repackings. The answer requires
-following the shared object/container state to a final authorization record. Do not choose or
-hint at the answer; deterministic code fixes the chain."""
+moves inside sealed containers through witnessed handoffs and uninspected whole-content
+transfers. The answer requires following the shared object/container state from its opening
+location to a final authorization record. Do not choose or hint at the answer; deterministic
+code fixes the chain."""
             if recipe.prompt_version == "pilot.v5"
             else """The mystery is a timeline/opportunity puzzle: an incident happens in a fixed
 time window at one place, and only one person could have been there for the whole window after
@@ -170,7 +171,7 @@ Recipe: {recipe.model_dump_json()}
         family_id: str,
     ) -> CriticReport:
         mechanism_gate = (
-            "explicit need to compose sealed-container handoffs, repackings, and a final "
+            "explicit need to compose sealed-container handoffs, whole-content transfers, and a final "
             "authorization record; every suspect has local opportunity"
             if recipe.prompt_version == "pilot.v5"
             else "explicit need to combine times, places, travel, and alibis"
@@ -203,8 +204,10 @@ Proposal: {concept.model_dump_json()}
 Phase 1 — simple factual storyline only.
 Write a title, opening, and the same five scene IDs as a clear account of the incident and every
 obligated fact. No literary padding yet. Preserve people, objects, containers, custody handoffs,
-repackings, places, and clock times exactly. Do not reveal the final custodian or culprit.
-State observations without explaining the full deduction.
+whole-content transfers, places, and clock times exactly. A transfer moves unexamined contents;
+never identify the authorization object during a transfer or state which container it enters.
+Do not reveal the final custodian or culprit. State observations without explaining the full
+deduction. Use only the people named in the obligations; do not invent additional named people.
 Never write any participant's contiguous full name (given name immediately followed by surname).
 Keep surnames in separate clauses, as in the obligations. Never use protocol declarations,
 status scales, coefficients, modulo arithmetic, checksums, tallies, or six-stream ledgers.
@@ -218,13 +221,16 @@ Repair feedback: {feedback or "none"}
         polish_prompt = f"""You are the storyteller for a machine-verified deduction dataset.
 Phase 2 — add light noise, then regenerate into one coherent human-readable mystery.
 You receive a fact-true spine. Preserve every named participant, object, container, custody
-handoff, repacking, place, clock time, duration, and travel claim. Weave ordinary activity
+handoff, whole-content transfer, place, clock time, duration, and travel claim. Weave ordinary activity
 (errands, food, work tasks, small talk) around the critical observations. Return a title,
 opening, and the same five scene IDs.
 Write like a short literary mystery or true-crime vignette, not a procedure manual.
 A careful reader should be able to reconstruct the changing physical state.
 Never write any participant's contiguous full name; keep surnames in separate clauses.
-State observations without narrating the answer or labeling distractors as irrelevant.
+Never name or identify the authorization object while narrating a whole-content transfer; the
+reader must propagate its opening location. State observations without narrating the answer or
+labeling distractors as irrelevant. Use only people named in the obligations and do not invent
+additional named people.
 Never use protocol declarations, status scales, coefficients, modulo arithmetic, checksums,
 tallies, or six-stream ledgers. Do not invent twin-name suffixes or personnel-index walls.
 Do not state who finishes with the authorization object.

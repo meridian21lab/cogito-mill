@@ -34,7 +34,24 @@ FORMULAIC_PATTERNS: tuple[re.Pattern[str], ...] = tuple(
         r"shared status scale",
         r"stream(?:'s|s)? coefficient",
         r"remainder modulo",
+        r"both initialed the same custody line",
+        r"with both seams in view",
     )
+)
+
+_AUTHORIZATION_TOKENS = (
+    "numbered jeweler's release seal",
+    "bronze archive seal",
+    "ceramic command wafer",
+    "numbered gallery release key",
+    "brass relay cipher",
+    "engraved treatment-room seal",
+)
+_DIRECT_TOKEN_TRANSFER_RE = re.compile(
+    r"(?:moved|transferred|placed)\s+the\s+("
+    + "|".join(re.escape(token) for token in _AUTHORIZATION_TOKENS)
+    + r")\s+from\s+the\s+[^.!?]{1,100}\s+into\s+the\s+",
+    re.IGNORECASE,
 )
 
 # Clock times, day-parts, and order words a reader can use for a timeline map.
@@ -60,6 +77,11 @@ def load_prompt(name: str) -> str:
 
 def formulaic_hits(text: str) -> list[str]:
     return [pattern.pattern for pattern in FORMULAIC_PATTERNS if pattern.search(text)]
+
+
+def direct_token_transfer_hits(text: str) -> list[str]:
+    """Return token names whose transfer sentence resets the provenance chain."""
+    return [match.group(1) for match in _DIRECT_TOKEN_TRANSFER_RE.finditer(text)]
 
 
 def critique_story_document(
@@ -124,6 +146,19 @@ def critique_story_document(
         )
     )
 
+    transfer_resets = direct_token_transfer_hits(text)
+    findings.append(
+        CriticFinding(
+            gate="no_direct_token_transfer_reset",
+            passed=not transfer_resets,
+            detail=(
+                "whole-content transfers do not directly reveal the tracked token"
+                if not transfer_resets
+                else f"direct token-transfer resets: {', '.join(transfer_resets[:3])}"
+            ),
+        )
+    )
+
     temporal_markers = count_temporal_markers(text)
     findings.append(
         CriticFinding(
@@ -167,10 +202,7 @@ def critique_story_document(
         and " " in q.gold_answer.strip()
         and (
             q.question_type in {"main", "counterfactual"}
-            or (
-                q.question_type == "intermediate"
-                and "full name" in q.question.lower()
-            )
+            or (q.question_type == "intermediate" and "full name" in q.question.lower())
         )
     ]
     clear_form = all("full name" in q.question.lower() for q in name_qs)
