@@ -214,6 +214,7 @@ def _build_constraint_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     preferred = _pick(recipe.seed, "constraint-target", len(objects))
     target_order = [objects[preferred], *[item for item in objects if item != objects[preferred]]]
     theory: ConstraintTheory | None = None
+    target_core_sizes: dict[str, int] = {}
     for candidate_target in target_order:
         candidate_theory = _minimal_target_theory(
             people=people,
@@ -224,11 +225,9 @@ def _build_constraint_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             target_object=candidate_target,
             seed=recipe.seed,
         )
+        target_core_sizes[candidate_target] = len(candidate_theory.clues)
         if theory is None or len(candidate_theory.clues) > len(theory.clues):
             theory = candidate_theory
-        if len(candidate_theory.clues) >= 10:
-            theory = candidate_theory
-            break
     assert theory is not None
     target_object = theory.target_object
     answer_id = object_owner[target_object]
@@ -358,6 +357,7 @@ def _build_constraint_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
             "incident": family.incident,
             "target_object": target_object,
             "target_clue_ids": [clue.id for clue in theory.clues],
+            "candidate_target_core_sizes": target_core_sizes,
             "axes": ["person", "object", "place", "time"],
         },
         constraint_clues=theory.clues,

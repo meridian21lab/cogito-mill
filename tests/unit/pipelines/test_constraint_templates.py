@@ -75,6 +75,8 @@ def test_constraint_appendix_carries_machine_certificate() -> None:
     assert "Relational constraints:" in text
     assert "Verified assignment:" in text
     assert appendix.incident["target_object"]
+    sizes = appendix.incident["candidate_target_core_sizes"]
+    assert len(appendix.constraint_clues) == max(sizes.values())
 
 
 def test_offline_constraint_story_passes_item_gates() -> None:
