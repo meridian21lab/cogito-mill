@@ -27,6 +27,11 @@ Historical pilot log: `docs/engineering/assessments/pilot-quality-iterations.md`
 | `pilot_v4b_neutral_appendix.jsonl` | Timeline opportunity appendix for `pilot_v4b_neutral` |
 | `pilot_v4b_neutral_integrity_metrics.json` | Integrity hashes for `pilot_v4b_neutral` |
 | `pilot_v4b_neutral_quality_metrics.json` | Narration/diversity gates for `pilot_v4b_neutral` |
+| `pilot_v6d_tuple_unique.jsonl` | 16-item tuple-unique relational CSP development calibration |
+| `pilot_v6d_tuple_unique_appendix.jsonl` | Z3 constraints, assignments, and proof companion |
+| `pilot_v6d_tuple_unique_integrity_metrics.json` | Schema, ID, dataset, and schema hashes |
+| `pilot_v6d_tuple_unique_quality_metrics.json` | Narration, shortcut, and diversity gates |
+| `pilot_v6d_tuple_unique_tuple_audit.json` | Full `(person, place, time)` uniqueness audit (16/16) |
 | `luna_eval_metrics.json` | Luna eval on `pilot_v0` |
 | `luna_eval_metrics_v1.json` | Luna eval sample on `pilot_v1` |
 | `luna_eval_metrics_v2.json` | Luna main-question eval on `pilot_v2` |
@@ -37,6 +42,8 @@ Historical pilot log: `docs/engineering/assessments/pilot-quality-iterations.md`
 | `luna_eval_metrics_v4_timeline_story.json` | Story-only main eval on `pilot_v4_timeline` (1.00) |
 | `luna_eval_metrics_v4_timeline_appendix.json` | Appendix-assisted main eval on `pilot_v4_timeline` |
 | `luna_eval_metrics_v4b_neutral_story.json` | Story-only main eval on `pilot_v4b_neutral` (1.00) |
+| `luna_eval_metrics_v6d_tuple_unique_story.json` | Story-only Luna main eval (3/16; 0.1875) |
+| `luna_eval_metrics_v6d_tuple_unique_appendix.json` | Appendix-assisted Luna main eval (16/16) |
 | `luna_eval_predictions_sample.jsonl` | `pilot_v0` prediction sample |
 | `luna_eval_predictions_v1_sample.jsonl` | `pilot_v1` prediction sample |
 

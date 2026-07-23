@@ -273,7 +273,7 @@ claims—promote only as the anti-ledger narration baseline.
 
 ## quality-20260722-provenance-custody-dag — Connected custody provenance (2026-07-22)
 
-Status: planned
+Status: failed
 Claim level: development calibration
 Protocol: dataset-quality.v1.1
 
@@ -334,40 +334,44 @@ must prevent the same unique answer, demonstrating dependency rather than answer
 
 ### Change
 
-Planned; no implementation or measured candidate yet.
+Added a proof-carrying custody DAG with 13 state snapshots, answer-independent transitions,
+key-clue ablation, natural evidence-edit counterfactuals, and versioned provenance prompts.
 
 ### Generation and item gates
 
-Pending.
+20 accepted / 0 rejected / 20 attempts; schema and IDs valid; every generated key clue passed
+the original ablation check. The later v1.1 backfill correctly rejected all 20 stories because
+the first implementation directly named the tracked token during every transfer.
 
 ### Dataset metrics
 
-Pending.
+Original assessment passed surface gates (20/20 narration; six families; shingle P95 0.157), but
+the v1.1 backfill failed narration 0/20, formulaic 20/20, and direct-transfer reset 20/20.
 
 ### Human audit
 
-Pending; sample will be one lowest-ID item per represented family, fixed before reading.
+Fixed IDs 013000–013005. Failed: repeated “same custody line” / “seams in view” transaction
+frames made a disguised ledger; 013000 and 013005 also invented unrelated named casts.
 
 ### Difficulty evaluation
 
-Pending.
+Non-gating Luna diagnostic: 20/20 correct, main accuracy 1.00, transport errors 0.
 
 ### Verdict
 
-- Primary hypothesis: pending
-- Regressions: pending
-- Permissible claim: pending
+- Primary hypothesis: rejected; the formal DAG still had a last-transfer semantic shortcut.
+- Regressions: human narration and v1.1 shortcut gates failed.
+- Permissible claim: failed mechanism diagnostic only; pack quarantined.
 - What this does not establish: cross-model hardness, human completion time, or statistical
   release hardness
 
 ### Next action
 
-Implement the smallest provenance mechanism behind the existing graph, add deterministic
-transition and key-clue-ablation tests, then run the pre-registered candidate.
+Keep the diagnostic artifacts quarantined; test blind whole-content transfer next.
 
 ## quality-20260722-provenance-blind-transfer — Blind contents transfer refinement (2026-07-22)
 
-Status: planned
+Status: failed
 Claim level: development calibration
 Protocol: dataset-quality.v1.1
 
@@ -419,38 +423,42 @@ stories rather than custody ledgers.
 
 ### Change
 
-Planned; no measured candidate yet.
+Changed token-naming repacks to seven blind whole-content transfers, varied deterministic event
+frames, blocked extra named cast, and added v1.1 shortcut/boilerplate gates.
 
 ### Generation and item gates
 
-Pending.
+20 accepted / 0 rejected / 20 attempts; schema, IDs, unique disclosure, ablation, and axis
+invariants passed.
 
 ### Dataset metrics
 
-Pending.
+Assessment passed: narration 20/20, words 824–949, zero formulaic/direct-transfer failures, six
+families, effective count 5.882, unique openings 1.0, shingle P95 0.194.
 
 ### Human audit
 
-Pending; fixed IDs `lss-concept-014000` through `lss-concept-014005`.
+Fixed IDs 014000–014005 removed the extra cast and direct reset, but remained bookkeeping-heavy
+despite varied frames.
 
 ### Difficulty evaluation
 
-Pending.
+Non-gating Luna diagnostic: 20/20 correct, main accuracy 1.00, transport errors 0.
 
 ### Verdict
 
-- Primary hypothesis: pending
-- Regressions: pending
-- Permissible claim: pending
+- Primary hypothesis: rejected; seven serial state updates were still trivial for Luna.
+- Regressions: human burden increased without hardness.
+- Permissible claim: narration/shortcut repair only; not a hard benchmark.
 - What this does not establish: cross-model or statistical release hardness
 
 ### Next action
 
-Verify the refinement offline, backfill the new measurement, then generate the isolated candidate.
+Reject serial provenance as the main hardness path; move to relational constraint worlds.
 
 ## quality-20260722-relational-constraint-world — Narrative relational CSP (2026-07-22)
 
-Status: planned
+Status: failed
 Claim level: development calibration
 Protocol: dataset-quality.v1.1
 
@@ -500,39 +508,43 @@ removing any whole non-person axis must leave multiple target candidates.
 
 ### Change
 
-Planned; no implementation or measured candidate yet.
+Added a deep Z3 constraint module over six-person object/place/time bijections, natural
+exclusion/order/XOR clues, target-level clue ablation, axis-dependence checks, and solver appendix.
 
 ### Generation and item gates
 
-Pending.
+16 accepted / 0 rejected / 16 attempts; schema/IDs valid; unique owner and target clue ablations
+passed under the then-current owner-only contract.
 
 ### Dataset metrics
 
-Pending.
+Assessment passed: narration 16/16, words 448–637, six families, effective count 5.818, unique
+openings 1.0, shingle P95 0.061, zero formulaic/direct-transfer failures.
 
 ### Human audit
 
-Pending; fixed IDs `lss-concept-015000` through `lss-concept-015005`.
+Fixed IDs 015000–015005 passed coherence, grounding, answer leak/form, and vocabulary checks;
+middle paragraphs remained intentionally clue-dense.
 
 ### Difficulty evaluation
 
-Pending.
+Luna: 6/16 correct (0.375), Wilson upper 0.578, transport errors 0. This materially improved on
+provenance but missed the canonical ≤0.30 gate.
 
 ### Verdict
 
-- Primary hypothesis: pending
-- Regressions: pending
-- Permissible claim: pending
+- Primary hypothesis: directional support, canonical gate failed.
+- Regressions: none on measured surface/integrity gates.
+- Permissible claim: promising mechanism calibration, not a promoted hard pack.
 - What this does not establish: release-scale, cross-model, or human-panel hardness
 
 ### Next action
 
-Implement and verify the smallest Z3-backed narrative constraint world without changing the graph
-or Hub schemas.
+Calibrate target choice by irreducible cross-axis dependency rather than serial clue count.
 
 ## quality-20260722-max-dependency-target — Max-dependency CSP target selection (2026-07-22)
 
-Status: planned
+Status: failed
 Claim level: development calibration
 Protocol: dataset-quality.v1.1
 
@@ -572,38 +584,43 @@ the object whose irreducible target-proof uses the most clues will reduce Luna m
 
 ### Change
 
-Planned; no measured candidate yet.
+Changed only target choice: minimize all six candidate-object proofs and select the largest
+irreducible owner proof.
 
 ### Generation and item gates
 
-Pending.
+16 accepted / 0 rejected / 16 attempts across exact seeds 16000–16015; one Azure stall after
+16007 was terminated by PID and resumed exactly at 16008.
 
 ### Dataset metrics
 
-Pending.
+Assessment passed: narration 16/16, words 465–740, six families, shingle P95 0.075, zero
+formulaic/direct-transfer failures.
 
 ### Human audit
 
-Pending; fixed IDs `lss-concept-016000` through `lss-concept-016005`.
+Fixed audit failed: 016001 invented six decorative objects and presented them as the formal
+bijection axis, creating an ambiguous/contradictory story despite automated assess passing.
 
 ### Difficulty evaluation
 
-Pending.
+Non-gating due human failure, but Luna reached 4/16 (0.25), development hardness pass; transport
+errors 0.
 
 ### Verdict
 
-- Primary hypothesis: pending
-- Regressions: pending
-- Permissible claim: pending
+- Primary hypothesis: hardness supported, overall candidate failed human audit.
+- Regressions: ungrounded axis vocabulary in one fixed sample.
+- Permissible claim: mechanism hardness diagnostic only; pack quarantined.
 - What this does not establish: release-scale or cross-model hardness
 
 ### Next action
 
-Implement only max-dependency target selection, verify unchanged gates, and run the fixed candidate.
+Lock writer vocabulary to formal people, objects, places, and times.
 
 ## quality-20260722-csp-vocabulary-lock — Exact CSP vocabulary lock (2026-07-22)
 
-Status: planned
+Status: failed
 Claim level: development calibration
 Protocol: dataset-quality.v1.1
 
@@ -645,38 +662,41 @@ automated gates.
 
 ### Change
 
-Planned; no measured candidate yet.
+Added an exact formal-axis vocabulary whitelist to both constraint-story writer phases.
 
 ### Generation and item gates
 
-Pending.
+16 accepted / 0 rejected / 16 attempts over paired seeds; one Azure stall after 16008 was resumed
+exactly at 16009.
 
 ### Dataset metrics
 
-Pending.
+Assessment passed: narration 16/16, words 484–707, six families, shingle P95 0.091, all shortcut
+and diversity gates passed.
 
 ### Human audit
 
-Pending; fixed IDs `lss-concept-016000` through `lss-concept-016005` in the new candidate pack.
+Fixed IDs 016000–016005 passed the vocabulary/coherence audit; no invented axis members.
 
 ### Difficulty evaluation
 
-Pending.
+Luna 4/16 (0.25), development gate passed, transport errors 0. Frozen tuple audit then found only
+11/16 complete target tuples unique, so auxiliary place/time answers were invalid in five items.
 
 ### Verdict
 
-- Primary hypothesis: pending
-- Regressions: pending
-- Permissible claim: pending
+- Primary hypothesis: vocabulary and hardness confirmed; complete answer contract failed.
+- Regressions: five underdetermined auxiliary QA answers.
+- Permissible claim: rejected pack; owner-only hardness diagnostic remains valid.
 - What this does not establish: release-scale or cross-model hardness
 
 ### Next action
 
-Add only the exact constraint vocabulary lock, verify, and run the final fixed candidate.
+Audit complete tuples, emit countermodels, and regenerate under a tuple-aware verifier.
 
 ## quality-20260722-full-target-tuple-audit — Frozen CSP answer-contract audit (2026-07-22)
 
-Status: planned
+Status: failed
 Claim level: development calibration
 Protocol: dataset-quality.v1.1
 
@@ -711,7 +731,8 @@ world.
 
 ### Change
 
-Planned.
+Added `target_tuples()` enumeration and `scripts/audit-constraint-tuples.py`; no frozen data was
+modified.
 
 ### Generation and item gates
 
@@ -719,7 +740,8 @@ Not applicable; frozen artifacts only.
 
 ### Dataset metrics
 
-Pending tuple audit.
+Frozen audit: 11/16 unique full tuples; five countermodels showed variable place or time while
+owner remained fixed.
 
 ### Human audit
 
@@ -731,18 +753,18 @@ Unchanged retained 4/16 story-only result.
 
 ### Verdict
 
-- Primary hypothesis: pending
-- Regressions: pending
-- Permissible claim: pending
+- Primary hypothesis: rejected.
+- Regressions: none; this measurement exposed a pre-existing contract defect.
+- Permissible claim: v6c rejected; no complete-bundle quality claim.
 - What this does not establish: human solve rate or release hardness
 
 ### Next action
 
-Implement tuple enumeration and audit all frozen v6c items before promotion.
+Make generation/minimization/ablation tuple-aware and create a new immutable candidate.
 
 ## quality-20260722-tuple-unique-csp — Full-answer unique relational CSP (2026-07-22)
 
-Status: planned
+Status: passed
 Claim level: development calibration
 Protocol: dataset-quality.v1.1
 
@@ -778,35 +800,59 @@ v6c's narration gates and Luna main accuracy ≤0.30.
 - Planned commands: full offline validation; isolated generation with exact-seed resume on stall;
   integrity/assess; tuple audit; fixed human IDs `016000`–`016005`; Luna main-only; appendix assist
 - Known deviations: v6c main hardness remains a valid owner-question diagnostic but the pack is
-  rejected because 5/16 auxiliary answers were underdetermined
+  rejected because 5/16 auxiliary answers were underdetermined. The v6d Azure writer stalled
+  after seed 16006; the exact process was terminated and generation resumed at 16007 without
+  replacing or skipping any seed.
 
 ### Change
 
-Tuple-aware generator implemented; no candidate measured yet.
+Changed target minimization, max-dependency selection, ablation, and axis checks from owner-only
+to complete `(person, place, time)` tuple uniqueness. Added reusable frozen-pack tuple audit.
 
 ### Generation and item gates
 
-Pending.
+16 accepted / 0 rejected / 16 attempts; one Azure stall after seed 16006 was terminated by exact
+PID and resumed at 16007. Schema valid 16/16; IDs unique; tuple audit 16/16; every retained clue
+and each object/place/time axis is tuple-necessary.
 
 ### Dataset metrics
 
-Pending.
+Assessment passed: narration 16/16; words 466–723; zero duplicates, formulaic hits, or transfer
+resets; six families; effective family count 5.818; max share 0.1875; setting entropy 0.972;
+unique openings/stems 1.0; shingle P95 0.095.
+
+- Pack raw / canonical SHA-256:
+  `c4e87603f541a8cb803fcc92ad2fb0b1c7ff36d865d83bf0fa37269616b48975` /
+  `43abc1f9513ee3972a4b51d0f690c5807048a259a96d7eb2f5e983aaae947ac9`
+- Appendix SHA-256:
+  `1a3528c2ee63a57394259028f19e5d3897822db98f3770ab7bcd5b09d5ed05cd`
+- Integrity / quality / tuple-audit SHA-256:
+  `9c078ba20f9994a82902dea79f191da94e199bb8e7a087d97448497f2928b42b` /
+  `107ed57ccfba62c90795c788a44a0c33a0e84d2793df30f70b0c10129303f542` /
+  `1283897ac9c34cd85a496100d6c9663a9c389aa12a09daf96d08cae50600b4b8`
 
 ### Human audit
 
-Pending.
+Fixed IDs 016000–016005 passed: coherent case-file narration, exact formal vocabulary, no answer
+leak, explicit answer forms, self-contained bijection rule, and plausible ordinary activity.
 
 ### Difficulty evaluation
 
-Pending.
+Story-only Luna: 3/16 (0.1875), development hardness pass; Wilson upper 0.388 (release fail);
+first-name-only 0; transport errors 0. Appendix-assisted Luna: 16/16, transport errors 0.
+Metrics SHA-256 story / appendix:
+`55820c8d1eebeea2172d7042f6389923cee5fa6d32f56ae1a94a13f33bd98e74` /
+`6dfde442fd95afb8974935e5433204c16ff089288a1807a0b7316241f5db4d24`.
 
 ### Verdict
 
-- Primary hypothesis: pending
-- Regressions: pending
-- Permissible claim: pending
+- Primary hypothesis: confirmed at development-calibration scope.
+- Regressions: none on registered gates; complete tuple correctness repaired.
+- Permissible claim: promote `pilot_v6d_tuple_unique` as a hard, readable, solver-verifiable
+  development calibration against the recorded Luna snapshot.
 - What this does not establish: release-scale or cross-model hardness
 
 ### Next action
 
-Verify tuple-aware generation offline, then run the immutable final candidate.
+Promote for development calibration only. Next run a fresh release-sized holdout plus blinded
+human solve traces; do not infer statistical release hardness from n=16.
