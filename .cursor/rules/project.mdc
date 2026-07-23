@@ -42,7 +42,9 @@ Auth: `hf auth login` / `HF_TOKEN`, `gh auth login`, `az login`. Prefer env/secr
 - Image: `.cursor/Dockerfile` (uv + Python 3.12). Install: `scripts/cloud-install.sh` via `.cursor/environment.json` (must stay idempotent).
 - Sync: `uv sync --frozen --all-groups`. Run tools with `uv run …`.
 - Put API keys in Cursor Cloud **Secrets**, not in the repo: `AZURE_OPENAI_*`, `GLM_*`, `HF_TOKEN`.
-- Project skills live under `.agents/skills/`. Prefer `/grill-me`, `/grill-with-docs`, `/to-spec`, `/tdd`, langgraph, huggingface-datasets over inventing one-off skills.
+- Project skills live under `.agents/skills/`. Use `dataset-quality` for every
+  quality-affecting dataset change; prefer `/grill-me`, `/grill-with-docs`, `/to-spec`,
+  `/tdd`, langgraph, huggingface-datasets over inventing one-off skills.
 - Do not rely on personal `~/.cursor` rules or marketplace HF plugins in cloud VMs.
 - See the Cloud section in `AGENTS.md`; executable setup lives in `.cursor/environment.json`,
   `.cursor/Dockerfile`, and `scripts/cloud-install.sh`.
@@ -52,7 +54,14 @@ Auth: `hf auth login` / `HF_TOKEN`, `gh auth login`, `az login`. Prefer env/secr
 - Code: `src/cogito_mill/`
 - Tests: `tests/unit/`, `tests/integration/`, `tests/e2e/`
 - Specs we refine together: `docs/engineering/`
-- Dataset quality iteration tracker:
-  `docs/engineering/assessments/pilot-quality-iterations.md`. Read it before changing
-  generation/evaluation, and append every measured refinement (narration, diversity,
-  grounding, and solver accuracy) with the newest iteration at the bottom.
+- Dataset quality applies to every change affecting generated content, formal logic,
+  evidence, prompts/handoffs, agent/graph logic, critics, gates, scoring, packing,
+  evaluation, or quality claims. Before such work, MUST load:
+  `.agents/skills/dataset-quality/SKILL.md`, `QUALITY-METRICS.md`,
+  `ASSESSMENT-PROTOCOL.md`,
+  `docs/engineering/assessments/dataset-quality-iterations.md`, latest relevant
+  `pilot-quality-iterations.md`, `data/packed/README.md`, and both `schemas/` contracts.
+  Pre-register and append every measured refinement using
+  `ASSESSMENT-RECORD-TEMPLATE.md`. Launchers: `scripts/generate-dataset.sh`,
+  `scripts/evaluate-dataset.sh`. Never overwrite baselines or modify Hub schemas during
+  routine quality iterations.

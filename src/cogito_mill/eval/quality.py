@@ -3,11 +3,18 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 import re
 from collections import Counter
 from itertools import combinations
 from typing import Any
+
+from cogito_mill.agents.critics import (
+    count_temporal_markers,
+    direct_token_transfer_hits,
+    formulaic_hits,
+)
 
 
 def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -25,6 +32,10 @@ def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
     n = len(rows)
     narration_passes = sum(item["passed"] for item in narration)
     narration_gate = narration_passes == n if n < 100 else narration_passes / n >= 0.95
+    formulaic_fail = sum(1 for story in stories if formulaic_hits(story))
+    formulaic_gate = formulaic_fail == 0 if n < 100 else formulaic_fail / n <= 0.05
+    transfer_reset_fail = sum(1 for story in stories if direct_token_transfer_hits(story))
+    transfer_reset_gate = transfer_reset_fail == 0 if n < 100 else transfer_reset_fail / n <= 0.05
     min_templates = 4 if n < 100 else 6
     min_effective = 3.5 if n < 100 else 5.0
     max_template_share = 0.34 if n < 100 else 0.20
@@ -40,6 +51,8 @@ def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
     stem_max_share = max(main_stems.values()) / n
     gates = {
         "narration": narration_gate,
+        "no_formulaic_ledger": formulaic_gate,
+        "no_direct_token_transfer_reset": transfer_reset_gate,
         "no_exact_duplicates": exact_duplicates == 0,
         "template_count": len(template_counts) >= min_templates,
         "template_effective_count": template_effective >= min_effective,
@@ -52,8 +65,12 @@ def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "question_stem_max_share": stem_max_share <= 0.20,
         "structural_hops": all(int(row.get("n_hops", 0)) >= 10 for row in rows),
     }
+    dataset_sha256 = hashlib.sha256(
+        "\n".join(json.dumps(row, ensure_ascii=False, sort_keys=True) for row in rows).encode()
+    ).hexdigest()
     return {
         "n": n,
+        "dataset_sha256": dataset_sha256,
         "passed": all(gates.values()),
         "gates": gates,
         "narration": {
@@ -62,6 +79,8 @@ def assess_dataset(rows: list[dict[str, Any]]) -> dict[str, Any]:
             "min_words": min(item["words"] for item in narration),
             "median_words": _percentile([item["words"] for item in narration], 0.50),
             "max_words": max(item["words"] for item in narration),
+            "formulaic_failures": formulaic_fail,
+            "direct_token_transfer_failures": transfer_reset_fail,
         },
         "diversity": {
             "exact_duplicates": exact_duplicates,
@@ -84,18 +103,25 @@ def _narration(text: str) -> dict[str, Any]:
     words = re.findall(r"\b[\w'-]+\b", text)
     sentences = [part.strip() for part in re.split(r"(?<=[.!?])\s+", text) if part.strip()]
     sentence_lengths = [len(re.findall(r"\b[\w'-]+\b", sentence)) for sentence in sentences]
+    temporal_markers = count_temporal_markers(text)
     passed = (
         len(paragraphs) >= 5
-        and 500 <= len(words) <= 2500
+        and 350 <= len(words) <= 2500
         and _percentile(sentence_lengths, 0.95) <= 45
         and text.casefold().count("personnel index:") <= 1
         and len(re.findall(r"\bEMP-\d+\b", text, flags=re.IGNORECASE)) <= 6
+        and not formulaic_hits(text)
+        and not direct_token_transfer_hits(text)
+        and temporal_markers >= 4
     )
     return {
         "passed": passed,
         "paragraphs": len(paragraphs),
         "words": len(words),
         "sentence_p95_words": _percentile(sentence_lengths, 0.95),
+        "temporal_markers": temporal_markers,
+        "formulaic": bool(formulaic_hits(text)),
+        "direct_token_transfer": bool(direct_token_transfer_hits(text)),
     }
 
 

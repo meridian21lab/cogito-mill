@@ -76,9 +76,8 @@ class OfflineAgentSuite:
             target_question=f"Who satisfies the locally defined concept {concept}?",
             intended_answer="selected only by the deterministic formal theory",
             composition_notes=(
-                "Disperse six independent relational, temporal, causal, spatial, sequence, "
-                "and protocol streams. Keep the checksum rule explicit and every candidate "
-                "plausible."
+                "Disperse times, places, travel constraints, and alibis across ordinary "
+                "activity. Keep the opportunity rule explicit without arithmetic ledgers."
             ),
         )
 
@@ -140,15 +139,30 @@ class LiveAgentSuite:
         concept: str,
         feedback: str = "",
     ) -> ConceptBrief:
+        if recipe.prompt_version == "pilot.v6":
+            mechanism = """The mystery is a relational constraint world. Six people are paired
+bijectively with six objects, places, and ordered appointment times. No clue directly pairs the
+target object with a person. The answer must come from jointly satisfying natural witness,
+receipt, exclusion, relative-order, and either/or evidence. Do not choose or hint at the answer;
+Z3 fixes the hidden world and visible clue set."""
+        elif recipe.prompt_version == "pilot.v5":
+            mechanism = """The mystery is a connected custody-provenance puzzle.
+Every named person has local access, so opportunity alone cannot answer it. A uniquely numbered
+authorization object moves inside sealed containers through witnessed handoffs and uninspected
+whole-content transfers. The answer requires following the shared object/container state from
+its opening location to a final authorization record. Do not choose or hint at the answer;
+deterministic code fixes the chain."""
+        else:
+            mechanism = """The mystery is a timeline/opportunity puzzle.
+An incident happens in a fixed time window at one place, and only one person could have been
+there for the whole window after travel times and alibis are applied."""
         prompt = f"""You are the concept planner for a synthetic reasoning benchmark.
 Create one compact narrative premise for the fixed family {family_id!r}.
 The setting must remain: {setting}
-The locally defined target concept must remain exactly: {concept}
-Define that concept crisply as the one participant whose six evidence statuses produce the
-incident's accepted iterated modular checksum under the local rules. The statuses are relational,
-temporal, causal, spatial, sequence, and protocol evidence. Do not choose or hint at the
-answer. The formalizer and deterministic code will choose
-the answer. Make the premise natural, self-contained, and unlike a generic murder mystery.
+The target label must remain exactly: {concept}
+{mechanism}
+Do not invent arithmetic tallies, status scales, coefficients, or protocols. The formalizer and
+deterministic code choose the answer. Prefer a natural day-in-the-life incident.
 Prior critic feedback: {feedback or "none"}
 Recipe: {recipe.model_dump_json()}
 """
@@ -161,14 +175,24 @@ Recipe: {recipe.model_dump_json()}
         *,
         family_id: str,
     ) -> CriticReport:
+        if recipe.prompt_version == "pilot.v6":
+            mechanism_gate = (
+                "joint dependence on object, place, and time constraints; no direct "
+                "person-to-target clue; no table or inventory-dump presentation"
+            )
+        elif recipe.prompt_version == "pilot.v5":
+            mechanism_gate = (
+                "explicit need to compose sealed-container handoffs, whole-content transfers, "
+                "and a final authorization record; every suspect has local opportunity"
+            )
+        else:
+            mechanism_gate = "explicit need to combine times, places, travel, and alibis"
         prompt = f"""You are an independent concept critic. Return accept, revise, or reject.
 Gate the proposal for: compatibility with family {family_id}; self-containment; a natural
-narrative premise; no answer hint; explicit need to combine relational, temporal, causal,
-spatial, sequence, and local-protocol evidence; and low resemblance to a stock locked-room
-mystery. The benchmark intentionally defines its target concept locally as the person whose
-six-stream iterated modular checksum equals the accepted checksum. Treat that as a crisp success
-condition; do not demand an external job title or add another condition. Recommend revision
-only when a listed gate actually fails.
+narrative premise; no answer hint; {mechanism_gate}; and low resemblance to a stock locked-room
+mystery. Reject premises that rely on status scales,
+checksums, coefficient lists, or protocol ledgers. The success condition is: only one person
+is derived by the disclosed formal mechanism. Recommend revision only when a listed gate fails.
 Do not judge formal truth—the deterministic solver does that.
 Recipe: {recipe.model_dump_json()}
 Proposal: {concept.model_dump_json()}
@@ -187,28 +211,64 @@ Proposal: {concept.model_dump_json()}
             scene.id: [fact.text for fact in visible.facts if fact.id in scene.obligated_fact_ids]
             for scene in scaffold.scenes
         }
-        prompt = f"""You are the storyteller for a machine-verified deduction dataset.
-Write an engaging, coherent short mystery as a title, opening, and the same five scene IDs.
-Use the supplied scaffold only as structural guidance; vary voice, pacing, transitions,
-scene openings, and paragraph rhythm. Do not reveal which person satisfies the final concept.
-
-CRITICAL GROUNDING CONTRACT:
-- Realize every obligation faithfully in its assigned scene exactly once. Natural paraphrase is
-  allowed, but preserve every named participant, value, relation, condition, and consequence.
-- Combine related conversion facts into motivated prose where that improves narration. Explain
-  why an auditor, witness, or participant checks each alternative instead of serializing a table.
-- You may add connective narration, reactions, and atmosphere, but no new logical facts.
-- Do not turn the evidence into a table, ledger dump, bullet list, or repeated template.
-- Give the six evidence streams distinct incident functions and scene-level purposes.
-- Keep all local rules explicit. A reader must be able to solve without outside knowledge.
-- Each scene's obligated_fact_ids must remain exactly those in the scaffold.
-
+        if visible.constraints is not None:
+            identity_facts = [
+                fact.text for fact in visible.facts if fact.id.startswith("f_surname_")
+            ]
+            allowed_vocabulary = {
+                "identity_facts": identity_facts,
+                "objects": visible.constraints.objects,
+                "places": visible.constraints.places,
+                "times": visible.constraints.times,
+            }
+            surface_rules = f"""Preserve every exclusion, relative order, and exclusive either/or
+statement exactly. Embed them as witness memories, receipts, calls, and ordinary observations
+across the five scenes. Do not render a table, bullet list, roster, logic-grid recap, or
+investigator enumeration. Never add a direct person-to-object association. The exact permitted
+constraint vocabulary is {json.dumps(allowed_vocabulary, ensure_ascii=False)}. Do not invent,
+rename, or list any other person, trackable object, recorded place, or appointment time. Generic
+atmosphere may mention food, weather, or unnamed routine supplies, but must not look like another
+member of a constraint axis."""
+        else:
+            surface_rules = """Preserve people, objects, containers, custody handoffs,
+whole-content transfers, places, and clock times exactly. A transfer moves unexamined contents;
+never identify the authorization object during a transfer or state which container it enters.
+Use only the people named in the obligations and do not invent additional named characters."""
+        spine_prompt = f"""You are the storyteller for a machine-verified deduction dataset.
+Phase 1 — simple factual storyline only.
+Write a title, opening, and the same five scene IDs as a clear account of the incident and every
+obligated fact. No literary padding yet. {surface_rules}
+Do not reveal the answer. State observations without explaining the full deduction.
+Never write any participant's contiguous full name (given name immediately followed by surname).
+Keep surnames in separate clauses, as in the obligations. Never use protocol declarations,
+status scales, coefficients, modulo arithmetic, checksums, tallies, or six-stream ledgers.
+Do not invent twin-name suffixes.
 Concept: {concept.model_dump_json()}
 Scene obligations: {json.dumps(obligations, ensure_ascii=False)}
 Scaffold: {scaffold.model_dump_json()}
 Repair feedback: {feedback or "none"}
 """
-        return self.writer.invoke_structured(StoryDraft, prompt)
+        spine = self.writer.invoke_structured(StoryDraft, spine_prompt)
+        polish_prompt = f"""You are the storyteller for a machine-verified deduction dataset.
+Phase 2 — add light noise, then regenerate into one coherent human-readable mystery.
+You receive a fact-true spine. {surface_rules}
+Preserve every named participant and exact factual relationship. Weave ordinary
+activity (errands, food, work tasks, small talk) around the critical observations. Return a
+title, opening, and the same five scene IDs.
+Write like a short literary mystery or true-crime vignette, not a procedure manual.
+A careful reader should be able to reconstruct the changing relational state.
+Never write any participant's contiguous full name; keep surnames in separate clauses.
+State observations without narrating the answer or labeling distractors as irrelevant.
+Never use protocol declarations, status scales, coefficients, modulo arithmetic, checksums,
+tallies, or six-stream ledgers. Do not invent twin-name suffixes or personnel-index walls.
+Do not state who finishes with the authorization object.
+Concept: {concept.model_dump_json()}
+Scene obligations: {json.dumps(obligations, ensure_ascii=False)}
+Fact-true spine: {spine.model_dump_json()}
+Scaffold obligation ids: {scaffold.model_dump_json()}
+Repair feedback: {feedback or "none"}
+"""
+        return self.writer.invoke_structured(StoryDraft, polish_prompt)
 
     def critique_story(
         self,
@@ -218,11 +278,13 @@ Repair feedback: {feedback or "none"}
         grounding: CriticReport,
     ) -> CriticReport:
         prompt = f"""You are a blind narrative-quality critic for a reasoning benchmark.
-Return accept only if the story is coherent narration, each clue is naturally integrated,
-the six evidence streams remain trackable but nontrivial, local rules are clear, prose is
-not a disguised table, the answer is not asserted, and every question is unambiguous.
-Return revise with actionable sentence-level feedback for repairable prose; reject only for
-an irreparable premise. Deterministic grounding has priority and reports:
+Hard failures only (return revise/reject): explicit tables/bullet ledgers; personnel-index
+walls; formulaic protocol/status/coefficient/checksum language; answer asserted in the story;
+missing obligated custody/object/time facts; contradictory handoffs or timelines; unreadable
+prose. The story must read as a human mystery with ordinary activity carrying the evidence.
+Soft style issues alone are not grounds for revise when deterministic gates
+pass. Return accept when the story is usable narration and questions are unambiguous.
+Deterministic grounding has priority and reports:
 {grounding.model_dump_json()}
 Story: {story.full_text}
 Questions: {questions.model_dump_json()}
@@ -237,12 +299,11 @@ Questions: {questions.model_dump_json()}
         prompt = f"""You are the final usability critic. The question bundle includes private
 gold answers and variants for dataset validation; these fields are never shown to the solver
 and are not answer leaks. Judge direct leakage only inside the story and reader-facing question
-text. Deterministic code has already executed and verified the checksum; do not recompute or
-override its arithmetic. Accept only if the item is self-contained, readable as a story,
-materially requires combining dispersed evidence, does not state which candidate satisfies
-the final concept in the story, and asks precise questions with explicit answer forms.
-Revise if wording can fix it;
-reject if unusable.
+text. Deterministic code has already verified unique disclosure; do not recompute the
+formal proof. Accept only if the item is self-contained, reads as a human story with a
+followable evidence chain, does not use status-scale or checksum ledgers, does not state the
+answer, and asks precise questions with explicit answer forms.
+Revise if wording can fix it; reject if unusable.
 Story: {story.full_text}
 Questions: {questions.model_dump_json()}
 """

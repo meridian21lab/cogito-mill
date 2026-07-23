@@ -1,0 +1,295 @@
+{
+  "n": 16,
+  "passed": true,
+  "unique_target_tuples": 16,
+  "items": [
+    {
+      "id": "lss-concept-016000",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Yael Brooks",
+        "place": "relay tent",
+        "time": "2:00 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p5",
+          "person": "Yael Brooks",
+          "place": "relay tent",
+          "time": "2:00 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016001",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Yael Meier",
+        "place": "treatment room",
+        "time": "2:00 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p4",
+          "person": "Yael Meier",
+          "place": "treatment room",
+          "time": "2:00 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016002",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Quinn Dubois",
+        "place": "designer shop",
+        "time": "2:50 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p5",
+          "person": "Quinn Dubois",
+          "place": "designer shop",
+          "time": "2:50 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016003",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Blair Silva",
+        "place": "bell tower",
+        "time": "2:00 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p2",
+          "person": "Blair Silva",
+          "place": "bell tower",
+          "time": "2:00 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016004",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Eden Patel",
+        "place": "machine shop",
+        "time": "1:35 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p1",
+          "person": "Eden Patel",
+          "place": "machine shop",
+          "time": "1:35 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016005",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Noel Sato",
+        "place": "registrar room",
+        "time": "3:15 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p1",
+          "person": "Noel Sato",
+          "place": "registrar room",
+          "time": "3:15 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016006",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Noel Okada",
+        "place": "survey camp",
+        "time": "2:00 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p2",
+          "person": "Noel Okada",
+          "place": "survey camp",
+          "time": "2:00 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016007",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Tatum Hassan",
+        "place": "chemical stores",
+        "time": "1:35 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p2",
+          "person": "Tatum Hassan",
+          "place": "chemical stores",
+          "time": "1:35 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016008",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Blair Okada",
+        "place": "jewelry boutique",
+        "time": "1:10 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p0",
+          "person": "Blair Okada",
+          "place": "jewelry boutique",
+          "time": "1:10 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016009",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Noel Novak",
+        "place": "courtyard",
+        "time": "2:50 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p2",
+          "person": "Noel Novak",
+          "place": "courtyard",
+          "time": "2:50 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016010",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Blair Andersen",
+        "place": "diagnostic bay",
+        "time": "1:35 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p5",
+          "person": "Blair Andersen",
+          "place": "diagnostic bay",
+          "time": "1:35 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016011",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Quinn Brooks",
+        "place": "front lobby",
+        "time": "3:15 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p4",
+          "person": "Quinn Brooks",
+          "place": "front lobby",
+          "time": "3:15 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016012",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Val Hassan",
+        "place": "survey camp",
+        "time": "1:10 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p2",
+          "person": "Val Hassan",
+          "place": "survey camp",
+          "time": "1:10 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016013",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Morgan Novak",
+        "place": "anteroom",
+        "time": "3:15 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p1",
+          "person": "Morgan Novak",
+          "place": "anteroom",
+          "time": "3:15 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016014",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Tatum Okada",
+        "place": "designer shop",
+        "time": "1:10 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p1",
+          "person": "Tatum Okada",
+          "place": "designer shop",
+          "time": "1:10 PM"
+        }
+      ]
+    },
+    {
+      "id": "lss-concept-016015",
+      "passed": true,
+      "n_target_tuples": 1,
+      "expected": {
+        "person": "Casey Silva",
+        "place": "courtyard",
+        "time": "2:00 PM"
+      },
+      "satisfying_target_tuples": [
+        {
+          "person_id": "p3",
+          "person": "Casey Silva",
+          "place": "courtyard",
+          "time": "2:00 PM"
+        }
+      ]
+    }
+  ]
+}

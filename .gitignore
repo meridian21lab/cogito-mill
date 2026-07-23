@@ -236,3 +236,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Experiment run intermediates (retain only packed metrics/candidates)
+data/experiments/**/interim/
+data/experiments/**/raw/
+data/experiments/**/processed/

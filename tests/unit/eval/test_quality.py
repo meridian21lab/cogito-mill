@@ -12,6 +12,12 @@ def _row(index: int) -> dict[str, object]:
             words = [
                 unique,
                 f"scene-{paragraph}",
+                "before",
+                "after",
+                "around",
+                "2",
+                "PM",
+                "minute",
                 *[f"token-{index}-{paragraph}-{sentence}-{word}" for word in range(19)],
             ]
             sentences.append(" ".join(words) + ".")
@@ -30,7 +36,60 @@ def test_balanced_varied_pack_passes() -> None:
     report = assess_dataset([_row(index) for index in range(12)])
 
     assert report["passed"]
+    assert len(report["dataset_sha256"]) == 64
     assert report["diversity"]["template_effective_count"] == 6.0
+
+
+def test_formulaic_ledger_pack_fails() -> None:
+    rows = []
+    for index in range(12):
+        row = _row(index)
+        ledger = (
+            "For this incident, the board declared the coherent signal bearer protocol active. "
+            "They also fixed one shared status scale for the whole inquiry: clear counted as 0; "
+            "dormant counted as 1. The tally began at 6. At each stream they squared the current "
+            "tally, added coefficients 11, 13, 5, and kept the remainder modulo 97."
+        )
+        row["story"] = row["story"] + "\n\n" + ledger
+        rows.append(row)
+
+    report = assess_dataset(rows)
+
+    assert not report["passed"]
+    assert not report["gates"]["no_formulaic_ledger"]
+
+
+def test_direct_token_transfer_shortcut_fails() -> None:
+    rows = []
+    for index in range(12):
+        row = _row(index)
+        row["story"] = (
+            row["story"] + "\n\nAt 2:10 PM, Avery moved the brass relay cipher from the blue pouch "
+            "into the cedar case."
+        )
+        rows.append(row)
+
+    report = assess_dataset(rows)
+
+    assert not report["passed"]
+    assert not report["gates"]["no_direct_token_transfer_reset"]
+    assert report["narration"]["direct_token_transfer_failures"] == 12
+
+
+def test_repeated_custody_boilerplate_is_formulaic() -> None:
+    rows = []
+    for index in range(12):
+        row = _row(index)
+        row["story"] = (
+            row["story"] + "\n\nAt 2:10 PM, Avery handed over the blue pouch, and both initialed "
+            "the same custody line."
+        )
+        rows.append(row)
+
+    report = assess_dataset(rows)
+
+    assert not report["passed"]
+    assert not report["gates"]["no_formulaic_ledger"]
 
 
 def test_duplicate_and_template_monopoly_fail() -> None:

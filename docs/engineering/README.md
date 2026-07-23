@@ -8,6 +8,7 @@ These documents are the implementation source of truth.
 | [../vision.md](../vision.md) | accepted | Product thesis, data contract, MVP boundary |
 | [01-architecture.md](01-architecture.md) | accepted | Domain modules, solver, agents, graph, artifacts |
 | [02-agent-flow.md](02-agent-flow.md) | accepted | Agent stages, implementation phases, gates, and deferred roadmap |
+| [assessments/](assessments/) | living | All dataset-quality experiments; mandatory protocol and metric registry in `.agents/skills/dataset-quality/` |
 
 Implement in the sequence defined by `02-agent-flow.md` (including Phase 8 pilot batch /
 Hub / Luna eval). Provider policy and settled architectural decisions live in

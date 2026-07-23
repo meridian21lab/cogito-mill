@@ -1,0 +1,12 @@
+{
+  "valid": true,
+  "n": 16,
+  "unique_ids": 16,
+  "duplicate_ids": [],
+  "jsonl": "data/packed/pilot_v6d_tuple_unique.jsonl",
+  "jsonl_sha256": "c4e87603f541a8cb803fcc92ad2fb0b1c7ff36d865d83bf0fa37269616b48975",
+  "dataset_sha256": "43abc1f9513ee3972a4b51d0f690c5807048a259a96d7eb2f5e983aaae947ac9",
+  "schema": "schemas/reasoning-item.schema.json",
+  "schema_sha256": "f89b79e30df8dded2d6f6c55f03f84a0cf521dd987345bbada86923f5d634e40",
+  "errors": []
+}
