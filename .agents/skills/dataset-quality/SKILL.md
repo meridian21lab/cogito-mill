@@ -71,6 +71,10 @@ Companion materials:
 | `data/packed/luna_eval_metrics_v3_balanced_appendix.json` | Appendix-assisted Luna main accuracy 100% |
 | `data/packed/pilot_v4b_neutral.jsonl` | Anti-ledger timeline narration baseline (n=20; hardness fail at 100%) |
 | `data/packed/luna_eval_metrics_v4b_neutral_story.json` | Story-only main accuracy 100% (too easy; not a hardness claim) |
+| `data/packed/pilot_v6d_tuple_unique.jsonl` | Tuple-unique relational CSP development calibration (n=16; all quality gates pass) |
+| `data/packed/pilot_v6d_tuple_unique_tuple_audit.json` | All scored target tuples unique and gold-matching (16/16) |
+| `data/packed/luna_eval_metrics_v6d_tuple_unique_story.json` | Story-only Luna main accuracy 18.75% (development hardness pass) |
+| `data/packed/luna_eval_metrics_v6d_tuple_unique_appendix.json` | Appendix-assisted Luna main accuracy 100% |
 
 Historical packs (`pilot_v0`, `pilot_v1`) and their Luna metrics remain for regression narrative
 only. Iterate **forward** from `pilot_v2` lessons, but use the general experiment log and protocol
@@ -186,6 +190,7 @@ Implemented primarily in `agents/critics.py`, `validation/grounding.py`, and `pi
 | `answer_form_clarity` | Name questions include “full name” |
 | `answer_variants` | Each question has 1–3 `gold_answer_variants` |
 | `human_readable_opening` | Opening is narration, not an ID table |
+| `no_direct_token_transfer_reset` | Provenance transfers do not directly reveal the tracked token's new container |
 
 #### Grounding (`critique_grounding`)
 
@@ -232,6 +237,7 @@ Per-story **narration metrics** inside assess (stricter identifier budget than g
 - sentence length P95 ≤45 words
 - `Personnel index:` ≤1
 - `EMP-*` tokens ≤6
+- direct tracked-token transfer resets: 0 for calibration packs (≤5% at release size)
 
 `assess` exit code: `0` if `passed`, else `3`.
 

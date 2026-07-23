@@ -15,7 +15,7 @@ PROVIDER="azure"
 DIFFICULTY="very_hard"
 AGENT_MODE="live"
 OUTPUT_ROOT="data"
-N_SUSPECTS=5
+N_SUSPECTS=6
 N_DISTRACTORS=6
 MAX_ATTEMPTS=""
 SKIP_ASSESS=0
@@ -33,7 +33,7 @@ Options:
   --difficulty NAME     medium|hard|very_hard (default: very_hard)
   --agent-mode MODE     offline|live (default: live)
   --output-root DIR     Artifact root (default: data)
-  --n-suspects N        Recipe suspects (default: 5)
+  --n-suspects N        Recipe suspects (default: 6)
   --n-distractors N     Recipe distractors (default: 6)
   --max-attempts N      Optional generation attempt cap
   --skip-assess         Pack only; do not run assess

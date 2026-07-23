@@ -15,6 +15,8 @@ def build_canonical_proof(
     visible: VisibleTheory,
     answer: str,
 ) -> list[DeductionStep]:
+    if visible.constraints is not None:
+        return _build_constraint_proof(world, visible, answer)
     if visible.logic is not None:
         return _build_logic_proof(visible, answer)
 
@@ -161,4 +163,42 @@ def _build_logic_proof(visible: VisibleTheory, answer: str) -> list[DeductionSte
                 explanation=rule.explanation,
             )
         )
+    return steps
+
+
+def _build_constraint_proof(
+    world: WorldSpec,
+    visible: VisibleTheory,
+    answer: str,
+) -> list[DeductionStep]:
+    assert visible.constraints is not None
+    steps: list[DeductionStep] = []
+    for clue in visible.constraints.clues:
+        inference = (
+            InferenceType.TEMPORAL_ORDER
+            if "before" in clue.kind or "time" in clue.axes
+            else InferenceType.RELATION_COMPOSE
+        )
+        steps.append(
+            DeductionStep(
+                id=f"s{len(steps) + 1}",
+                evidence_fact_ids=[clue.id],
+                inference_type=inference,
+                conclusion=clue.text,
+                explanation=f"Apply visible relational constraint {clue.id}.",
+            )
+        )
+    label = next(entity.label for entity in world.entities if entity.id == answer)
+    steps.append(
+        DeductionStep(
+            id=f"s{len(steps) + 1}",
+            prior_step_ids=[step.id for step in steps],
+            inference_type=InferenceType.CONCLUSION,
+            conclusion=label,
+            explanation=(
+                f"Z3 finds {label} as the only possible owner of "
+                f"{visible.constraints.target_object}."
+            ),
+        )
+    )
     return steps

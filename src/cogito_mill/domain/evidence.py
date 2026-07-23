@@ -6,6 +6,7 @@ from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
+from cogito_mill.domain.constraints import ConstraintTheory
 from cogito_mill.domain.logic import LogicTheory
 
 
@@ -34,3 +35,4 @@ class VisibleTheory(BaseModel):
     facts: list[VisibleFact]
     hidden_fact_ids: list[str] = Field(default_factory=list)
     logic: LogicTheory | None = None
+    constraints: ConstraintTheory | None = None

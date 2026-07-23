@@ -69,6 +69,7 @@ Current deterministic generation gates:
 | `answer_form_clarity` | Name-answer questions explicitly request the full name |
 | `answer_variants` | Every question has 1–3 legitimate variants |
 | `human_readable_opening` | First paragraph is non-empty, has no personnel index, and <3 EMP tokens |
+| `no_direct_token_transfer_reset` | Provenance stories never directly identify the tracked authorization token in a container-to-container transfer |
 
 Current dataset assessor narration gates (intentionally stricter):
 
@@ -79,10 +80,16 @@ Current dataset assessor narration gates (intentionally stricter):
 | Sentence length | Nearest-rank P95 ≤45 words |
 | Personnel index count | ≤1 |
 | EMP token count | ≤6 |
+| Direct token-transfer resets | 0 when `n<100`; ≤5% when `n≥100` |
 | Dataset narration pass rate | 100% when `n<100`; ≥95% when `n≥100` |
 
 The two identifier thresholds are not interchangeable: generation rejects severe failures;
 dataset assessment applies the release-quality bar.
+
+The direct-transfer gate prevents a provenance shortcut: a transfer may state that complete,
+unexamined contents moved, but naming the tracked token in the destination would reset the state
+chain and make earlier clues unnecessary. The formulaic detector also rejects the repeated v5
+custody boilerplate “both initialed the same custody line” and “with both seams in view.”
 
 ### D. Dataset diversity
 

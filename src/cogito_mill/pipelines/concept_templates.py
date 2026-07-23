@@ -114,8 +114,10 @@ MAIN_STEMS = (
     "Only one person had the opportunity for {incident}. Who was it? Give the full name.",
     "From the timeline, who alone could have done {incident}? Give the full name.",
     "Which full name belongs to the person who robbed the opportunity window for {incident}?",
-    "Reconstruct the afternoon. Who is forced to be responsible for {incident}? Give the full name.",
-    "Who remains after every alibi and travel constraint is applied for {incident}? Give the full name.",
+    "Reconstruct the afternoon. Who is forced to be responsible for {incident}? "
+    "Give the full name.",
+    "Who remains after every alibi and travel constraint is applied for {incident}? "
+    "Give the full name.",
     "Name the only person who could still have been present for {incident}. Give the full name.",
     "Which full name survives elimination for {incident}?",
     "Using times and travel only, who must have done {incident}? Give the full name.",
@@ -266,7 +268,7 @@ def elimination_reason(
     return ("no blocking constraint", [])
 
 
-def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
+def build_timeline_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
     """Build one timeline/alibi mystery with a unique opportunity answer."""
     family = family_for_seed(recipe.seed)
     names = _names(recipe.seed, recipe.n_suspects)
@@ -450,19 +452,13 @@ def _build_timelines(
                     place_a,
                     crime_start - 50,
                     leave_prior,
-                    (
-                        f"{first} left the {place_a} around "
-                        f"{minutes_to_clock(leave_prior)}."
-                    ),
+                    (f"{first} left the {place_a} around {minutes_to_clock(leave_prior)}."),
                 ),
                 Segment(
                     place_b,
                     arrive_elsewhere,
                     arrive_elsewhere + 20,
-                    (
-                        f"{first} was seen at the {place_b} at "
-                        f"{minutes_to_clock(arrive_elsewhere)}."
-                    ),
+                    (f"{first} was seen at the {place_b} at {minutes_to_clock(arrive_elsewhere)}."),
                 ),
             ]
         else:
@@ -488,10 +484,7 @@ def _build_timelines(
                         place_b,
                         leave - 35,
                         leave,
-                        (
-                            f"{first} was still at the {place_b} at "
-                            f"{minutes_to_clock(leave)}."
-                        ),
+                        (f"{first} was still at the {place_b} at {minutes_to_clock(leave)}."),
                     )
                 ]
             else:
@@ -502,10 +495,7 @@ def _build_timelines(
                         place_a,
                         nxt,
                         nxt + 30,
-                        (
-                            f"{first} had to be at the {place_a} by "
-                            f"{minutes_to_clock(nxt)}."
-                        ),
+                        (f"{first} had to be at the {place_a} by {minutes_to_clock(nxt)}."),
                     )
                 ]
         for seg_i, segment in enumerate(segments):
@@ -588,9 +578,11 @@ def _facts_and_logic(
         (family.places[0], family.places[2]),
     ]
     travel_frames = (
-        "Getting from the {origin} to the {dest} usually took about {minutes} minutes that afternoon.",
+        "Getting from the {origin} to the {dest} usually took about {minutes} minutes "
+        "that afternoon.",
         "Anyone walking from the {origin} to the {dest} needed about {minutes} minutes.",
-        "The short trip between the {origin} and the {dest} was about {minutes} minutes in festival traffic.",
+        "The short trip between the {origin} and the {dest} was about {minutes} minutes "
+        "in festival traffic.",
         "From the {origin} over to the {dest} was roughly a {minutes}-minute journey.",
     )
     for pair_i, (origin, dest) in enumerate(place_pairs):
@@ -772,12 +764,11 @@ def _find_evidence_intervention(
         ),
         fact_id=runner.segments[-1].fact_id,
     )
-    trial_answer = [answer_block if seg.fact_id == answer_block.fact_id else seg for seg in answer.segments]
+    trial_answer = [
+        answer_block if seg.fact_id == answer_block.fact_id else seg for seg in answer.segments
+    ]
     if all(seg.fact_id != answer_block.fact_id for seg in trial_answer):
         trial_answer = [*answer.segments, answer_block]
-    trial_runner = [
-        runner_free if seg.fact_id == runner_free.fact_id else seg for seg in runner.segments
-    ]
     # Prefer editing the runner's last segment description in the question.
     return EvidenceIntervention(
         person_id=runner_id,
@@ -809,9 +800,7 @@ def _questions(
     crime_end: int,
     intervention: EvidenceIntervention,
 ) -> QuestionBundle:
-    main = MAIN_STEMS[_pick(recipe.seed, "stem", len(MAIN_STEMS))].format(
-        incident=family.incident
-    )
+    main = MAIN_STEMS[_pick(recipe.seed, "stem", len(MAIN_STEMS))].format(incident=family.incident)
     runner_timeline = next(item for item in timelines.values() if item.label == runner)
     probe = runner_timeline.segments[-1]
     questions = [
@@ -849,7 +838,9 @@ def _questions(
         ),
         ScoredQuestion(
             id="q_time",
-            question="At what clock time did the incident window begin? Answer in h:mm AM/PM format.",
+            question=(
+                "At what clock time did the incident window begin? Answer in h:mm AM/PM format."
+            ),
             gold_answer=minutes_to_clock(crime_start),
             gold_answer_variants=[
                 minutes_to_clock(crime_start),
@@ -1038,9 +1029,7 @@ def _offline_draft(
     people = [fact for fact in required if fact.id.startswith("f_seg_")]
     rule = [fact for fact in required if fact.id.startswith("f_rule")]
     other = [
-        fact
-        for fact in required
-        if fact not in spine and fact not in people and fact not in rule
+        fact for fact in required if fact not in spine and fact not in people and fact not in rule
     ]
 
     early = people[: max(1, len(people) // 3)]
@@ -1065,8 +1054,7 @@ def _offline_draft(
             early + other,
             (
                 "Earlier in the afternoon, ordinary errands and appointments began to "
-                "cross. "
-                + " ".join(fact.text for fact in early + other)
+                "cross. " + " ".join(fact.text for fact in early + other)
             ),
         ),
         (
@@ -1150,10 +1138,24 @@ def re_sub(text: str) -> str:
     return "".join(ch.lower() if ch.isalnum() else "_" for ch in text).strip("_")
 
 
+def build_concept_puzzle(recipe: GenerationRecipe) -> ConceptPuzzle:
+    """Dispatch to the versioned structural mechanism without changing Hub schemas."""
+    if recipe.prompt_version == "pilot.v6":
+        from cogito_mill.pipelines.constraint_templates import build_constraint_puzzle
+
+        return build_constraint_puzzle(recipe)
+    if recipe.prompt_version == "pilot.v5":
+        from cogito_mill.pipelines.provenance_templates import build_provenance_puzzle
+
+        return build_provenance_puzzle(recipe)
+    return build_timeline_puzzle(recipe)
+
+
 __all__ = [
     "ConceptPuzzle",
     "FAMILIES",
     "build_concept_puzzle",
+    "build_timeline_puzzle",
     "family_for_seed",
     "has_opportunity",
     "minutes_to_clock",
