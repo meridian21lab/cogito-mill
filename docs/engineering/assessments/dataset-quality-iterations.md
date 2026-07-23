@@ -786,7 +786,7 @@ v6c's narration gates and Luna main accuracy ≤0.30.
   tuple audit 11/16)
 - Candidate config / output path: `pilot_v6d_tuple_unique` under
   `data/experiments/quality-20260722-tuple-unique-csp/`
-- Git SHA: verifier/generator implementation `a7e89ad`; final record commit follows
+- Git SHA: verifier/generator implementation `a7e89ad`; retained pack/metrics `0aab564`
 - Thin/full schema SHA-256: unchanged
 - Seed block/list: 16000–16015 (same hidden assignments; tuple-aware visible clue selection)
 - Requested size and balance: 16 accepted items; six families
@@ -851,6 +851,8 @@ Metrics SHA-256 story / appendix:
 - Permissible claim: promote `pilot_v6d_tuple_unique` as a hard, readable, solver-verifiable
   development calibration against the recorded Luna snapshot.
 - What this does not establish: release-scale or cross-model hardness
+- External Azure judge (`gpt-5.6-terra-stories`): promote for development calibration only;
+  release promotion blocked by Wilson upper 0.388 and missing blinded human solve traces.
 
 ### Next action
 
